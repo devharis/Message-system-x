@@ -13,6 +13,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -28,6 +30,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private JButton connectBtn;
     private JTextField nameField;
     private JLabel nameLabel;
+    private Configuration config;
 
     // constants
     private final static String MESSAGE_X = "Message system X";
@@ -36,8 +39,13 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String NAME_LABEL = "Enter your name: ";
     private final static String WELCOME_LABEL = "Welcome to Modern Message! Connect and start chat!";
 
-    private final static String RESOURCE_FOLDER = "resources/";
+    public final static String RESOURCE_FOLDER = "resources/";
     private final static String LOGO = "logo.png";
+
+    private final static String CONFIG_NETWORK_DELAY = "networkDelay";
+
+    // Vi behöver en port som allt ska använda, sätter 12345 så länge.
+    public final static int PORT = 12345;
 
     // Constructor
     public Messenger(){
@@ -53,6 +61,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     public void Initialize(){
         // TODO: Create the UI or console.
+
+        // Load configuration, loads from file see class
+        //config = new Configuration();
 
         // Creating window, container and a pane
         Container container = this.getContentPane(); // inherit main frame
@@ -102,16 +113,21 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             @Override
             public void onMessage(String message) {
                 // GL HF
+                System.out.println(message);
             }
         });
     }
 
     public void onDisconnect(){
         // TODO: Destroy a MQProvider and de-register service
+        System.out.println("onDisconnect");
+        activeMQProvider.stopListening();
+        activeMQProvider = null;
     }
 
-    public void onSendMessage(){
+    public void onSendMessage(String endPoint, String message){
         // TODO: User sends a message, pass it to service
+        activeMQProvider.sendMessage(message, endPoint);
     }
 
     @Override
