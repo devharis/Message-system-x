@@ -15,6 +15,7 @@ public class ServiceProviderFactory {
      * @return interfaces.ServiceProvider
      */
     public static ServiceProvider createServiceProvider() {
+
 	    return new ActiveMQProvider();
     }
 }
