@@ -2,8 +2,8 @@ package service.provider.activemq;
 
 import client.Messenger;
 
-import interfaces.MessageReceiver;
-import interfaces.ServiceProvider;
+import interfaces.IMessageReceiver;
+import interfaces.IServiceProvider;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by devHaris on 2015-03-11.
  */
-public class ActiveMQProvider implements ServiceProvider {
+public class ActiveMQProvider implements IServiceProvider {
 
     // Just an holder for information regarding each client
     public class Client {
@@ -80,7 +80,7 @@ public class ActiveMQProvider implements ServiceProvider {
     private final static String BROADCAST = "255.255.255.255";
 
     @Override
-    public void startListening(final String endPoint, final MessageReceiver messageReceiver) {
+    public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
 
         SetupServer(Messenger.PORT, messageReceiver);
     }
@@ -115,7 +115,7 @@ public class ActiveMQProvider implements ServiceProvider {
         SendMessageEx(msgText, destinationEndPoint);
     }
 
-    public void SetupServer(final int port, final MessageReceiver messageReceiver) {
+    public void SetupServer(final int port, final IMessageReceiver messageReceiver) {
 
         acceptThread = new Thread(new Runnable() {
 

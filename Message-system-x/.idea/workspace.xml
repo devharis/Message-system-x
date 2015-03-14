@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c9eaac3-e276-46b7-bdef-4c9865cc43a3" name="Default" comment="Impl. skeleton for client side with TODOs">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/models/Client.java" />
+      <change type="MOVED" beforePath="C:\Users\devHaris\Desktop\Github\Message-system-x\Message-system-x\src\interfaces\MessageReceiver.java" afterPath="$PROJECT_DIR$/src/interfaces/IMessageReceiver.java" />
+      <change type="MOVED" beforePath="C:\Users\devHaris\Desktop\Github\Message-system-x\Message-system-x\src\interfaces\ServiceProvider.java" afterPath="$PROJECT_DIR$/src/interfaces/IServiceProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" afterPath="$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Messenger.java" afterPath="$PROJECT_DIR$/src/client/Messenger.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/MessengerManager.java" afterPath="$PROJECT_DIR$/src/server/MessengerManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/factories/ServiceProviderFactory.java" afterPath="$PROJECT_DIR$/src/factories/ServiceProviderFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Message-system-x.iws" />
@@ -60,38 +63,6 @@
       </breakpoint>
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" line="99" class="service.provider.activemq.ActiveMQProvider$2" package="service.provider.activemq">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/client/Messenger.java" line="109" class="client.Messenger" package="client">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -100,50 +71,7 @@
     <favorites_list name="Message-system-x" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="Messenger.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="0" selection-start="4901" selection-end="4901" vertical-scroll-proportion="0.0" vertical-offset="2134" max-vertical-offset="2720">
-              <folding>
-                <element signature="e#3640#3831#0" expanded="true" />
-                <element signature="e#3820#3821#0" expanded="true" />
-                <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
-                <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
-                <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActiveMQProvider.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="0" selection-start="2613" selection-end="2613" vertical-scroll-proportion="0.0" vertical-offset="927" max-vertical-offset="1989">
-              <folding>
-                <element signature="e#1052#2579#0" expanded="true" />
-                <element signature="e#2568#2569#0" expanded="true" />
-                <element signature="e#2866#4169#0" expanded="true" />
-                <element signature="e#4158#4159#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessengerManager.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="29" selection-start="635" selection-end="635" vertical-scroll-proportion="0.4778157" vertical-offset="179" max-vertical-offset="765">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#749#953#0" expanded="true" />
-                <element signature="e#942#943#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -162,16 +90,19 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/ServiceProviderFactory.java" />
-        <option value="$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" />
         <option value="$PROJECT_DIR$/src/client/Messager.java" />
         <option value="$PROJECT_DIR$/src/factories/ServiceProviderFactory.java" />
         <option value="$PROJECT_DIR$/src/jframe/helper/ImagePanel.java" />
         <option value="$PROJECT_DIR$/src/client/Configuration.java" />
         <option value="$PROJECT_DIR$/src/server/MessengerMananger.java" />
         <option value="$PROJECT_DIR$/src/models/Message.java" />
+        <option value="$PROJECT_DIR$/src/models/IMessage.java" />
+        <option value="$PROJECT_DIR$/src/models/Response.java" />
         <option value="$PROJECT_DIR$/src/models/Client.java" />
-        <option value="$PROJECT_DIR$/src/server/MessengerManager.java" />
+        <option value="$PROJECT_DIR$/src/models/Request.java" />
+        <option value="$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" />
         <option value="$PROJECT_DIR$/src/client/Messenger.java" />
+        <option value="$PROJECT_DIR$/src/server/MessengerManager.java" />
       </list>
     </option>
   </component>
@@ -209,6 +140,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,105 +172,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="activemq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interfaces" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="factories" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -366,7 +203,7 @@
       <recent name="C:\Users\devHaris\Desktop\Assignment-2DV104-2015\Message-system-x\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Message-server">
+  <component name="RunManager" selected="Application.Message-client">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -666,12 +503,15 @@
       <workItem from="1426254882810" duration="11432000" />
       <workItem from="1426289399791" duration="1826000" />
       <workItem from="1426346445778" duration="1889000" />
-      <workItem from="1426348727574" duration="1964000" />
+      <workItem from="1426348727574" duration="3820000" />
+      <workItem from="1426355675110" duration="1349000" />
+      <workItem from="1426357702210" duration="104000" />
+      <workItem from="1426357906307" duration="15911000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17961000" />
+    <option name="totallyTimeSpent" value="37181000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -694,7 +534,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -702,26 +542,26 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3454367" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777232" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3994112" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28557408" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3994112" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3002944" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973504" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908913" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875368" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973504" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18423855" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31697744" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13631523" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3002944" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777232" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -748,12 +588,111 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="43" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="32" max-vertical-offset="765">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#MessengerManager#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#MessengerManager#1;class#MessengerManager#0" expanded="false" />
+            <element signature="method#main#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#Initialize#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#onIncomingConnect#0;class#MessengerManager#0" expanded="false" />
+            <element signature="e#936#1141#0" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="34" selection-start="2989" selection-end="2998" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="2652">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="138" column="44" selection-start="4567" selection-end="4567" vertical-scroll-proportion="0.0" vertical-offset="2346" max-vertical-offset="3315">
+          <folding>
+            <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Messenger#1;class#Messenger#0" expanded="false" />
+            <element signature="method#main#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
+            <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
+            <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="43" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="32" max-vertical-offset="765">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#MessengerManager#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#MessengerManager#1;class#MessengerManager#0" expanded="false" />
+            <element signature="method#main#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#Initialize#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#onIncomingConnect#0;class#MessengerManager#0" expanded="false" />
+            <element signature="e#936#1141#0" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="34" selection-start="2989" selection-end="2998" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="1632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="138" column="44" selection-start="4567" selection-end="4567" vertical-scroll-proportion="0.0" vertical-offset="2346" max-vertical-offset="3570">
+          <folding>
+            <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Messenger#1;class#Messenger#0" expanded="false" />
+            <element signature="method#main#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
+            <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
+            <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="0" selection-start="3525" selection-end="3525" vertical-scroll-proportion="0.0" vertical-offset="1870" max-vertical-offset="2312">
           <folding>
-            <element signature="e#3640#3831#0" expanded="true" />
-            <element signature="e#3820#3821#0" expanded="true" />
+            <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Messenger#1;class#Messenger#0" expanded="false" />
+            <element signature="method#main#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
+            <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
+            <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
@@ -765,8 +704,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="103" column="24" selection-start="3321" selection-end="3321" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2278">
           <folding>
-            <element signature="e#3640#3831#0" expanded="true" />
-            <element signature="e#3820#3821#0" expanded="true" />
+            <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Messenger#1;class#Messenger#0" expanded="false" />
+            <element signature="method#main#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
+            <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
+            <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
@@ -782,23 +730,18 @@
     <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="0" selection-start="524" selection-end="524" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="527">
-          <folding>
-            <element signature="e#1052#2579#0" expanded="true" />
-            <element signature="e#2568#2569#0" expanded="true" />
-            <element signature="e#2866#4169#0" expanded="true" />
-            <element signature="e#4158#4159#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/MessageReceiver.java">
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IMessageReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="0" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="357">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/ServiceProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IServiceProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="32" selection-start="266" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="612">
           <folding />
@@ -813,12 +756,7 @@
     <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="527">
-          <folding>
-            <element signature="e#1052#2579#0" expanded="true" />
-            <element signature="e#2568#2569#0" expanded="true" />
-            <element signature="e#2866#4169#0" expanded="true" />
-            <element signature="e#4158#4159#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -827,79 +765,150 @@
         <state line="49" column="31" selection-start="1502" selection-end="1502" vertical-scroll-proportion="21.12" vertical-offset="1276" max-vertical-offset="1972" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/ServiceProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/models/Message.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="3" selection-start="202" selection-end="202" vertical-scroll-proportion="0.1522388" vertical-offset="0" max-vertical-offset="670">
+        <state line="10" column="0" selection-start="142" selection-end="488" vertical-scroll-proportion="0.2901024" vertical-offset="0" max-vertical-offset="595" />
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/javax/swing/JComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1476" column="16" selection-start="56079" selection-end="56112" vertical-scroll-proportion="0.33282673" vertical-offset="23751" max-vertical-offset="93653">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/MessageReceiver.java">
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/javax/swing/AbstractButton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+        <state line="1042" column="16" selection-start="36349" selection-end="36349" vertical-scroll-proportion="0.25531915" vertical-offset="16441" max-vertical-offset="51493">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Color.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="392" column="32" selection-start="11280" selection-end="11281" vertical-scroll-proportion="0.40756914" vertical-offset="5925" max-vertical-offset="20757">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IMessageReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="17" selection-start="174" selection-end="174" vertical-scroll-proportion="0.17321688" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IServiceProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="7" selection-start="584" selection-end="584" vertical-scroll-proportion="0.44541484" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/base/AbstractMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="30" selection-start="170" selection-end="170" vertical-scroll-proportion="0.19796215" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Response.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="406" selection-end="406" vertical-scroll-proportion="0.643377" vertical-offset="0" max-vertical-offset="697">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="254" selection-end="510" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442" />
+        <state line="18" column="38" selection-start="507" selection-end="507" vertical-scroll-proportion="0.44541484" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Request.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="1" selection-start="354" selection-end="354" vertical-scroll-proportion="0.5691412" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Container.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1282" column="16" selection-start="50432" selection-end="50432" vertical-scroll-proportion="0.33333334" vertical-offset="20545" max-vertical-offset="83708">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Component.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2251" column="16" selection-start="76966" selection-end="76966" vertical-scroll-proportion="0.33333334" vertical-offset="36389" max-vertical-offset="170034">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Rectangle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="184" column="11" selection-start="6313" selection-end="6313" vertical-scroll-proportion="0.11062591" vertical-offset="2644" max-vertical-offset="20230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/javax/swing/JFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="231" column="11" selection-start="8040" selection-end="8040" vertical-scroll-proportion="0.33333334" vertical-offset="3052" max-vertical-offset="15351">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="5" selection-start="396" selection-end="396" vertical-scroll-proportion="0.69624573" vertical-offset="0" max-vertical-offset="586">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#311#312#0" expanded="true" />
-            <element signature="e#339#340#0" expanded="true" />
-            <element signature="e#369#370#0" expanded="true" />
-            <element signature="e#395#396#0" expanded="true" />
-          </folding>
+        <state line="26" column="0" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/Message.java">
+    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="142" selection-end="488" vertical-scroll-proportion="0.2901024" vertical-offset="0" max-vertical-offset="595">
+        <state line="14" column="40" selection-start="301" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="0" selection-start="4901" selection-end="4901" vertical-scroll-proportion="0.0" vertical-offset="2134" max-vertical-offset="2720">
-          <folding>
-            <element signature="e#3640#3831#0" expanded="true" />
-            <element signature="e#3820#3821#0" expanded="true" />
-            <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
-            <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
-            <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
+            <element signature="method#MessengerManager#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#MessengerManager#1;class#MessengerManager#0" expanded="false" />
+            <element signature="method#main#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#Initialize#0;class#MessengerManager#0" expanded="false" />
+            <element signature="method#onIncomingConnect#0;class#MessengerManager#0" expanded="false" />
+            <element signature="e#936#1141#0" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="2613" selection-end="2613" vertical-scroll-proportion="0.0" vertical-offset="927" max-vertical-offset="1989">
-          <folding>
-            <element signature="e#1052#2579#0" expanded="true" />
-            <element signature="e#2568#2569#0" expanded="true" />
-            <element signature="e#2866#4169#0" expanded="true" />
-            <element signature="e#4158#4159#0" expanded="true" />
-          </folding>
+        <state line="102" column="0" selection-start="3593" selection-end="3593" vertical-scroll-proportion="0.0" vertical-offset="1182" max-vertical-offset="2363">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
+    <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="29" selection-start="635" selection-end="635" vertical-scroll-proportion="0.4778157" vertical-offset="179" max-vertical-offset="765">
+        <state line="162" column="16" selection-start="5234" selection-end="5234" vertical-scroll-proportion="0.33333334" vertical-offset="876" max-vertical-offset="1955">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#749#953#0" expanded="true" />
-            <element signature="e#942#943#0" expanded="true" />
+            <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Messenger#1;class#Messenger#0" expanded="false" />
+            <element signature="method#main#0;class#Messenger#0" expanded="false" />
+            <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
+            <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
+            <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
+            <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
+            <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
+            <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
           </folding>
         </state>
       </provider>

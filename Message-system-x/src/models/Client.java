@@ -16,11 +16,11 @@ public class Client {
         _ip = ip;
     }
 
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 
-    public String get_ip() {
+    public String getIp() {
         return _ip;
     }
 }
