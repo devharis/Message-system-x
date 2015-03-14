@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c9eaac3-e276-46b7-bdef-4c9865cc43a3" name="Default" comment="Impl. skeleton for client side with TODOs">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Messenger.java" afterPath="$PROJECT_DIR$/src/client/Messenger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/compiler.xml" afterPath="$PROJECT_DIR$/../.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/encodings.xml" afterPath="$PROJECT_DIR$/../.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/misc.xml" afterPath="$PROJECT_DIR$/../.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/modules.xml" afterPath="$PROJECT_DIR$/../.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/../.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/vcs.xml" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/workspace.xml" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/models/base/AbstractMessage.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/models/Request.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/models/Response.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/Client.java" afterPath="$PROJECT_DIR$/src/models/Client.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Message-system-x.iws" />
@@ -86,39 +82,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActiveMQProvider.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
+      <file leaf-file-name="Client.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="8" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2414">
-              <folding>
-                <element signature="e#4028#5361#0" expanded="true" />
-                <element signature="e#5350#5351#0" expanded="true" />
-              </folding>
+            <state line="26" column="0" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Messenger.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
+      <file leaf-file-name="Request.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/models/Request.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="16" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.4833837" vertical-offset="156" max-vertical-offset="1445">
-              <folding>
-                <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
-                <element signature="method#main#0;class#Messenger#0" expanded="false" />
-                <element signature="method#Initialize#0;class#Messenger#0" expanded="false" />
-                <element signature="method#initUIComponents#0;class#Messenger#0" expanded="false" />
-                <element signature="method#initUIScrollBar#0;class#Messenger#0" expanded="false" />
-                <element signature="method#initUIPositions#0;class#Messenger#0" expanded="false" />
-                <element signature="method#addUIComponents#0;class#Messenger#0" expanded="false" />
-                <element signature="method#onConnect#0;class#Messenger#0" expanded="false" />
-                <element signature="method#onDisconnect#0;class#Messenger#0" expanded="false" />
-                <element signature="method#bindKeyEvent#0;class#Messenger#0" expanded="false" />
-                <element signature="method#onSendMessage#0;class#Messenger#0" expanded="false" />
-                <element signature="method#actionPerformed#0;class#Messenger#0" expanded="false" />
-                <element signature="method#keyTyped#0;class#Messenger#0" expanded="false" />
-                <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
-                <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
-              </folding>
+            <state line="20" column="23" selection-start="319" selection-end="319" vertical-scroll-proportion="0.49490538" vertical-offset="0" max-vertical-offset="687">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Response.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/Response.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="0" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -126,7 +112,7 @@
       <file leaf-file-name="ServiceProviderFactory.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="26" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+            <state line="18" column="38" selection-start="504" selection-end="504" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
               <folding />
             </state>
           </provider>
@@ -175,10 +161,13 @@
         <option value="$PROJECT_DIR$/src/client/Configuration.java" />
         <option value="$PROJECT_DIR$/src/server/MessengerMananger.java" />
         <option value="$PROJECT_DIR$/src/models/Message.java" />
-        <option value="$PROJECT_DIR$/src/models/Client.java" />
         <option value="$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java" />
         <option value="$PROJECT_DIR$/src/server/MessengerManager.java" />
         <option value="$PROJECT_DIR$/src/client/Messenger.java" />
+        <option value="$PROJECT_DIR$/src/models/IMessage.java" />
+        <option value="$PROJECT_DIR$/src/models/Response.java" />
+        <option value="$PROJECT_DIR$/src/models/Client.java" />
+        <option value="$PROJECT_DIR$/src/models/Request.java" />
       </list>
     </option>
   </component>
@@ -264,6 +253,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Message-system-x" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Message-system-x" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -654,12 +665,12 @@
       <workItem from="1426348727574" duration="3820000" />
       <workItem from="1426355675110" duration="1349000" />
       <workItem from="1426357702210" duration="104000" />
-      <workItem from="1426357906307" duration="10589000" />
+      <workItem from="1426357906307" duration="11762000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31859000" />
+    <option name="totallyTimeSpent" value="33032000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -683,7 +694,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -704,7 +715,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13631523" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13631523" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3002944" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -917,11 +928,6 @@
         <state line="49" column="31" selection-start="1502" selection-end="1502" vertical-scroll-proportion="21.12" vertical-offset="1276" max-vertical-offset="1972" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="5" selection-start="396" selection-end="396" vertical-scroll-proportion="0.69624573" vertical-offset="0" max-vertical-offset="586" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="142" selection-end="488" vertical-scroll-proportion="0.2901024" vertical-offset="0" max-vertical-offset="595" />
@@ -941,6 +947,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Color.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="392" column="32" selection-start="11280" selection-end="11281" vertical-scroll-proportion="0.40756914" vertical-offset="5925" max-vertical-offset="20757">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/interfaces/MessageReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="17" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
@@ -955,43 +968,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/models/base/AbstractMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="26" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+        <state line="8" column="30" selection-start="170" selection-end="170" vertical-scroll-proportion="0.19796215" vertical-offset="0" max-vertical-offset="687">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/awt/Color.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="392" column="32" selection-start="11280" selection-end="11281" vertical-scroll-proportion="0.40756914" vertical-offset="5925" max-vertical-offset="20757">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="46" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
-          <folding>
-            <element signature="e#742#946#0" expanded="true" />
-            <element signature="e#935#936#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2414">
-          <folding>
-            <element signature="e#4028#5361#0" expanded="true" />
-            <element signature="e#5350#5351#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="16" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.4833837" vertical-offset="156" max-vertical-offset="1445">
+        <state line="38" column="35" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.43202418" vertical-offset="156" max-vertical-offset="1445">
           <folding>
             <element signature="method#Messenger#0;class#Messenger#0" expanded="false" />
             <element signature="method#main#0;class#Messenger#0" expanded="false" />
@@ -1009,6 +995,54 @@
             <element signature="method#keyPressed#0;class#Messenger#0" expanded="false" />
             <element signature="method#keyReleased#0;class#Messenger#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="8" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2414">
+          <folding>
+            <element signature="e#4028#5361#0" expanded="true" />
+            <element signature="e#5350#5351#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/MessengerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="46" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+          <folding>
+            <element signature="e#742#946#0" expanded="true" />
+            <element signature="e#935#936#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Response.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="38" selection-start="504" selection-end="504" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Request.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="23" selection-start="319" selection-end="319" vertical-scroll-proportion="0.49490538" vertical-offset="0" max-vertical-offset="687">
+          <folding />
         </state>
       </provider>
     </entry>
