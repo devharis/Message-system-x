@@ -46,17 +46,17 @@ public class ActiveMQProvider implements ServiceProvider {
                     __server = endPoint;
 
                     // Bind socket to endpoint and port
-                    receiveSocket = new DatagramSocket(Messenger.PORT, InetAddress.getByName(__server));
-                    // Init receive buffer
-                    byte[] receiveBuffer = new byte[MESSAGE_LIMIT];
-                    // Init the receive packet
-                    DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-                    // Init string representation of the message
-                    String message = "";
+                    receiveSocket = new DatagramSocket(Messenger.PORT);
 
                     // Listen loop
                     while(listening) {
                         // Waiting for packets
+
+                        // Init receive buffer
+                        byte[] receiveBuffer = new byte[MESSAGE_LIMIT];
+                        // Init the receive packet
+                        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length,
+                                InetAddress.getByName(__server), Messenger.PORT);
 
                         /* DEBUG INFO */
                         System.out.println(String.format("Listening on %s:%d", endPoint, Messenger.PORT));
@@ -65,7 +65,8 @@ public class ActiveMQProvider implements ServiceProvider {
                         receiveSocket.receive(receivePacket);
                         // Received packet, sending back to whatever...
 
-                        message = new String(receivePacket.getData());
+                        // Init string representation of the message
+                        String message = new String(receivePacket.getData());
 
                         /* DEBUG INFO */
                         System.out.println(String.format("Received message: %s", message));
