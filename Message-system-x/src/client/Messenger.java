@@ -136,6 +136,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         // TODO: Init a MQProvider and register service
         activeMQProvider = new ActiveMQProvider();
 
+        onSendMessage("127.0.0.1", "This is from client");
+
+
         activeMQProvider.startListening("127.0.0.1", new MessageReceiver() {
             @Override
             public void onMessage(String message) {
