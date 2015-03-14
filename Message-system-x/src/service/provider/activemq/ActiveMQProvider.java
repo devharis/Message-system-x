@@ -55,8 +55,17 @@ public class ActiveMQProvider implements ServiceProvider {
                         // Init receive buffer
                         byte[] receiveBuffer = new byte[MESSAGE_LIMIT];
                         // Init the receive packet
-                        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length,
-                                InetAddress.getByName(__server), Messenger.PORT);
+                        DatagramPacket receivePacket;
+
+                        // Check if server or client
+                        if(endPoint == null) {
+                            // Endpoint is null -> server only, listening to any connection
+                            receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                        } else {
+                            // Is client, listen only to server
+                            receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length,
+                                    InetAddress.getByName(__server), Messenger.PORT);
+                        }
 
                         /* DEBUG INFO */
                         System.out.println(String.format("Listening on %s:%d", endPoint, Messenger.PORT));
