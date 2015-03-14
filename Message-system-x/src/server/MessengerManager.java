@@ -1,16 +1,18 @@
 package server;
 
-import models.Message;
+import interfaces.MessageReceiver;
+import models.Client;
+import service.provider.activemq.ActiveMQProvider;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.ArrayList;
 
 /**
  * Created by devHaris on 2015-03-14.
  */
 public class MessengerManager {
 
-    private Queue<Message> queue;
+    private ArrayList<Client> clientList;
+    private ActiveMQProvider activeMQProvider;
 
     public static void main(String[] args) {
         // Init server
@@ -19,6 +21,19 @@ public class MessengerManager {
     }
 
     private void Initialize() {
-        queue = new PriorityQueue<Message>();
+        clientList = new ArrayList<Client>();
+        onIncomingConnect();
+    }
+
+    private void onIncomingConnect(){
+        activeMQProvider = new ActiveMQProvider();
+
+        activeMQProvider.startListening("127.0.0.1", new MessageReceiver() {
+            @Override
+            public void onMessage(String message) {
+                // GL HF
+                System.out.println("Server: " + message);
+            }
+        });
     }
 }
