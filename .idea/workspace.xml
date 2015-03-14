@@ -57,8 +57,8 @@
       <file leaf-file-name="ActiveMQProvider.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Message-system-x/src/service/provider/activemq/ActiveMQProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45805368" vertical-offset="815" max-vertical-offset="2431">
-              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.28691274" vertical-offset="798" max-vertical-offset="2584">
+              <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -560,12 +560,12 @@
       <option name="number" value="Default" />
       <updated>1426269173139</updated>
       <workItem from="1426269175173" duration="18740000" />
-      <workItem from="1426346489304" duration="6412000" />
+      <workItem from="1426346489304" duration="8439000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25152000" />
+    <option name="totallyTimeSpent" value="27179000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1715" height="1039" extended-state="0" />
@@ -747,8 +747,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Message-system-x/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45805368" vertical-offset="815" max-vertical-offset="2431">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.28691274" vertical-offset="798" max-vertical-offset="2584">
+          <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
