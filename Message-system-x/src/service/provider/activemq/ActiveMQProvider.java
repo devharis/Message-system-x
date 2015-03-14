@@ -30,6 +30,8 @@ public class ActiveMQProvider implements ServiceProvider {
     private volatile boolean listening = false;
     // Max message length
     private final static int MESSAGE_LIMIT = 200;
+    // Server endpoint
+    private String __server;
 
     @Override
     public void startListening(final String endPoint, final MessageReceiver messageReceiver) {
@@ -41,12 +43,16 @@ public class ActiveMQProvider implements ServiceProvider {
             public void run() {
 
                 try {
+                    __server = endPoint;
+
                     // Bind socket to endpoint and port
-                    receiveSocket = new DatagramSocket(Messenger.PORT, InetAddress.getByName(endPoint));
+                    receiveSocket = new DatagramSocket(Messenger.PORT, InetAddress.getByName(__server));
                     // Init receive buffer
                     byte[] receiveBuffer = new byte[MESSAGE_LIMIT];
                     // Init the receive packet
                     DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                    // Init string representation of the message
+                    String message = "";
 
                     // Listen loop
                     while(listening) {
@@ -59,11 +65,16 @@ public class ActiveMQProvider implements ServiceProvider {
                         receiveSocket.receive(receivePacket);
                         // Received packet, sending back to whatever...
 
-                        /* DEBUG INFO */
-                        System.out.println(String.format("Received message: %s", receiveBuffer.toString()));
+                        message = new String(receivePacket.getData());
 
-                        messageReceiver.onMessage(receiveBuffer.toString());
+                        /* DEBUG INFO */
+                        System.out.println(String.format("Received message: %s", message));
+
+                        messageReceiver.onMessage(message);
                     }
+
+                    /* DEBUG INFO */
+                    System.out.println(String.format("Stopped listening!"));
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -80,7 +91,15 @@ public class ActiveMQProvider implements ServiceProvider {
     @Override
     public void stopListening() {
         listening = false;
-        receiveSocket.close();
+
+        // Send disconnect message to server
+        sendMessage("/disconnect", __server);
+
+        // Check if server is not localhost, then we need to step out of the listen thread, by closing the socket
+        if(!__server.equals("127.0.0.1")) {
+            // Close socket to cancel .receive
+            receiveSocket.close();
+        }
     }
 
     @Override
@@ -97,11 +116,12 @@ public class ActiveMQProvider implements ServiceProvider {
                     // TODO: Do on receiving end as well with 2 byte read, read of endpoint length + 1, 3 byte read, message length read.
 
                     // Bind the socket to the destinationEndPoint and port
-                    sendSocket = new DatagramSocket(Messenger.PORT, InetAddress.getByName(destinationEndPoint));
+                    sendSocket = new DatagramSocket();
                     // Init the send buffer
                     byte[] sendBuffer = msgText.getBytes();
                     // Init the receive buffer
-                    DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length);
+                    DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length,
+                            InetAddress.getByName(destinationEndPoint), Messenger.PORT);
                     // Send the message
                     sendSocket.send(sendPacket);
 

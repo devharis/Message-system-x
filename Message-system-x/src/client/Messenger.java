@@ -5,11 +5,9 @@ import service.provider.activemq.ActiveMQProvider;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +25,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     private ActiveMQProvider activeMQProvider;
     private JPanel connectPane;
+    private JPanel mainPane;
+    private JPanel userListPane;
+    private JList messageList;
     private JButton connectBtn;
     private JTextField nameField;
     private JLabel nameLabel;
@@ -64,9 +65,12 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
         // Load configuration, loads from file see class
         //config = new Configuration();
+        Border border;
 
         // Creating window, container and a pane
         Container container = this.getContentPane(); // inherit main frame
+        container.removeAll();
+
         connectPane = new JPanel();
         container.add(connectPane);    // JPanel containers default to FlowLayout
 
@@ -105,6 +109,29 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         setResizable(false);
     }
 
+    public void MainPane() {
+        Container container = this.getContentPane(); // inherit main frame
+        container.removeAll();
+
+        mainPane = new JPanel();
+        mainPane.setSize(container.getSize());
+        container.add(mainPane);
+
+        JPanel messagesPanel = new JPanel();
+        messagesPanel.setAutoscrolls(true);
+        messagesPanel.setSize(messagesPanel.getWidth() - 20, container.getHeight());
+        messagesPanel.setPreferredSize(new Dimension(container.getWidth() - 20, container.getHeight() - 100));
+
+        JTextArea  messageList  = new JTextArea();
+        messageList.setText("Noob: asdasdasdasdasdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas");
+        messageList.setLineWrap(true);
+
+        connectBtn.setPreferredSize(new Dimension(310, 20));
+        mainPane.add(connectBtn);
+        messagesPanel.add(messageList);
+        mainPane.add(messagesPanel);
+    }
+
     public void onConnect(){
         // TODO: Init a MQProvider and register service
         activeMQProvider = new ActiveMQProvider();
@@ -141,6 +168,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
             connectBtn.setText(DISCONNECT_BTN);
             connectBtn.setActionCommand(DISCONNECT_BTN);
+
+            MainPane();
+
             onConnect();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
