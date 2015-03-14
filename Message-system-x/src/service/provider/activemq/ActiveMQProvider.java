@@ -1,152 +1,248 @@
 package service.provider.activemq;
 
 import client.Messenger;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import interfaces.MessageReceiver;
 import interfaces.ServiceProvider;
-import sun.misc.resources.Messages_es;
 
-import javax.xml.ws.Endpoint;
+import java.io.Closeable;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.*;
+import java.util.ArrayList;
 
 /**
  * Created by devHaris on 2015-03-11.
  */
 public class ActiveMQProvider implements ServiceProvider {
 
-    // Listen Thread
-    Thread listenThread;
-    // Receiving Socket
-    DatagramSocket receiveSocket;
-    // Send Thread
-    Thread sendThread;
-    // Send Socket
-    DatagramSocket sendSocket;
-    // Listening step out variable
-    private volatile boolean listening = false;
-    // Max message length
-    private final static int MESSAGE_LIMIT = 200;
-    // Server endpoint
-    private String __server;
+    // Just an holder for information regarding each client
+    public class Client {
+
+        // Variables
+
+        private String endPoint;
+        private String userName;
+        public boolean active;
+
+        private ObjectInputStream inputStream;
+        private ObjectOutputStream outputStream;
+
+        // Properties
+
+        public String getEndPoint() {
+            return endPoint;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public ObjectInputStream getOIS() {
+            return inputStream;
+        }
+
+        public ObjectOutputStream getOOS() {
+            return outputStream;
+        }
+
+        // Methods and constructors
+
+        public Client() {}
+        public Client(String endPoint, ObjectInputStream ois, ObjectOutputStream oos) {
+
+            this.endPoint = endPoint;
+            this.inputStream = ois;
+            this.outputStream = oos;
+        }
+    }
+
+    // Max clients constant
+    private final static int MAX_CLIENTS = 100;
+    // Server socket
+    ServerSocket serverSocket;
+    // Accept thread
+    Thread acceptThread;
+    // List of clients
+    ArrayList<Client> clients = new ArrayList<Client>(MAX_CLIENTS);
+    // Accept socket
+    Socket acceptSocket;
+    // Accepting step out variable
+    private volatile boolean accepting = false;
+    // Disconnect trigger
+    private final static String DISCONNECT = "/disconnect";
+    // Broadcast identifier
+    private final static String BROADCAST = "255.255.255.255";
 
     @Override
     public void startListening(final String endPoint, final MessageReceiver messageReceiver) {
 
-        listening = true;
-
-        listenThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    __server = endPoint;
-
-                    // Bind socket to endpoint and port
-                    receiveSocket = new DatagramSocket(Messenger.PORT);
-
-                    // Listen loop
-                    while(listening) {
-                        // Waiting for packets
-
-                        // Init receive buffer
-                        byte[] receiveBuffer = new byte[MESSAGE_LIMIT];
-                        // Init the receive packet
-                        DatagramPacket receivePacket;
-
-                        // Check if server or client
-                        if(endPoint == null) {
-                            // Endpoint is null -> server only, listening to any connection
-                            receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-                        } else {
-                            // Is client, listen only to server
-                            receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length,
-                                    InetAddress.getByName(__server), Messenger.PORT);
-                        }
-
-                        /* DEBUG INFO */
-                        System.out.println(String.format("Listening on %s:%d", endPoint, Messenger.PORT));
-
-                        // Receiving packet and storing in buffer
-                        receiveSocket.receive(receivePacket);
-                        // Received packet, sending back to whatever...
-
-                        // Init string representation of the message
-                        String message = new String(receivePacket.getData());
-
-                        /* DEBUG INFO */
-                        System.out.println(String.format("Received message: %s", message));
-
-                        messageReceiver.onMessage(message);
-                    }
-
-                    /* DEBUG INFO */
-                    System.out.println(String.format("Stopped listening!"));
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    receiveSocket = null;
-                    /* DEBUG INFO */
-                    System.out.println(String.format("Stopped listening!"));
-                }
-            }
-        });
-
-        listenThread.start();
+        SetupServer(Messenger.PORT, messageReceiver);
     }
 
     @Override
     public void stopListening() {
-        listening = false;
 
-        // Send disconnect message to server
-        sendMessage("/disconnect", __server);
+        // CLEAN UP
+        accepting = false;
+        sendMessage("Server has disconnected", BROADCAST);
 
-        // Check if server is not localhost, then we need to step out of the listen thread, by closing the socket
-        if(!__server.equals("127.0.0.1")) {
-            // Close socket to cancel .receive
-            receiveSocket.close();
+        try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        for(Client c : clients) {
+            try {
+                c.active = false;
+                c.getOOS().close();
+                c.getOIS().close();
+            } catch(Exception ex) {
+                // Silent
+            }
         }
     }
 
     @Override
     public void sendMessage(final String msgText, final String destinationEndPoint) {
 
-        sendThread = new Thread(new Runnable() {
+        SendMessageEx(msgText, destinationEndPoint);
+    }
+
+    public void SetupServer(final int port, final MessageReceiver messageReceiver) {
+
+        acceptThread = new Thread(new Runnable() {
+
             @Override
             public void run() {
-
                 try {
 
-                    // TODO: Include host in sendBuffer like this: 9 127.0.0.1 7  message
-                    // TODO: Where 9 is length of endpoint representation and 7 is the length of the message
-                    // TODO: Do on receiving end as well with 2 byte read, read of endpoint length + 1, 3 byte read, message length read.
+                    // Init the server socket
+                    serverSocket = new ServerSocket(port);
 
-                    // Bind the socket to the destinationEndPoint and port
-                    sendSocket = new DatagramSocket();
-                    // Init the send buffer
-                    byte[] sendBuffer = msgText.getBytes();
-                    // Init the receive buffer
-                    DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length,
-                            InetAddress.getByName(destinationEndPoint), Messenger.PORT);
-                    // Send the message
-                    sendSocket.send(sendPacket);
+                    while(accepting) {
 
-                    // Send is complete, close the socket
-                    sendSocket.close();
-                    sendSocket = null;
+                        // Try to accept a client
+                        acceptSocket = serverSocket.accept();
 
-                } catch(IOException ex) {
+                        // Client connected
+                        final Client client = new Client(acceptSocket.getInetAddress().toString(),
+                                new ObjectInputStream(acceptSocket.getInputStream()),
+                                new ObjectOutputStream(acceptSocket.getOutputStream()));
+
+                        // Get username from client and set it
+                        String userName = (String) client.getOIS().readObject();
+
+                        // Display on server UI
+                        messageReceiver.onMessage(String.format("User: %s connected with ip: %s",
+                                client.getUserName(), client.getEndPoint()));
+
+                        client.setUserName(userName);
+
+                        // Check if client limit has been reached
+                        if(clients.size() == MAX_CLIENTS) {
+
+                            // Reject the client
+                            client.getOOS().writeObject("Max number of clients already connected. Try again later.");
+                            client.getOOS().flush();
+
+                        } else if(IsNameTaken(client.getUserName())) {
+
+                            // Reject the client, because name was taken
+                            client.getOOS().writeObject("The specified name was already taken, please choose another one and connect again.");
+                            client.getOOS().flush();
+
+                        } else {
+
+                            // Client is accepted
+                            client.getOOS().writeObject("Connected.");
+                            client.getOOS().flush();
+                            client.active = true;
+
+                            // Init the receive thread for client
+                            Thread receiveThread = new Thread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    try {
+
+                                        // Init message variable and while loop
+                                        String message;
+                                        while(((message = (String)client.getOIS().readObject()) != DISCONNECT)
+                                                && client.active) {
+
+                                            sendMessage(String.format("%s: %s", client.getUserName(), message), BROADCAST);
+
+                                            // Display on server UI
+                                            messageReceiver.onMessage(
+                                                    String.format("%s said: %s", client.getUserName(), message)
+                                            );
+                                        }
+
+                                    } catch(Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+
+                            });
+
+                            clients.add(client);
+                            receiveThread.start();
+                        }
+                    }
+
+                } catch (Exception ex) {
                     ex.printStackTrace();
-                    sendSocket.close();
-                    sendSocket = null;
                 }
             }
         });
 
-        sendThread.start();
+        acceptThread.start();
+    }
+
+    private void SendMessageEx(String message, String endPoint) {
+        try {
+            if(endPoint.equals(BROADCAST)) {
+                for (Client c : clients) {
+                    c.getOOS().writeObject(message);
+                    c.getOOS().flush();
+                }
+            } else {
+                for (Client c : clients) {
+                    if(c.getEndPoint().equals(endPoint)) {
+                        c.getOOS().writeObject(message);
+                        c.getOOS().flush();
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean IsNameTaken(String userName) {
+
+        for (Client c : clients) {
+            if(c.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void close(Closeable c) {
+        if (c == null) return;
+        try {
+            c.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
