@@ -5,7 +5,7 @@ package interfaces;
  * 
  * @author M. Usman Iftikhar & Yifan Ruan
  */
-public interface MessageReceiver {
+public interface IMessageReceiver {
     
     /**
      * The service provider will notify incoming messages through this method.

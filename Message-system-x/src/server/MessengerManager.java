@@ -1,6 +1,7 @@
 package server;
 
-import interfaces.MessageReceiver;
+import interfaces.IMessageReceiver;
+import interfaces.IServiceProvider;
 import models.Client;
 import service.provider.activemq.ActiveMQProvider;
 
@@ -12,7 +13,16 @@ import java.util.ArrayList;
 public class MessengerManager {
 
     private ArrayList<Client> clientList;
-    private ActiveMQProvider activeMQProvider;
+    private IServiceProvider _serviceProvider;
+
+    // Constructor
+    public MessengerManager(){
+        this(new ActiveMQProvider());
+    }
+
+    public MessengerManager(IServiceProvider serviceProvider){
+        _serviceProvider = serviceProvider;
+    }
 
     public static void main(String[] args) {
         // Init server
@@ -26,9 +36,7 @@ public class MessengerManager {
     }
 
     private void onIncomingConnect(){
-        activeMQProvider = new ActiveMQProvider();
-
-        activeMQProvider.startListening(null, new MessageReceiver() {
+        _serviceProvider.startListening(null, new IMessageReceiver() {
             @Override
             public void onMessage(String message) {
                 // GL HF

@@ -1,22 +1,18 @@
 package service.provider.activemq;
 
 import client.Messenger;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import interfaces.MessageReceiver;
-import interfaces.ServiceProvider;
-import sun.misc.resources.Messages_es;
+import interfaces.IMessageReceiver;
+import interfaces.IServiceProvider;
 
-import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 /**
  * Created by devHaris on 2015-03-11.
  */
-public class ActiveMQProvider implements ServiceProvider {
+public class ActiveMQProvider implements IServiceProvider {
 
     // Listen Thread
     Thread listenThread;
@@ -34,7 +30,7 @@ public class ActiveMQProvider implements ServiceProvider {
     private String __server;
 
     @Override
-    public void startListening(final String endPoint, final MessageReceiver messageReceiver) {
+    public void startListening(final String endPoint, final IMessageReceiver IMessageReceiver) {
         listening = true;
 
         listenThread = new Thread(new Runnable() {
@@ -78,7 +74,7 @@ public class ActiveMQProvider implements ServiceProvider {
                         /* DEBUG INFO */
                         System.out.println(String.format("Received message: %s", message));
 
-                        messageReceiver.onMessage(message);
+                        IMessageReceiver.onMessage(message);
                     }
 
                     /* DEBUG INFO */

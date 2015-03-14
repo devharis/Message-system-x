@@ -1,6 +1,6 @@
 package factories;
 
-import interfaces.ServiceProvider;
+import interfaces.IServiceProvider;
 import service.provider.activemq.ActiveMQProvider;
 
 /**
@@ -12,9 +12,9 @@ public class ServiceProviderFactory {
     
     /**
      * This method helps to choose a service provider from list of available service providers.
-     * @return interfaces.ServiceProvider
+     * @return interfaces.IServiceProvider
      */
-    public static ServiceProvider createServiceProvider() {
+    public static IServiceProvider createServiceProvider() {
 
 	    return new ActiveMQProvider();
     }

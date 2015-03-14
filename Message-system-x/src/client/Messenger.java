@@ -1,18 +1,11 @@
 package client;
 
-import interfaces.MessageReceiver;
+import interfaces.IServiceProvider;
 import service.provider.activemq.ActiveMQProvider;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -22,8 +15,10 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     // variables
     public boolean connected;
+    private IServiceProvider _serviceProvider;
 
-    private ActiveMQProvider activeMQProvider;
+    // UI variables
+    private JFrame jFrame;
     private JButton connectBtn;
     private JButton disconnectBtn;
     private JTextField nameField;
@@ -35,7 +30,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private JTextField ipField;
     private JTextArea chatArea;
     private JScrollPane chatScroll;
-    private JTextArea userArea;
+    private JPanel userPane;
     private JScrollPane userScroll;
 
     // constants
@@ -56,11 +51,17 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     // Constructor
     public Messenger(){
-        super(MESSAGE_X);
+        this(new ActiveMQProvider());
+
+        setTitle(MESSAGE_X);
         setSize(430, 540);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public Messenger(IServiceProvider serviceProvider){
+        _serviceProvider = serviceProvider;
     }
 
     public static void main(String[] args) {
@@ -112,10 +113,8 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         chatScroll = new JScrollPane(chatArea);
         chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        userArea = new JTextArea();
-        userArea.setLineWrap(true);
-        userArea.setEditable(false);
-        userScroll = new JScrollPane(userArea);
+        userPane = new JPanel();
+        userScroll = new JScrollPane(userPane);
         userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
@@ -130,6 +129,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         nameField.setBounds(250,145,160,20);
         chatScroll.setBounds(10,175,300,300);
         userScroll.setBounds(310,175,100,300);
+        userPane.setBounds(userScroll.getX(), userScroll.getY(), 90, 290);
         messageField.setBounds(10,480,400,20);
     }
 
@@ -151,25 +151,19 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onConnect(){
-        // TODO: Init a MQProvider and register service
-        activeMQProvider = new ActiveMQProvider();
-
         //If connected
         nameField.setEditable(false);
-        activeMQProvider.startListening("127.0.0.1", new MessageReceiver() {
-            @Override
-            public void onMessage(String message) {
-                // GL HF
-                System.out.println(message);
-            }
-        });
+        // Fake populate userlist
+        userPane.add(new Button("Unikum"));
+        userPane.add(new Button("Oskar"));
+        userPane.add(new Button("Haris"));
+        userPane.updateUI();
     }
 
     public void onDisconnect(){
-        // TODO: Destroy a MQProvider and de-register service
         System.out.println("onDisconnect");
-        activeMQProvider.stopListening();
-        activeMQProvider = null;
+        _serviceProvider.stopListening();
+        _serviceProvider = null;
     }
 
     public void bindKeyEvent(){
@@ -200,8 +194,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onSendMessage(String endPoint, String message){
-        // TODO: User sends a message, pass it to service
-        activeMQProvider.sendMessage(message, endPoint);
+        _serviceProvider.sendMessage(message, endPoint);
     }
 
     @Override
