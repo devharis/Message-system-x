@@ -28,7 +28,7 @@ public class MessengerManager {
     private void onIncomingConnect(){
         activeMQProvider = new ActiveMQProvider();
 
-        activeMQProvider.startListening("127.0.0.1", new MessageReceiver() {
+        activeMQProvider.startListening(null, new MessageReceiver() {
             @Override
             public void onMessage(String message) {
                 // GL HF

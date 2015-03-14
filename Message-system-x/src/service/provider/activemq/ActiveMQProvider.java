@@ -35,13 +35,11 @@ public class ActiveMQProvider implements ServiceProvider {
 
     @Override
     public void startListening(final String endPoint, final MessageReceiver messageReceiver) {
-
         listening = true;
 
         listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     __server = endPoint;
 
