@@ -18,7 +18,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private IServiceProvider _serviceProvider;
 
     // UI variables
-    private JFrame jFrame;
     private JButton connectBtn;
     private JButton disconnectBtn;
     private JTextField nameField;

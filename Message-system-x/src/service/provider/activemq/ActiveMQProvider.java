@@ -4,6 +4,7 @@ import client.Messenger;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
+import models.Client;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -18,49 +19,6 @@ import java.util.ArrayList;
 public class ActiveMQProvider implements IServiceProvider {
 
     // Just an holder for information regarding each client
-    public class Client {
-
-        // Variables
-
-        private String endPoint;
-        private String userName;
-        public boolean active;
-
-        private ObjectInputStream inputStream;
-        private ObjectOutputStream outputStream;
-
-        // Properties
-
-        public String getEndPoint() {
-            return endPoint;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
-
-        public ObjectInputStream getOIS() {
-            return inputStream;
-        }
-
-        public ObjectOutputStream getOOS() {
-            return outputStream;
-        }
-
-        // Methods and constructors
-
-        public Client() {}
-        public Client(String endPoint, ObjectInputStream ois, ObjectOutputStream oos) {
-
-            this.endPoint = endPoint;
-            this.inputStream = ois;
-            this.outputStream = oos;
-        }
-    }
 
     // Max clients constant
     private final static int MAX_CLIENTS = 100;
@@ -235,14 +193,5 @@ public class ActiveMQProvider implements IServiceProvider {
             }
         }
         return false;
-    }
-
-    private void close(Closeable c) {
-        if (c == null) return;
-        try {
-            c.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 }
