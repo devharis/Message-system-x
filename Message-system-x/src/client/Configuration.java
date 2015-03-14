@@ -53,8 +53,11 @@ public class Configuration {
                     try {
                         // Is the call safe? Only accepting call from Configuration constructor.
                         if (SAFE_CALLEE.equals(callee)) {
-                            pr = new PrintWriter(new FileOutputStream(new File(Messenger.RESOURCE_FOLDER + BUNDLE_NAME), true));
-                            rb = ResourceBundle.getBundle(BUNDLE_NAME);
+                            // Create the file and set ResourceBundle
+                            File f = new File(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
+                            f.createNewFile();
+                            pr = new PrintWriter(new FileOutputStream(f, true));
+                            rb = ResourceBundle.getBundle(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
