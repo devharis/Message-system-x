@@ -67,7 +67,7 @@ public class P2PProvider implements IServiceProvider {
                         // Received packet, sending back to whatever...
 
                         // Init string representation of the message
-                        String message = new String(receivePacket.getData());
+                        Message message = (Message)receivePacket.getData();
 
                         /* DEBUG INFO */
                         System.out.println(String.format("Received message: %s", message));
@@ -110,14 +110,13 @@ public class P2PProvider implements IServiceProvider {
         sendEndPoint = destinationEndPoint;
         String[] ad = extractConnection(destinationEndPoint);
         final String sendIp = ad[0];
-        final int sendPort = Integer.parseInt(ad[1]);
+        final int sendPort = (Integer.parseInt(ad[1]));
 
         sendThread = new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try {
-
                     // Bind the socket to the destinationEndPoint and port
                     sendSocket = new DatagramSocket();
                     // Init the send buffer
@@ -139,7 +138,6 @@ public class P2PProvider implements IServiceProvider {
                 }
             }
         });
-
         sendThread.start();
     }
 

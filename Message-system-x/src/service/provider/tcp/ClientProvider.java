@@ -39,7 +39,7 @@ public class ClientProvider implements IServiceProvider {
         } catch (IOException e) {
 
             // Server is offline
-            messageReceiver.onMessage(new Message(null, CONNECT_FAIL, null, MessageType.INTERNAL));
+            messageReceiver.onMessage(new Message(null, CONNECT_FAIL, null, MessageType.SINGLE));
             throw new Exception(e);
         }
 

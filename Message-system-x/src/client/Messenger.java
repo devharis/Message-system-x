@@ -31,15 +31,18 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public boolean connected;
     private IServiceProvider _serviceProvider;
     private String endPoint;
+    private String _connectionString;
 
     // UI variables
     private JButton connectBtn;
     private JButton disconnectBtn;
     public static JTextField nameField;
     private JLabel logoLabel;
-    private JLabel portLabel;
+    private JLabel incPortLabel;
+    private JLabel outPortLabel;
     private JLabel ipLabel;
-    private JTextField portField;
+    private JTextField incPortField;
+    private JTextField outPortField;
     private JTextField messageField;
     private JTextField ipField;
     private JTextArea chatArea;
@@ -53,17 +56,21 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String MESSAGE_X = "Modern Message Client";
     private final static String CONNECT_BTN = "Connect";
     private final static String DISCONNECT_BTN = "Disconnect";
-    private final static String PORT_TEXT = "Port:";
-    private final static String PORT_FIELD = "9090";
+    private final static String INC_PORT_TEXT = "Inc Port:";
+    private final static String INC_PORT_FIELD = "9090";
+    private final static String OUT_PORT_TEXT = "Out Port:";
+    private final static String OUT_PORT_FIELD = "9091";
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "127.0.0.1";
     private final static String NAME_TEXT = "Unikum";
     private final static String LOGO = "logo.png";
     private final static String ICON = "icon.png";
 
+    private final static ProviderType providerType = ProviderType.UdpP2P;
+
     // Constructor
     public Messenger(){
-        this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpClient));
+        this(ServiceProviderFactory.createServiceProvider(providerType));
 
         Properties properties = new Properties();
         try {
@@ -72,8 +79,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        String name = (String)properties.get("name");
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
@@ -104,8 +109,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         initUIPositions();
         addUIComponents();
 
-        // Set focus, listener & action
-        connectBtn.requestFocus();
+        // Set listener & action
         connectBtn.addActionListener(this);
         disconnectBtn.addActionListener(this);
         nameField.addKeyListener(this);
@@ -118,8 +122,10 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     void initUIComponents(){
         logoLabel = new JLabel(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, LOGO)));
-        portLabel = new JLabel(PORT_TEXT);
-        portField = new JTextField(PORT_FIELD);
+        incPortLabel = new JLabel(INC_PORT_TEXT);
+        incPortField = new JTextField(INC_PORT_FIELD);
+        outPortLabel = new JLabel(OUT_PORT_TEXT);
+        outPortField = new JTextField(OUT_PORT_FIELD);
         ipLabel = new JLabel(IP_TEXT);
         ipField = new JTextField(IP_FIELD);
         connectBtn = new JButton(CONNECT_BTN);
@@ -128,6 +134,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         disconnectBtn.setBackground(new Color(255, 69, 0));
         nameField = new JTextField(NAME_TEXT);
         messageField = new JTextField();
+
+        if(providerType != ProviderType.UdpP2P)
+            outPortField.setEditable(false);
     }
 
     void initUIScrollBar(){
@@ -145,10 +154,12 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     void initUIPositions(){
         logoLabel.setBounds(5, 5, 400, 105);
-        portLabel.setBounds(10, 120, 50, 20);
-        portField.setBounds(40, 120, 100, 20);
-        ipLabel.setBounds(150,120,20,20);
-        ipField.setBounds(170, 120, 240, 20);
+        incPortLabel.setBounds(10, 120, 50, 20);
+        incPortField.setBounds(60, 120, 60, 20);
+        outPortLabel.setBounds(129, 120, 50, 20);
+        outPortField.setBounds(180, 120, 60, 20);
+        ipLabel.setBounds(250,120,20,20);
+        ipField.setBounds(270, 120, 140, 20);
         connectBtn.setBounds(10,145,110,20);
         disconnectBtn.setBounds(130,145,110,20);
         nameField.setBounds(250,145,160,20);
@@ -162,8 +173,10 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         Container chatContainer = getContentPane();
         chatContainer.setLayout(null);
         chatContainer.add(logoLabel);
-        chatContainer.add(portLabel);
-        chatContainer.add(portField);
+        chatContainer.add(incPortLabel);
+        chatContainer.add(incPortField);
+        chatContainer.add(outPortLabel);
+        chatContainer.add(outPortField);
         chatContainer.add(ipLabel);
         chatContainer.add(ipField);
         chatContainer.add(connectBtn);
@@ -177,11 +190,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     public void onConnect(){
         // Create a connection string from ip and port
-        String connectionString = String.format("%s:%s", ipField.getText(), portField.getText());
+        _connectionString = String.format("%s:%s", ipField.getText(), incPortField.getText());
         try {
             connected = true;
             toggleUI();
-            _serviceProvider.startListening(connectionString, new IMessageReceiver() {
+            _serviceProvider.startListening(_connectionString, new IMessageReceiver() {
                 @Override
                 public void onMessage(Message message) {
 
@@ -216,13 +229,13 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private void toggleUI() {
         if(connected){
             nameField.setEditable(false);
-            portField.setEditable(false);
+            incPortField.setEditable(false);
             ipField.setEditable(false);
             connectBtn.setEnabled(false);
             disconnectBtn.setEnabled(true);
         } else if (!connected){
             nameField.setEditable(true);
-            portField.setEditable(true);
+            incPortField.setEditable(true);
             ipField.setEditable(true);
             connectBtn.setEnabled(true);
             disconnectBtn.setEnabled(false);
@@ -243,7 +256,16 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onSendMessage(Message message, String endPoint) {
-        _serviceProvider.sendMessage(message, endPoint);
+        switch (providerType){
+            case UdpP2P:
+                _serviceProvider.sendMessage(message, String.format("%s:%s", _connectionString.split(":")[0], outPortField.getText()));
+                break;
+            case TcpClient:
+                _serviceProvider.sendMessage(message, endPoint);
+                break;
+            default:
+                // Error
+        }
     }
 
     @Override
@@ -273,7 +295,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                         nameField.getText(),
                         messageField.getText(),
                         endPoint,
-                        MessageType.BROADCAST), null);
+                        MessageType.BROADCAST), _connectionString);
                 // Clear message field
                 messageField.setText("");
                 break;
