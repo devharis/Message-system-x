@@ -10,9 +10,9 @@ public interface IServiceProvider {
     /**
      * This method enables a service to listen for messages on the given endpoint.
      * @param endPoint
-     * @param IMessageReceiver
+     * @param messageReceiver
      */
-    public void startListening(String endPoint, IMessageReceiver IMessageReceiver);
+    public void startListening(String endPoint, IMessageReceiver messageReceiver);
     
     /**
      * This method stops a service for listening to the incoming messages. 

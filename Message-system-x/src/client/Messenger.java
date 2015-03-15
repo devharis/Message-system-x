@@ -1,8 +1,9 @@
 package client;
 
+import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import models.Client;
-import service.provider.activemq.ActiveMQProvider;
+import service.provider.ActiveMQProvider;
+import service.provider.ClientProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,14 +22,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     // variables
     public boolean connected;
     private IServiceProvider _serviceProvider;
-    private Socket _socketConnection;
-    private ObjectInputStream _incomingObj;
-    private ObjectOutputStream _outgoingObj;
 
     // UI variables
     private JButton connectBtn;
     private JButton disconnectBtn;
-    private JTextField nameField;
+    public static JTextField nameField;
     private JLabel logoLabel;
     private JLabel portLabel;
     private JLabel ipLabel;
@@ -41,24 +39,21 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private JScrollPane userScroll;
 
     // constants
-    public static int PORT = 12345;
+    public final static String RESOURCE_FOLDER = "resources/";
 
     private final static String MESSAGE_X = "Modern Message Client";
     private final static String CONNECT_BTN = "Connect";
     private final static String DISCONNECT_BTN = "Disconnect";
     private final static String PORT_TEXT = "Port:";
-    private final static String PORT_FIELD = "56789";
+    private final static String PORT_FIELD = "12345";
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "127.0.0.1";
-
     private final static String NAME_TEXT = "Unikum";
-
-    public final static String RESOURCE_FOLDER = "resources/";
     private final static String LOGO = "logo.png";
 
     // Constructor
     public Messenger(){
-        this(new ActiveMQProvider());
+        this(new ClientProvider());
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
@@ -93,6 +88,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         connectBtn.addActionListener(this);
         disconnectBtn.addActionListener(this);
         nameField.addKeyListener(this);
+        messageField.addKeyListener(this);
         connectBtn.setActionCommand(CONNECT_BTN);
         disconnectBtn.setActionCommand(DISCONNECT_BTN);
 
@@ -159,33 +155,15 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     public void onConnect(){
 
-        try {
-            _socketConnection = new Socket(IP_FIELD, PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String connectionString = String.format("%s:%s", ipField.getText(), portField.getText());
 
-        Thread thread = new Thread(new Runnable() {
+        _serviceProvider.startListening(connectionString, new IMessageReceiver() {
             @Override
-            public void run() {
-                try {
-                    _outgoingObj = new ObjectOutputStream(_socketConnection.getOutputStream());
-                    _incomingObj = new ObjectInputStream(_socketConnection.getInputStream());
-
-                    try {
-                        System.out.println(_incomingObj.readObject().toString());
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    _outgoingObj.writeObject("Haris");
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onMessage(String message) {
+                chatArea.append(message);
+                connected = true;
             }
-        }, "Client");
-        thread.start();
-
+        });
 
         //If connected
         nameField.setEditable(false);
@@ -200,33 +178,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         System.out.println("onDisconnect");
         _serviceProvider.stopListening();
         _serviceProvider = null;
-    }
-
-    public void bindKeyEvent(){
-        messageField.addKeyListener
-        (
-                new KeyListener()
-                {
-                    public void keyPressed(KeyEvent e)
-                    {
-                        int tipka = e.getKeyCode();
-                        if(tipka == KeyEvent.VK_ENTER)
-                        {
-                            String poruka2 = messageField.getText(); //salji poruku
-
-                            chatArea.append(nameField.getText()+ ">" + poruka2 + "\n");
-
-                            chatArea.setCaretPosition(chatArea.getText().length());
-
-                            onSendMessage("localhost", nameField.getText() + ">" + poruka2);
-
-                            messageField.setText("");
-                        }
-                    }
-                    public void keyReleased(KeyEvent e) { }
-                    public void keyTyped(KeyEvent e) { }
-                }
-        );
+        connected = false;
     }
 
     public void onSendMessage(String endPoint, String message){
@@ -260,10 +212,14 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(nameField.getText().isEmpty())
+        if(nameField.getText().trim().isEmpty())
             connectBtn.setEnabled(false);
-        else
+        else if(!nameField.getText().isEmpty())
             connectBtn.setEnabled(true);
+
+        if(e.getKeyChar() == KeyEvent.VK_ENTER && connected){
+            onSendMessage(null, messageField.getText());
+        }
     }
 
     @Override

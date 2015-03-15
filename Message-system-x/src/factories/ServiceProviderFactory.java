@@ -1,7 +1,7 @@
 package factories;
 
 import interfaces.IServiceProvider;
-import service.provider.activemq.ActiveMQProvider;
+import service.provider.ActiveMQProvider;
 
 /**
  * This class helps to choose a service provider.

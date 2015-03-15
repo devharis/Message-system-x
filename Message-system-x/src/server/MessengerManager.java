@@ -3,7 +3,7 @@ package server;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Client;
-import service.provider.activemq.ActiveMQProvider;
+import service.provider.ActiveMQProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,8 +31,6 @@ public class MessengerManager extends JFrame implements ActionListener {
     private JScrollPane chatScroll;
 
     // constants
-    public static int PORT = 12345;
-
     private final static String MESSAGE_X = "Modern Message Server";
     private final static String CONNECT_BTN = "Start server";
     private final static String DISCONNECT_BTN = "Kill server";
@@ -40,9 +38,6 @@ public class MessengerManager extends JFrame implements ActionListener {
     private final static String PORT_FIELD = "56789";
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "";
-
-    public final static String RESOURCE_FOLDER = "resources/";
-    private final static String LOGO = "logo.png";
 
     // Constructor
     public MessengerManager(){
@@ -129,11 +124,10 @@ public class MessengerManager extends JFrame implements ActionListener {
     }
 
     private void startListening(){
-        _serviceProvider.startListening(null, new IMessageReceiver() {
+        _serviceProvider.startListening(portField.getText(), new IMessageReceiver() {
             @Override
             public void onMessage(String message) {
-                // GL HF
-                System.out.println("Server: " + message);
+                chatArea.append(message);
             }
         });
     }

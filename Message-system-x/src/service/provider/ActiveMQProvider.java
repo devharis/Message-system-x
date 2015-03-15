@@ -1,4 +1,4 @@
-package service.provider.activemq;
+package service.provider;
 
 import client.Messenger;
 
@@ -39,7 +39,8 @@ public class ActiveMQProvider implements IServiceProvider {
 
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
-        SetupServer(Messenger.PORT, messageReceiver);
+        int port = Integer.parseInt(endPoint);
+        SetupServer(port, messageReceiver);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class ActiveMQProvider implements IServiceProvider {
 
                     while(accepting) {
 
-                        messageReceiver.onMessage("Server is listening intimately...");
+                        messageReceiver.onMessage("Server is listening intimately... \n");
 
                         // Try to accept a client
                         acceptSocket = serverSocket.accept();
@@ -104,23 +105,22 @@ public class ActiveMQProvider implements IServiceProvider {
                         // Get username from client and set it
                         String userName = (String) client.getOIS().readObject();
 
-                        // Display on server UI
-                        messageReceiver.onMessage(String.format("User: %s connected with ip: %s",
-                                client.getUserName(), client.getEndPoint()));
-
                         client.setUserName(userName);
+                        // Display on server UI
+                        messageReceiver.onMessage(String.format("User: %s connected with ip: %s \n",
+                                client.getUserName(), client.getEndPoint()));
 
                         // Check if client limit has been reached
                         if(clients.size() == MAX_CLIENTS) {
 
                             // Reject the client
-                            client.getOOS().writeObject("Max number of clients already connected. Try again later.");
+                            client.getOOS().writeObject("Max number of clients already connected. Try again later. \n");
                             client.getOOS().flush();
 
                         } else if(IsNameTaken(client.getUserName())) {
 
                             // Reject the client, because name was taken
-                            client.getOOS().writeObject("The specified name was already taken, please choose another one and connect again.");
+                            client.getOOS().writeObject("The specified name was already taken, please choose another one and connect again. \n");
                             client.getOOS().flush();
 
                         } else {
