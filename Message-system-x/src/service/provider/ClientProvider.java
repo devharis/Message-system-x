@@ -49,7 +49,6 @@ public class ClientProvider implements IServiceProvider {
                     sendMessage(Messenger.nameField.getText(), null);
 
                     awaitMessage(messageReceiver);
-                    listenThread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

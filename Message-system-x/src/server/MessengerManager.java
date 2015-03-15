@@ -31,7 +31,6 @@ public class MessengerManager extends JFrame implements ActionListener {
     private JScrollPane chatScroll;
 
     // constants
-    private final static String RESOURCE_FOLDER = "resources/";
     private final static String MESSAGE_X = "Modern Message Server";
     private final static String CONNECT_BTN = "Start server";
     private final static String DISCONNECT_BTN = "Kill server";
@@ -40,7 +39,6 @@ public class MessengerManager extends JFrame implements ActionListener {
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "";
 
-    private final static String ICON = "server-icon1.png";
 
     // Constructor
     public MessengerManager(){
@@ -48,7 +46,6 @@ public class MessengerManager extends JFrame implements ActionListener {
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
-        setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

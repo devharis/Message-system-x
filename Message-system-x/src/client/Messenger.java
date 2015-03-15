@@ -2,16 +2,14 @@ package client;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import service.provider.ActiveMQProvider;
 import service.provider.ClientProvider;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -119,6 +117,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         userPane = new JPanel();
+        userPane.setLayout(new GridLayout(50, 1));
         userScroll = new JScrollPane(userPane);
         userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
@@ -156,23 +155,26 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onConnect(){
-
+        // Create a connection string from ip and port
         String connectionString = String.format("%s:%s", ipField.getText(), portField.getText());
-
         _serviceProvider.startListening(connectionString, new IMessageReceiver() {
             @Override
             public void onMessage(String message) {
                 chatArea.append(message);
                 connected = true;
+                nameField.setEditable(false);
             }
         });
 
-        //If connected
-        nameField.setEditable(false);
         // Fake populate userlist
-        userPane.add(new Button("Unikum"));
-        userPane.add(new Button("Oskar"));
-        userPane.add(new Button("Haris"));
+        userPane.setSize(90, userScroll.getHeight());
+        Button button = new Button("Unikum");
+        button.setSize(90, 10);
+        userPane.add(button);
+        Button button1 = new Button("Oskar");
+        button.setSize(90, 10);
+        userPane.add(button1);
+
         userPane.updateUI();
     }
 
@@ -215,7 +217,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {
         if(nameField.getText().trim().isEmpty() || connected)
             connectBtn.setEnabled(false);
-        else if(!nameField.getText().isEmpty())
+        else if(!nameField.getText().isEmpty() || !connected)
             connectBtn.setEnabled(true);
 
         if(e.getKeyChar() == KeyEvent.VK_ENTER && connected){
