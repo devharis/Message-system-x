@@ -12,7 +12,9 @@ public class Configuration {
 
     private final static int PROPERTY_LIMIT = 10;
     private final static String SAFE_CALLEE = "client.Configuration<init>";
-    private final static String BUNDLE_NAME = "messengerBundle";
+    private final static String BUNDLE_FULL_NAME = "messengerBundle.properties";
+    public final static String BUNDLE_NAME = "messengerBundle";
+
     private Thread writeThread;
     private PrintWriter pr;
     private ResourceBundle rb;
@@ -54,7 +56,7 @@ public class Configuration {
                         // Is the call safe? Only accepting call from Configuration constructor.
                         if (SAFE_CALLEE.equals(callee)) {
                             // Create the file and set ResourceBundle
-                            File f = new File(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
+                            File f = new File(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
                             f.createNewFile();
                             pr = new PrintWriter(new FileOutputStream(f, true));
                             rb = ResourceBundle.getBundle(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
@@ -73,7 +75,7 @@ public class Configuration {
 
                     // Init lines array and scanner
                     String[] lines = new String[PROPERTY_LIMIT];
-                    Scanner scanner = new Scanner(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
+                    Scanner scanner = new Scanner(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
 
                     // Init count variable i for sanity
                     int i = 0;
@@ -101,7 +103,7 @@ public class Configuration {
                     // Proceed to write to file
 
                     try {
-                        PrintWriter npr = new PrintWriter(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
+                        PrintWriter npr = new PrintWriter(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
 
                         // Clear the file
                         npr.write("");

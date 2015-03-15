@@ -37,11 +37,13 @@ public class ServerProvider implements IServiceProvider {
     // Broadcast identifier
     private final static String BROADCAST = "255.255.255.255";
 
+    private String _ipAdress;
+
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
         try {
             int port = Integer.parseInt(endPoint);
-            SetupServer(port, messageReceiver);
+            setupServer(port, messageReceiver);
         } catch (RuntimeException ex) {
             throw new RuntimeException(ex);
         }
@@ -81,10 +83,10 @@ public class ServerProvider implements IServiceProvider {
     @Override
     public void sendMessage(final String msgText, final String destinationEndPoint) {
 
-        SendMessageEx(msgText, destinationEndPoint);
+        sendMessageEx(msgText, destinationEndPoint);
     }
 
-    public void SetupServer(final int port, final IMessageReceiver messageReceiver) {
+    public void setupServer(final int port, final IMessageReceiver messageReceiver) {
 
         try {
             beginAccepting(port, messageReceiver);
@@ -105,7 +107,7 @@ public class ServerProvider implements IServiceProvider {
 
                     // Init the server socket
                     serverSocket = new ServerSocket(port);
-
+                    _ipAdress = serverSocket.getInetAddress().getHostAddress();
                     while(accepting) {
 
                         messageReceiver.onMessage("Server is listening intimately... \n");
@@ -138,7 +140,7 @@ public class ServerProvider implements IServiceProvider {
                             client.getOOS().writeObject("Max number of clients already connected. Try again later. \n");
                             client.getOOS().flush();
 
-                        } else if(IsNameTaken(client.getUserName())) {
+                        } else if(isNameTaken(client.getUserName())) {
 
                             // Reject the client, because name was taken
                             client.getOOS().writeObject("The specified name was already taken, please choose another one and connect again. \n");
@@ -216,7 +218,7 @@ public class ServerProvider implements IServiceProvider {
         receiveThread.start();
     }
 
-    private void SendMessageEx(String message, String endPoint) {
+    private void sendMessageEx(String message, String endPoint) {
         try {
             if(endPoint.equals(BROADCAST)) {
                 for (Client c : clients) {
@@ -237,7 +239,7 @@ public class ServerProvider implements IServiceProvider {
         }
     }
 
-    private boolean IsNameTaken(String userName) {
+    private boolean isNameTaken(String userName) {
 
         for (Client c : clients) {
             if(c.getUserName().equals(userName)) {
@@ -245,5 +247,9 @@ public class ServerProvider implements IServiceProvider {
             }
         }
         return false;
+    }
+
+    public String getIpAdress() {
+        return _ipAdress;
     }
 }

@@ -54,6 +54,8 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public Messenger(){
         this(new ClientProvider());
 
+        Configuration config = new Configuration();
+
         setTitle(MESSAGE_X);
         setSize(430, 540);
         setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());

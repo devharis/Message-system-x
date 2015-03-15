@@ -40,7 +40,7 @@ public class MessengerManager extends JFrame implements ActionListener {
     private final static String PORT_TEXT = "Port:";
     private final static String PORT_FIELD = "9090";
     private final static String IP_TEXT = "IP:";
-    private final static String IP_FIELD = "";
+    private final static String IP_FIELD = "127.0.0.1";
     private final static String ICON = "server-icon.png";
 
     // Constructor
@@ -91,6 +91,7 @@ public class MessengerManager extends JFrame implements ActionListener {
         portField = new JTextField(PORT_FIELD);
         ipLabel = new JLabel(IP_TEXT);
         ipField = new JTextField(IP_FIELD);
+        ipField.setEditable(false);
         connectBtn = new JButton(CONNECT_BTN);
         connectBtn.setBackground(new Color(50, 205, 50));
         disconnectBtn = new JButton(DISCONNECT_BTN);
@@ -180,15 +181,15 @@ public class MessengerManager extends JFrame implements ActionListener {
 
         if(running) {
 
-            portField.setEnabled(false);
-            ipField.setEnabled(false);
+            portField.setEditable(false);
+            ipField.setEditable(false);
             connectBtn.setEnabled(false);
             disconnectBtn.setEnabled(true);
 
         } else if (!running){
 
-            portField.setEnabled(true);
-            ipField.setEnabled(true);
+            portField.setEditable(true);
+            ipField.setEditable(false);
             connectBtn.setEnabled(true);
             disconnectBtn.setEnabled(false);
         }
