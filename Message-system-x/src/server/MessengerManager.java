@@ -7,11 +7,17 @@ import models.Client;
 import models.Message;
 import models.ProviderType;
 import service.provider.tcp.ServerProvider;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,11 +54,12 @@ public class MessengerManager extends JFrame implements ActionListener {
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "127.0.0.1";
     private final static String ICON = "server-icon.png";
+    private final static String SOUND = "sound.wav";
 
     // Constructor
-    public MessengerManager(){
+    public MessengerManager() throws IOException {
         this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpServer));
-
+        playAudio();
         setTitle(MESSAGE_X);
         setSize(430, 540);
         setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());
@@ -65,7 +72,7 @@ public class MessengerManager extends JFrame implements ActionListener {
         _serviceProvider = serviceProvider;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Init app
         MessengerManager messengerManager = new MessengerManager();
         messengerManager.Initialize();
@@ -207,5 +214,11 @@ public class MessengerManager extends JFrame implements ActionListener {
             connectBtn.setEnabled(true);
             disconnectBtn.setEnabled(false);
         }
+    }
+
+    private void playAudio() throws IOException {
+        InputStream in = new FileInputStream(String.format("%s%s", RESOURCE_FOLDER, SOUND));
+        AudioStream audioStream = new AudioStream(in);
+        AudioPlayer.player.start(audioStream);
     }
 }
