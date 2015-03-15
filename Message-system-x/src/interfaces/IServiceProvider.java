@@ -10,19 +10,19 @@ import java.io.IOException;
 public interface IServiceProvider {
  
     /**
-     * This method enables a service to listen for messages on the given endpoint.
+     * This method enables a tcp to listen for messages on the given endpoint.
      * @param endPoint
      * @param messageReceiver
      */
     public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception;
     
     /**
-     * This method stops a service for listening to the incoming messages. 
+     * This method stops a tcp for listening to the incoming messages.
      */
-    public void stopListening();
+    public void stopListening() throws Exception;
     
     /**
-     * With this method, a service can send a message to the other service.
+     * With this method, a tcp can send a message to the other tcp.
      * @param msgText
      * @param destinationEndPoint
      */

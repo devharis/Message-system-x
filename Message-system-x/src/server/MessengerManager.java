@@ -3,13 +3,12 @@ package server;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Client;
-import service.provider.ActiveMQProvider;
+import service.provider.tcp.ServerProvider;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +19,7 @@ public class MessengerManager extends JFrame implements ActionListener {
     // variables
     private ArrayList<Client> clientList;
     private IServiceProvider _serviceProvider;
+    public boolean running = false;
 
     // UI variables
     private JButton connectBtn;
@@ -45,7 +45,7 @@ public class MessengerManager extends JFrame implements ActionListener {
 
     // Constructor
     public MessengerManager(){
-        this(new ActiveMQProvider());
+        this(new ServerProvider());
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
@@ -136,13 +136,26 @@ public class MessengerManager extends JFrame implements ActionListener {
                     chatArea.append(message);
                 }
             });
+            running = true;
         } catch (Exception e) {
+            running = false;
             e.printStackTrace();
         }
     }
 
     private void stopListening(){
-        _serviceProvider.stopListening();
+
+        running = false;
+
+        try {
+            _serviceProvider.stopListening();
+
+            // TOGGLE
+            toggleUI();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -151,17 +164,33 @@ public class MessengerManager extends JFrame implements ActionListener {
 
         if(actionCommand.equals(CONNECT_BTN)){
             System.out.println("Connected");
-            connectBtn.setEnabled(false);
-            disconnectBtn.setEnabled(true);
             connectBtn.setActionCommand(DISCONNECT_BTN);
             startListening();
+            toggleUI();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
             System.out.println("Disconnected");
-            connectBtn.setEnabled(true);
-            disconnectBtn.setEnabled(false);
             connectBtn.setActionCommand(CONNECT_BTN);
             stopListening();
+            toggleUI();
+        }
+    }
+
+    private void toggleUI() {
+
+        if(running) {
+
+            portField.setEnabled(false);
+            ipField.setEnabled(false);
+            connectBtn.setEnabled(false);
+            disconnectBtn.setEnabled(true);
+
+        } else if (!running){
+
+            portField.setEnabled(true);
+            ipField.setEnabled(true);
+            connectBtn.setEnabled(true);
+            disconnectBtn.setEnabled(false);
         }
     }
 }

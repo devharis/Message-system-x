@@ -2,7 +2,7 @@ package client;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import service.provider.ClientProvider;
+import service.provider.tcp.ClientProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -125,17 +124,17 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     void initUIPositions(){
         logoLabel.setBounds(5, 5, 400, 105);
-        portLabel.setBounds(10,120,50,20);
-        portField.setBounds(40,120,100,20);
+        portLabel.setBounds(10, 120, 50, 20);
+        portField.setBounds(40, 120, 100, 20);
         ipLabel.setBounds(150,120,20,20);
-        ipField.setBounds(170,120,240,20);
+        ipField.setBounds(170, 120, 240, 20);
         connectBtn.setBounds(10,145,110,20);
         disconnectBtn.setBounds(130,145,110,20);
         nameField.setBounds(250,145,160,20);
         chatScroll.setBounds(10,175,300,300);
-        userScroll.setBounds(310,175,100,300);
+        userScroll.setBounds(310, 175, 100, 300);
         userPane.setBounds(userScroll.getX(), userScroll.getY(), 90, 290);
-        messageField.setBounds(10,480,400,20);
+        messageField.setBounds(10, 480, 400, 20);
     }
 
     void addUIComponents(){
@@ -159,18 +158,17 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         // Create a connection string from ip and port
         String connectionString = String.format("%s:%s", ipField.getText(), portField.getText());
         try {
+            connected = true;
+            toggleUI();
             _serviceProvider.startListening(connectionString, new IMessageReceiver() {
                 @Override
                 public void onMessage(String message) {
                     chatArea.append(message);
-                    connected = true;
-                    nameField.setEditable(false);
                 }
             });
         } catch (Exception e) {
             connected = false;
             toggleUI();
-
             return;
         }
 
@@ -188,15 +186,15 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     private void toggleUI() {
         if(connected){
-            nameField.setEnabled(false);
-            portField.setEnabled(false);
-            ipField.setEnabled(false);
+            nameField.setEditable(false);
+            portField.setEditable(false);
+            ipField.setEditable(false);
             connectBtn.setEnabled(false);
             disconnectBtn.setEnabled(true);
-        }else if (!connected){
-            nameField.setEnabled(true);
-            portField.setEnabled(true);
-            ipField.setEnabled(true);
+        } else if (!connected){
+            nameField.setEditable(true);
+            portField.setEditable(true);
+            ipField.setEditable(true);
             connectBtn.setEnabled(true);
             disconnectBtn.setEnabled(false);
         }
@@ -204,11 +202,18 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     public void onDisconnect(){
         System.out.println("onDisconnect");
-        _serviceProvider.stopListening();
-        connected = false;
+        try {
+            _serviceProvider.stopListening();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connected = false;
+            toggleUI();
+        }
+
     }
 
-    public void onSendMessage(String endPoint, String message){
+    public void onSendMessage(String endPoint, String message) {
         _serviceProvider.sendMessage(message, endPoint);
     }
 
@@ -219,19 +224,12 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         if(actionCommand.equals(CONNECT_BTN)){
             System.out.println("Connected");
 
-            connected = true;
-            connectBtn.setEnabled(false);
-            disconnectBtn.setEnabled(true);
             connectBtn.setActionCommand(DISCONNECT_BTN);
             onConnect();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
             System.out.println("Disconnected");
 
-            connected = false;
-            connectBtn.setEnabled(true);
-            disconnectBtn.setEnabled(false);
-            nameField.setEditable(true);
             connectBtn.setActionCommand(CONNECT_BTN);
             onDisconnect();
         }
