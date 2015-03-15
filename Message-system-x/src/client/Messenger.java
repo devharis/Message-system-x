@@ -214,7 +214,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     }
 
-    public void onSendMessage(String endPoint, String message){
+    public void onSendMessage(String endPoint, String message) {
         _serviceProvider.sendMessage(message, endPoint);
     }
 
