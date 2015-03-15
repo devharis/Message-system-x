@@ -45,11 +45,12 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String CONNECT_BTN = "Connect";
     private final static String DISCONNECT_BTN = "Disconnect";
     private final static String PORT_TEXT = "Port:";
-    private final static String PORT_FIELD = "12345";
+    private final static String PORT_FIELD = "9090";
     private final static String IP_TEXT = "IP:";
     private final static String IP_FIELD = "127.0.0.1";
     private final static String NAME_TEXT = "Unikum";
     private final static String LOGO = "logo.png";
+    private final static String ICON = "icon.png";
 
     // Constructor
     public Messenger(){
@@ -57,6 +58,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
+        setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,13 +213,16 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(nameField.getText().trim().isEmpty())
+        if(nameField.getText().trim().isEmpty() || connected)
             connectBtn.setEnabled(false);
         else if(!nameField.getText().isEmpty())
             connectBtn.setEnabled(true);
 
         if(e.getKeyChar() == KeyEvent.VK_ENTER && connected){
+            // Send message
             onSendMessage(null, messageField.getText());
+            // Clear message field
+            messageField.setText("");
         }
     }
 

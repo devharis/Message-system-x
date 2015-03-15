@@ -1,7 +1,6 @@
 package service.provider;
 
 import client.Messenger;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 
@@ -15,6 +14,9 @@ import java.net.Socket;
  */
 public class ClientProvider implements IServiceProvider {
 
+    private Thread connectThread;
+    private Thread listenThread;
+
     private Socket _socketConnection;
     private ObjectInputStream _incomingObj;
     private ObjectOutputStream _outgoingObj;
@@ -23,15 +25,20 @@ public class ClientProvider implements IServiceProvider {
     private int _port;
 
     @Override
-    public void startListening(String endPoint, final IMessageReceiver messageReceiver) {
+    public void startListening(String endPoint, IMessageReceiver messageReceiver) {
         try {
-            ExtractConnection(endPoint);
+            extractConnection(endPoint);
             _socketConnection = new Socket(_ip, _port);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Thread connectThread = new Thread(new Runnable() {
+        establishConnection(messageReceiver);
+        connectThread.start();
+    }
+
+    private void establishConnection(final IMessageReceiver messageReceiver) {
+        connectThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -40,18 +47,21 @@ public class ClientProvider implements IServiceProvider {
 
                     messageReceiver.onMessage(_incomingObj.readObject().toString());
                     sendMessage(Messenger.nameField.getText(), null);
+
+                    awaitMessage(messageReceiver);
+                    listenThread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }, "Client Connect Thread");
-        connectThread.start();
+    }
 
-        Thread listenThread = new Thread(new Runnable() {
+    private void awaitMessage(final IMessageReceiver messageReceiver){
+        listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-
                     // Init message variable and while loop
                     String message;
                     while(((message = (String)_incomingObj.readObject()) != DISCONNECT)) {
@@ -64,10 +74,9 @@ public class ClientProvider implements IServiceProvider {
                 }
             }
         }, "Client Listen Thread");
-        listenThread.start();
     }
 
-    private void ExtractConnection(String endPoint) {
+    private void extractConnection(String endPoint) {
         _ip = endPoint.split(":")[0];
         _port = Integer.parseInt(endPoint.split(":")[1]);
     }
