@@ -36,7 +36,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     // constants
     public static int PORT = 12345;
 
-    private final static String MESSAGE_X = "Message system X";
+    private final static String MESSAGE_X = "Modern Message Client";
     private final static String CONNECT_BTN = "Connect";
     private final static String DISCONNECT_BTN = "Disconnect";
     private final static String PORT_TEXT = "Port:";
