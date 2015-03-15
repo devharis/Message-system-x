@@ -172,6 +172,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                     _outgoingObj = new ObjectOutputStream(_socketConnection.getOutputStream());
                     _incomingObj = new ObjectInputStream(_socketConnection.getInputStream());
 
+                    try {
+                        System.out.println(_incomingObj.readObject().toString());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     _outgoingObj.writeObject("Haris");
 
                 } catch (IOException e) {

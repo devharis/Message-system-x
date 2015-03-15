@@ -96,7 +96,7 @@ public class ActiveMQProvider implements IServiceProvider {
                                 new ObjectInputStream(acceptSocket.getInputStream()),
                                 new ObjectOutputStream(acceptSocket.getOutputStream()));
 
-                        client.getOOS().writeObject("Connected.");
+                        client.getOOS().writeObject("Client Connected!");
                         client.getOOS().flush();
 
                         // Get username from client and set it
