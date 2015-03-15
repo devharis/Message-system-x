@@ -70,7 +70,7 @@ public class ClientProvider implements IServiceProvider {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                }
+            }
         }, "Client Connect Thread");
     }
 
@@ -81,13 +81,9 @@ public class ClientProvider implements IServiceProvider {
                 try {
                     // Init message variable and while loop
                     Message message;
-                    while(((message = (Message)_incomingObj.readObject()).getMessageType().equals(MessageType.COMMAND))) {
+                    while(!((message = (Message)_incomingObj.readObject()).getMessageType().equals(MessageType.COMMAND))) {
                         // Display on client UI
-                        messageReceiver.onMessage(new Message(
-                                message.getName(),
-                                message.getMessage(),
-                                message.getEndPoint(),
-                                message.getMessageType()));
+                        messageReceiver.onMessage(message);
                     }
 
                 } catch(Exception ex) {

@@ -59,7 +59,7 @@ public class MessengerManager extends JFrame implements ActionListener {
     // Constructor
     public MessengerManager() throws IOException {
         this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpServer));
-        playAudio();
+        //playAudio();
         setTitle(MESSAGE_X);
         setSize(430, 540);
         setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());

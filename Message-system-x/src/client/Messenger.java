@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 /**
@@ -182,10 +184,15 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             _serviceProvider.startListening(connectionString, new IMessageReceiver() {
                 @Override
                 public void onMessage(Message message) {
+
+                    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
                     if(message.getMessageType().equals(MessageType.SINGLE)) {
                         endPoint = message.getEndPoint();
+                        chatArea.append(String.format("[%s] %s", dateFormat.format(message.getTime()), message.getMessage()));
+                    } else {
+                        chatArea.append(String.format("[%s] %s: %s", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
                     }
-                    chatArea.append(message.getMessage());
                 }
             });
         } catch (Exception e) {

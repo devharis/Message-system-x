@@ -37,8 +37,6 @@ public class ServerProvider implements IServiceProvider {
     // Broadcast identifier
     private final static String BROADCAST = "255.255.255.255";
 
-    private String _ipAdress;
-
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
         try {
@@ -107,7 +105,6 @@ public class ServerProvider implements IServiceProvider {
 
                     // Init the server socket
                     serverSocket = new ServerSocket(port);
-                    _ipAdress = serverSocket.getInetAddress().getHostAddress();
                     while(accepting) {
 
                         messageReceiver.onMessage(new Message("Server", "Server is listening...", "127.0.0.1", MessageType.INTERNAL));
@@ -180,12 +177,10 @@ public class ServerProvider implements IServiceProvider {
 
                     // Init message variable and while loop
                     Message message;
-                    while(!(message = (Message)client.getOIS().readObject()).getMessageType().equals(MessageType.COMMAND)
+                    while(!((message = (Message)client.getOIS().readObject()).getMessageType().equals(MessageType.COMMAND))
                             && client.active) {
 
-                        sendMessage(new Message(
-                                message.getName(), message.getMessage(), message.getEndPoint(), MessageType.BROADCAST),
-                                BROADCAST);
+                        sendMessage(message, BROADCAST);
 
                         // Display on server UI
                         messageReceiver.onMessage(new Message(
@@ -260,9 +255,5 @@ public class ServerProvider implements IServiceProvider {
             }
         }
         return false;
-    }
-
-    public String getIpAdress() {
-        return _ipAdress;
     }
 }
