@@ -39,7 +39,7 @@ public class ClientProvider implements IServiceProvider {
                     _incomingObj = new ObjectInputStream(_socketConnection.getInputStream());
 
                     messageReceiver.onMessage(_incomingObj.readObject().toString());
-                    sendMessage(null, Messenger.nameField.getText());
+                    sendMessage(Messenger.nameField.getText(), null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -55,7 +55,7 @@ public class ClientProvider implements IServiceProvider {
                     // Init message variable and while loop
                     String message;
                     while(((message = (String)_incomingObj.readObject()) != DISCONNECT)) {
-                        // Display on server UI
+                        // Display on client UI
                         messageReceiver.onMessage(message);
                     }
 
@@ -85,7 +85,7 @@ public class ClientProvider implements IServiceProvider {
     @Override
     public void sendMessage(String msgText, String destinationEndPoint) {
         try {
-            _outgoingObj.writeObject(String.format("%s \n", msgText));
+            _outgoingObj.writeObject(msgText);
             _outgoingObj.flush();
         } catch (Exception e) {
             e.printStackTrace();

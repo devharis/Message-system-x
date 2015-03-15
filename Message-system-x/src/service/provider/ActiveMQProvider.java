@@ -99,7 +99,7 @@ public class ActiveMQProvider implements IServiceProvider {
                         // Client connected
                         final Client client = new Client(acceptSocket.getInetAddress().toString(), oos, ois);
 
-                        client.getOOS().writeObject("Client Connected!");
+                        client.getOOS().writeObject("Client Connected! \n");
                         client.getOOS().flush();
 
                         // Get username from client and set it
@@ -140,11 +140,11 @@ public class ActiveMQProvider implements IServiceProvider {
                                         while(((message = (String)client.getOIS().readObject()) != DISCONNECT)
                                                 && client.active) {
 
-                                            sendMessage(String.format("%s: %s", client.getUserName(), message), BROADCAST);
+                                            sendMessage(String.format("%s: %s \n", client.getUserName(), message), BROADCAST);
 
                                             // Display on server UI
                                             messageReceiver.onMessage(
-                                                    String.format("%s said: %s", client.getUserName(), message)
+                                                    String.format("%s said: %s \n", client.getUserName(), message)
                                             );
                                         }
 

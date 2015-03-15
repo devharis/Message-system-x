@@ -177,7 +177,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public void onDisconnect(){
         System.out.println("onDisconnect");
         _serviceProvider.stopListening();
-        _serviceProvider = null;
         connected = false;
     }
 
