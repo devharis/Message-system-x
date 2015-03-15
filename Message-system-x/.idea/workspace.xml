@@ -113,7 +113,7 @@
       <file leaf-file-name="ActiveMQProvider.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="53" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.30375427" vertical-offset="1250" max-vertical-offset="3162">
+            <state line="101" column="48" selection-start="3057" selection-end="3057" vertical-scroll-proportion="0.5221843" vertical-offset="1173" max-vertical-offset="3196">
               <folding />
             </state>
           </provider>
@@ -535,12 +535,12 @@
       <updated>1426378320007</updated>
       <workItem from="1426378320697" duration="40000" />
       <workItem from="1426378396781" duration="139000" />
-      <workItem from="1426378584324" duration="3469000" />
+      <workItem from="1426378584324" duration="3662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3648000" />
+    <option name="totallyTimeSpent" value="3841000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
@@ -709,7 +709,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="53" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.30375427" vertical-offset="1250" max-vertical-offset="3162">
+        <state line="101" column="48" selection-start="3057" selection-end="3057" vertical-scroll-proportion="0.5221843" vertical-offset="1173" max-vertical-offset="3196">
           <folding />
         </state>
       </provider>
