@@ -42,8 +42,6 @@ public class Client {
     }
 
     // Methods and constructors
-
-    public Client() {}
     public Client(String endPoint, ObjectOutputStream oos, ObjectInputStream ois) {
         this.endPoint = endPoint;
         this.outputStream = oos;
