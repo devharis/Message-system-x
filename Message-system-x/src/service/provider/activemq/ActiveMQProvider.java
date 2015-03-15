@@ -96,6 +96,9 @@ public class ActiveMQProvider implements IServiceProvider {
                                 new ObjectInputStream(acceptSocket.getInputStream()),
                                 new ObjectOutputStream(acceptSocket.getOutputStream()));
 
+                        client.getOOS().writeObject("Connected.");
+                        client.getOOS().flush();
+
                         // Get username from client and set it
                         String userName = (String) client.getOIS().readObject();
 
@@ -121,8 +124,6 @@ public class ActiveMQProvider implements IServiceProvider {
                         } else {
 
                             // Client is accepted
-                            client.getOOS().writeObject("Connected.");
-                            client.getOOS().flush();
                             client.active = true;
 
                             // Init the receive thread for client
