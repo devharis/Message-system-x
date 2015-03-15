@@ -1,4 +1,4 @@
-package service.provider;
+package service.provider.tcp;
 
 import client.Messenger;
 import interfaces.IMessageReceiver;

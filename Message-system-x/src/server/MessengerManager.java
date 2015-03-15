@@ -3,13 +3,12 @@ package server;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Client;
-import service.provider.ActiveMQProvider;
+import service.provider.tcp.ServerProvider;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +45,7 @@ public class MessengerManager extends JFrame implements ActionListener {
 
     // Constructor
     public MessengerManager(){
-        this(new ActiveMQProvider());
+        this(new ServerProvider());
 
         setTitle(MESSAGE_X);
         setSize(430, 540);

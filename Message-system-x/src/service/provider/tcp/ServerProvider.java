@@ -1,4 +1,4 @@
-package service.provider;
+package service.provider.tcp;
 
 import client.Messenger;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by devHaris on 2015-03-11.
  */
-public class ActiveMQProvider implements IServiceProvider {
+public class ServerProvider implements IServiceProvider {
 
     // Just an holder for information regarding each client
 

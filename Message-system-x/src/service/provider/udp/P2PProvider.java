@@ -1,4 +1,4 @@
-package service.provider;
+package service.provider.udp;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
@@ -11,7 +11,7 @@ import java.net.InetAddress;
 /**
  * Created by Fawk on 2015-03-15.
  */
-public class TestProvider implements IServiceProvider {
+public class P2PProvider implements IServiceProvider {
 
     boolean listening = false;
 
