@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.io.IOException;
+
 /**
  * This interface should be implemented by the classes that are interested to provide communication mechanism between different services.
  * 
@@ -12,7 +14,7 @@ public interface IServiceProvider {
      * @param endPoint
      * @param messageReceiver
      */
-    public void startListening(String endPoint, IMessageReceiver messageReceiver);
+    public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception;
     
     /**
      * This method stops a service for listening to the incoming messages. 

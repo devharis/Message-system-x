@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -157,14 +158,21 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public void onConnect(){
         // Create a connection string from ip and port
         String connectionString = String.format("%s:%s", ipField.getText(), portField.getText());
-        _serviceProvider.startListening(connectionString, new IMessageReceiver() {
-            @Override
-            public void onMessage(String message) {
-                chatArea.append(message);
-                connected = true;
-                nameField.setEditable(false);
-            }
-        });
+        try {
+            _serviceProvider.startListening(connectionString, new IMessageReceiver() {
+                @Override
+                public void onMessage(String message) {
+                    chatArea.append(message);
+                    connected = true;
+                    nameField.setEditable(false);
+                }
+            });
+        } catch (Exception e) {
+            connected = false;
+            toggleUI();
+
+            return;
+        }
 
         // Fake populate userlist
         userPane.setSize(90, userScroll.getHeight());
@@ -176,6 +184,22 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         userPane.add(button1);
 
         userPane.updateUI();
+    }
+
+    private void toggleUI() {
+        if(connected){
+            nameField.setEnabled(false);
+            portField.setEnabled(false);
+            ipField.setEnabled(false);
+            connectBtn.setEnabled(false);
+            disconnectBtn.setEnabled(true);
+        }else if (!connected){
+            nameField.setEnabled(true);
+            portField.setEnabled(true);
+            ipField.setEnabled(true);
+            connectBtn.setEnabled(true);
+            disconnectBtn.setEnabled(false);
+        }
     }
 
     public void onDisconnect(){
@@ -215,16 +239,18 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(nameField.getText().trim().isEmpty() || connected)
-            connectBtn.setEnabled(false);
-        else if(!nameField.getText().isEmpty() || !connected)
-            connectBtn.setEnabled(true);
-
-        if(e.getKeyChar() == KeyEvent.VK_ENTER && connected){
-            // Send message
-            onSendMessage(null, messageField.getText());
-            // Clear message field
-            messageField.setText("");
+        switch (e.getKeyChar()){
+            case KeyEvent.VK_ENTER:
+                // Send message
+                onSendMessage(null, messageField.getText());
+                // Clear message field
+                messageField.setText("");
+                break;
+            default:
+                if(nameField.getText().trim().isEmpty() || connected)
+                    connectBtn.setEnabled(false);
+                else if(!nameField.getText().trim().isEmpty() || !connected)
+                    connectBtn.setEnabled(true);
         }
     }
 

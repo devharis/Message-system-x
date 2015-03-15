@@ -21,28 +21,29 @@ public class ClientProvider implements IServiceProvider {
     private ObjectInputStream _incomingObj;
     private ObjectOutputStream _outgoingObj;
     private final static String DISCONNECT = "/disconnect";
+    private final static String CONNECT_FAIL = "Could not connect to server \n";
     private String _ip;
     private int _port;
     private boolean connected = false;
 
     @Override
-    public void startListening(String endPoint, IMessageReceiver messageReceiver) {
+    public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception {
         try {
             extractConnection(endPoint);
             _socketConnection = new Socket(_ip, _port);
         } catch (IOException e) {
 
             // Server is offline
-            messageReceiver.onMessage("Could not connect to server");
-
-            e.printStackTrace();
+            messageReceiver.onMessage(CONNECT_FAIL);
+            throw new Exception(e);
         }
 
         establishConnection(messageReceiver);
+
         connectThread.start();
     }
 
-    private void establishConnection(final IMessageReceiver messageReceiver) {
+    private void establishConnection(final IMessageReceiver messageReceiver){
         connectThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -58,7 +59,7 @@ public class ClientProvider implements IServiceProvider {
                     awaitMessage(messageReceiver);
                     listenThread.start();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }, "Client Connect Thread");
@@ -77,7 +78,7 @@ public class ClientProvider implements IServiceProvider {
                     }
 
                 } catch(Exception ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
             }
         }, "Client Listen Thread");

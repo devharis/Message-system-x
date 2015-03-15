@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -128,12 +129,16 @@ public class MessengerManager extends JFrame implements ActionListener {
     }
 
     private void startListening(){
-        _serviceProvider.startListening(portField.getText(), new IMessageReceiver() {
-            @Override
-            public void onMessage(String message) {
-                chatArea.append(message);
-            }
-        });
+        try {
+            _serviceProvider.startListening(portField.getText(), new IMessageReceiver() {
+                @Override
+                public void onMessage(String message) {
+                    chatArea.append(message);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void stopListening(){

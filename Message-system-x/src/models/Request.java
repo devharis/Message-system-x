@@ -13,6 +13,18 @@ public class Request extends AbstractMessage {
     public String opName;
     public Parameter params[];
 
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public Parameter[] getParams() {
+        return params;
+    }
+
     @Override
     public int id() {
         return 0;
