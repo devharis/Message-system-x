@@ -56,6 +56,7 @@ public class ClientProvider implements IServiceProvider {
                     connected = true;
 
                     awaitMessage(messageReceiver);
+                    listenThread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
