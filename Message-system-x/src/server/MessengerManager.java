@@ -1,8 +1,10 @@
 package server;
 
+import factories.ServiceProviderFactory;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Client;
+import models.ProviderType;
 import service.provider.tcp.ServerProvider;
 
 import javax.swing.*;
@@ -45,7 +47,7 @@ public class MessengerManager extends JFrame implements ActionListener {
 
     // Constructor
     public MessengerManager(){
-        this(new ServerProvider());
+        this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpServer));
 
         setTitle(MESSAGE_X);
         setSize(430, 540);

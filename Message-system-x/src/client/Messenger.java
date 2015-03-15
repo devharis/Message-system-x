@@ -1,8 +1,9 @@
 package client;
 
+import factories.ServiceProviderFactory;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import service.provider.tcp.ClientProvider;
+import models.ProviderType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -52,9 +56,17 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     // Constructor
     public Messenger(){
-        this(new ClientProvider());
+        this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpClient));
 
-        Configuration config = new Configuration();
+        Properties properties = new Properties();
+        try {
+            InputStream is = Messenger.class.getResourceAsStream("/messengerBundle.properties");
+            properties.load(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String name = (String)properties.get("name");
 
         setTitle(MESSAGE_X);
         setSize(430, 540);

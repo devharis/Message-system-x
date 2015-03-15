@@ -2,6 +2,7 @@ package client;
 
 import java.io.*;
 import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -11,32 +12,13 @@ import java.util.Scanner;
 public class Configuration {
 
     private final static int PROPERTY_LIMIT = 10;
-    private final static String SAFE_CALLEE = "client.Configuration<init>";
     private final static String BUNDLE_FULL_NAME = "messengerBundle.properties";
     public final static String BUNDLE_NAME = "messengerBundle";
 
     private Thread writeThread;
     private PrintWriter pr;
-    private ResourceBundle rb;
 
-    public Configuration() {
-        try {
-
-            rb = ResourceBundle.getBundle(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
-
-        } catch(MissingResourceException ex) {
-            ex.printStackTrace();
-            // Resource is missing, creating...
-            put(null, null);
-        }
-    }
-
-    public String get(String key) {
-        if(rb != null) {
-            return rb.getString(key);
-        }
-        return null;
-    }
+    public Configuration() {}
 
     public void put(final String key, final Object value) {
 
@@ -50,24 +32,15 @@ public class Configuration {
             @Override
             public void run() {
 
-                if(key == null || value == null) {
-
-                    try {
-                        // Is the call safe? Only accepting call from Configuration constructor.
-                        if (SAFE_CALLEE.equals(callee)) {
-                            // Create the file and set ResourceBundle
-                            File f = new File(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
-                            f.createNewFile();
-                            pr = new PrintWriter(new FileOutputStream(f, true));
-                            rb = ResourceBundle.getBundle(Messenger.RESOURCE_FOLDER + BUNDLE_NAME);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                Properties properties = new Properties();
+                try {
+                    properties.load(Configuration.class.getResourceAsStream("/" + BUNDLE_FULL_NAME));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
                 // Check if key exists
-                if(!rb.containsKey(key)) {
+                if(!properties.containsKey(key)) {
                     pr.println(String.format("%s=%s", key, value));
                 } else {
 

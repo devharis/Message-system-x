@@ -32,8 +32,6 @@ public class ClientProvider implements IServiceProvider {
     @Override
     public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception {
         try {
-            ResourceBundle messengerBundle = ResourceBundle.getBundle(Messenger.RESOURCE_FOLDER + Configuration.BUNDLE_NAME);
-            messengerBundle.getString("name");
             extractConnection(endPoint);
             _socketConnection = new Socket(_ip, _port);
         } catch (IOException e) {
