@@ -1,6 +1,6 @@
 package interfaces;
 
-import java.io.IOException;
+import models.Message;
 
 /**
  * This interface should be implemented by the classes that are interested to provide communication mechanism between different services.
@@ -23,8 +23,8 @@ public interface IServiceProvider {
     
     /**
      * With this method, a tcp can send a message to the other tcp.
-     * @param msgText
+     * @param message
      * @param destinationEndPoint
      */
-    public void sendMessage(String msgText, String destinationEndPoint);
+    public void sendMessage(Message message, String destinationEndPoint);
 }

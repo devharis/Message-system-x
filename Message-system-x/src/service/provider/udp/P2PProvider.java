@@ -2,6 +2,8 @@ package service.provider.udp;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
+import models.Message;
+import models.MessageType;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -70,7 +72,11 @@ public class P2PProvider implements IServiceProvider {
                         /* DEBUG INFO */
                         System.out.println(String.format("Received message: %s", message));
 
-                        messageReceiver.onMessage(message);
+                        messageReceiver.onMessage(new Message(
+                                null,
+                                message,
+                                receiveSocket.getInetAddress().getHostAddress(),
+                                MessageType.SINGLE));
                     }
 
                     /* DEBUG INFO */
@@ -91,11 +97,15 @@ public class P2PProvider implements IServiceProvider {
     @Override
     public void stopListening() throws Exception {
         listening = false;
-        sendMessage(STOP_LISTENING, listenEndPoint);
+        sendMessage(new Message(
+                null,
+                STOP_LISTENING,
+                receiveSocket.getInetAddress().getHostAddress(),
+                MessageType.SINGLE) ,listenEndPoint);
     }
 
     @Override
-    public void sendMessage(final String msgText, final String destinationEndPoint) {
+    public void sendMessage(final Message message, final String destinationEndPoint) {
 
         sendEndPoint = destinationEndPoint;
         String[] ad = extractConnection(destinationEndPoint);
@@ -111,7 +121,7 @@ public class P2PProvider implements IServiceProvider {
                     // Bind the socket to the destinationEndPoint and port
                     sendSocket = new DatagramSocket();
                     // Init the send buffer
-                    byte[] sendBuffer = msgText.getBytes();
+                    byte[] sendBuffer = message.getMessage().getBytes();
                     // Init the receive buffer
                     DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length,
                             InetAddress.getByName(sendIp), sendPort);

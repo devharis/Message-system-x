@@ -1,24 +1,31 @@
 package models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
  * Created by devHaris on 2015-03-14.
  */
-public class Message {
+public class Message implements Serializable {
 
     private String _name;
     private String _message;
+    private String _endPoint;
+    private MessageType _messageType;
     private Timestamp _time;
 
-    public Message(String name, String message){
+    private static final long serialVersionUID = 1L;
+
+    public Message(String name, String message, String endPoint, MessageType messageType){
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
 
         _name = name;
         _message = message;
         _time = new java.sql.Timestamp(now.getTime());
+        _endPoint = endPoint;
+        _messageType = messageType;
     }
 
     public String getName() {
@@ -31,5 +38,13 @@ public class Message {
 
     public Timestamp getTime() {
         return _time;
+    }
+
+    public MessageType getMessageType() {
+        return _messageType;
+    }
+
+    public String getEndPoint() {
+        return _endPoint;
     }
 }

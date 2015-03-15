@@ -1,5 +1,7 @@
 package interfaces;
 
+import models.Message;
+
 /**
  * This interface enables a tcp to listen for messages from tcp provider.
  * 
@@ -11,5 +13,5 @@ public interface IMessageReceiver {
      * The tcp provider will notify incoming messages through this method.
      * @param message
      */
-    public void onMessage(String message);
+    public void onMessage(Message message);
 }

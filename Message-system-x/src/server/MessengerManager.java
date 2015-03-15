@@ -4,6 +4,7 @@ import factories.ServiceProviderFactory;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Client;
+import models.Message;
 import models.ProviderType;
 import service.provider.tcp.ServerProvider;
 
@@ -11,7 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by devHaris on 2015-03-14.
@@ -131,12 +135,20 @@ public class MessengerManager extends JFrame implements ActionListener {
         chatContainer.add(chatScroll);
     }
 
-    private void startListening(){
+    private void startListening() {
         try {
             _serviceProvider.startListening(portField.getText(), new IMessageReceiver() {
                 @Override
-                public void onMessage(String message) {
-                    chatArea.append(message);
+                public void onMessage(Message message) {
+
+                    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+                    chatArea.append(String.format("[%s][%s][%s] %s: %s \n",
+                            message.getEndPoint(),
+                            message.getMessageType().toString(),
+                            dateFormat.format(message.getTime()),
+                            message.getName(),
+                            message.getMessage()));
                 }
             });
             running = true;

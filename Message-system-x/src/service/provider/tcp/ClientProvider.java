@@ -4,6 +4,8 @@ import client.Configuration;
 import client.Messenger;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
+import models.Message;
+import models.MessageType;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class ClientProvider implements IServiceProvider {
         } catch (IOException e) {
 
             // Server is offline
-            messageReceiver.onMessage(CONNECT_FAIL);
+            messageReceiver.onMessage(new Message(null, CONNECT_FAIL, null, MessageType.INTERNAL));
             throw new Exception(e);
         }
 
@@ -54,8 +56,12 @@ public class ClientProvider implements IServiceProvider {
                     _outgoingObj = new ObjectOutputStream(_socketConnection.getOutputStream());
                     _incomingObj = new ObjectInputStream(_socketConnection.getInputStream());
 
-                    messageReceiver.onMessage(_incomingObj.readObject().toString());
-                    sendMessage(Messenger.nameField.getText(), null);
+                    messageReceiver.onMessage((Message)_incomingObj.readObject());
+                    sendMessage(new Message(
+                            Messenger.nameField.getText(),
+                            Messenger.nameField.getText(),
+                            _socketConnection.getInetAddress().getHostAddress(),
+                            MessageType.SINGLE), null);
 
                     connected = true;
 
@@ -64,7 +70,7 @@ public class ClientProvider implements IServiceProvider {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
+                }
         }, "Client Connect Thread");
     }
 
@@ -74,10 +80,14 @@ public class ClientProvider implements IServiceProvider {
             public void run() {
                 try {
                     // Init message variable and while loop
-                    String message;
-                    while(((message = (String)_incomingObj.readObject()) != DISCONNECT)) {
+                    Message message;
+                    while(((message = (Message)_incomingObj.readObject()).getMessageType().equals(MessageType.COMMAND))) {
                         // Display on client UI
-                        messageReceiver.onMessage(message);
+                        messageReceiver.onMessage(new Message(
+                                message.getName(),
+                                message.getMessage(),
+                                message.getEndPoint(),
+                                message.getMessageType()));
                     }
 
                 } catch(Exception ex) {
@@ -96,7 +106,11 @@ public class ClientProvider implements IServiceProvider {
     public void stopListening() {
         try {
             if (connected) {
-                sendMessage(DISCONNECT, null);
+                sendMessage(new Message(
+                        Messenger.nameField.getText(),
+                        DISCONNECT,
+                        _socketConnection.getInetAddress().getHostAddress(),
+                        MessageType.COMMAND), null);
                 _incomingObj.close();
                 _outgoingObj.close();
             }
@@ -108,9 +122,9 @@ public class ClientProvider implements IServiceProvider {
     }
 
     @Override
-    public void sendMessage(String msgText, String destinationEndPoint) {
+    public void sendMessage(Message message, String destinationEndPoint) {
         try {
-            _outgoingObj.writeObject(msgText);
+            _outgoingObj.writeObject(message);
             _outgoingObj.flush();
         } catch (Exception e) {
             e.printStackTrace();

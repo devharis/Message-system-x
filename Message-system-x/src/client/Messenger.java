@@ -3,6 +3,8 @@ package client;
 import factories.ServiceProviderFactory;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
+import models.Message;
+import models.MessageType;
 import models.ProviderType;
 
 import javax.swing.*;
@@ -13,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.Properties;
 
 /**
@@ -24,6 +28,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     // variables
     public boolean connected;
     private IServiceProvider _serviceProvider;
+    private String endPoint;
 
     // UI variables
     private JButton connectBtn;
@@ -176,8 +181,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             toggleUI();
             _serviceProvider.startListening(connectionString, new IMessageReceiver() {
                 @Override
-                public void onMessage(String message) {
-                    chatArea.append(message);
+                public void onMessage(Message message) {
+                    if(message.getMessageType().equals(MessageType.SINGLE)) {
+                        endPoint = message.getEndPoint();
+                    }
+                    chatArea.append(message.getMessage());
                 }
             });
         } catch (Exception e) {
@@ -227,7 +235,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     }
 
-    public void onSendMessage(String endPoint, String message) {
+    public void onSendMessage(Message message, String endPoint) {
         _serviceProvider.sendMessage(message, endPoint);
     }
 
@@ -254,7 +262,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         switch (e.getKeyChar()){
             case KeyEvent.VK_ENTER:
                 // Send message
-                onSendMessage(null, messageField.getText());
+                onSendMessage(new Message(
+                        nameField.getText(),
+                        messageField.getText(),
+                        endPoint,
+                        MessageType.BROADCAST), null);
                 // Clear message field
                 messageField.setText("");
                 break;

@@ -4,7 +4,7 @@ import client.Messenger;
 
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import models.Client;
+import models.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class ServerProvider implements IServiceProvider {
 
         // CLEAN UP
         accepting = false;
-        sendMessage("Server has disconnected \n", BROADCAST);
+        sendMessage(new Message(null, "Server has disconnected \n", null, MessageType.BROADCAST), BROADCAST);
 
         try {
             // Close server socket
@@ -81,9 +81,9 @@ public class ServerProvider implements IServiceProvider {
     }
 
     @Override
-    public void sendMessage(final String msgText, final String destinationEndPoint) {
+    public void sendMessage(final Message message, final String destinationEndPoint) {
 
-        sendMessageEx(msgText, destinationEndPoint);
+        sendMessageEx(message, destinationEndPoint);
     }
 
     public void setupServer(final int port, final IMessageReceiver messageReceiver) {
@@ -110,7 +110,7 @@ public class ServerProvider implements IServiceProvider {
                     _ipAdress = serverSocket.getInetAddress().getHostAddress();
                     while(accepting) {
 
-                        messageReceiver.onMessage("Server is listening intimately... \n");
+                        messageReceiver.onMessage(new Message("Server", "Server is listening...", "127.0.0.1", MessageType.INTERNAL));
 
                         // Try to accept a client
                         acceptSocket = serverSocket.accept();
@@ -120,18 +120,20 @@ public class ServerProvider implements IServiceProvider {
                         ObjectInputStream ois = new ObjectInputStream(acceptSocket.getInputStream());
 
                         // Client connected
-                        final Client client = new Client(acceptSocket.getInetAddress().toString(), oos, ois);
+                        final Client client = new Client(acceptSocket.getInetAddress().getHostAddress(), oos, ois);
 
-                        client.getOOS().writeObject("Client Connected! \n");
+                        client.getOOS().writeObject(new Message(null, "Client Connected! \n",
+                                acceptSocket.getInetAddress().getHostAddress(), MessageType.SINGLE));
                         client.getOOS().flush();
 
                         // Get username from client and set it
-                        String userName = (String) client.getOIS().readObject();
+                        Message message = (Message) client.getOIS().readObject();
 
-                        client.setUserName(userName);
+                        client.setUserName(message.getName());
                         // Display on server UI
-                        messageReceiver.onMessage(String.format("User: %s connected with ip: %s \n",
-                                client.getUserName(), client.getEndPoint()));
+                        messageReceiver.onMessage(new Message(message.getName(),
+                                String.format("User: %s connected with ip: %s \n", client.getUserName(), client.getEndPoint()),
+                                acceptSocket.getInetAddress().getHostAddress(), MessageType.INTERNAL));
 
                         // Check if client limit has been reached
                         if(clients.size() == MAX_CLIENTS) {
@@ -177,20 +179,27 @@ public class ServerProvider implements IServiceProvider {
                 try {
 
                     // Init message variable and while loop
-                    String message;
-                    while((!(message = (String)client.getOIS().readObject()).equals(DISCONNECT))
+                    Message message;
+                    while(!(message = (Message)client.getOIS().readObject()).getMessageType().equals(MessageType.COMMAND)
                             && client.active) {
 
-                        sendMessage(String.format("%s: %s \n", client.getUserName(), message), BROADCAST);
+                        sendMessage(new Message(
+                                message.getName(), message.getMessage(), message.getEndPoint(), MessageType.BROADCAST),
+                                BROADCAST);
 
                         // Display on server UI
-                        messageReceiver.onMessage(
-                                String.format("%s said: %s \n", client.getUserName(), message)
-                        );
+                        messageReceiver.onMessage(new Message(
+                                message.getName(),
+                                String.format("%s said: %s \n", message.getName(), message.getMessage()),
+                                message.getEndPoint(),
+                                MessageType.INTERNAL));
                     }
 
                     // Client disconnect was called
-                    sendMessage(String.format("%s disconnected \n", client.getUserName()), BROADCAST);
+                    sendMessage(new Message(message.getName(),
+                            String.format("%s disconnected \n", message.getName()),
+                            message.getEndPoint(),
+                            MessageType.BROADCAST), BROADCAST);
 
                     try {
 
@@ -204,7 +213,11 @@ public class ServerProvider implements IServiceProvider {
                         clients.remove(client);
 
                         // Display on server UI
-                        messageReceiver.onMessage(String.format("%s disconnected \n", client.getUserName()));
+                        messageReceiver.onMessage(new Message(
+                                message.getName(),
+                                String.format("%s disconnected \n", message.getName()),
+                                message.getEndPoint(),
+                                MessageType.INTERNAL));
                     }
 
                 } catch(Exception ex) {
@@ -218,7 +231,7 @@ public class ServerProvider implements IServiceProvider {
         receiveThread.start();
     }
 
-    private void sendMessageEx(String message, String endPoint) {
+    private void sendMessageEx(Message message, String endPoint) {
         try {
             if(endPoint.equals(BROADCAST)) {
                 for (Client c : clients) {
