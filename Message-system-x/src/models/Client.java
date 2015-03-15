@@ -1,5 +1,7 @@
 package models;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -8,19 +10,44 @@ import java.util.Calendar;
  */
 public class Client {
 
-    private String _name;
-    private String _ip;
+    // Variables
 
-    public Client(String name, String ip){
-        _name = name;
-        _ip = ip;
+    private String endPoint;
+    private String userName;
+    public boolean active;
+
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+
+    // Properties
+
+    public String getEndPoint() {
+        return endPoint;
     }
 
-    public String getName() {
-        return _name;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getIp() {
-        return _ip;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public ObjectInputStream getOIS() {
+        return inputStream;
+    }
+
+    public ObjectOutputStream getOOS() {
+        return outputStream;
+    }
+
+    // Methods and constructors
+
+    public Client() {}
+    public Client(String endPoint, ObjectInputStream ois, ObjectOutputStream oos) {
+
+        this.endPoint = endPoint;
+        this.inputStream = ois;
+        this.outputStream = oos;
     }
 }
