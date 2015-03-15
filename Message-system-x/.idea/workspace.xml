@@ -102,14 +102,14 @@
       <file leaf-file-name="ActiveMQProvider.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.91611844" vertical-offset="718" max-vertical-offset="3264">
-              <caret line="86" column="38" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.6365132" vertical-offset="871" max-vertical-offset="3298">
+              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
               <folding>
                 <element signature="e#738#746#0" expanded="true" />
-                <element signature="e#2057#5670#0" expanded="true" />
-                <element signature="e#4232#5393#0" expanded="true" />
-                <element signature="e#5392#5393#0" expanded="true" />
-                <element signature="e#5669#5670#0" expanded="true" />
+                <element signature="e#2057#5759#0" expanded="true" />
+                <element signature="e#4321#5482#0" expanded="true" />
+                <element signature="e#5481#5482#0" expanded="true" />
+                <element signature="e#5758#5759#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -749,12 +749,12 @@
       <workItem from="1426355675110" duration="1349000" />
       <workItem from="1426357702210" duration="104000" />
       <workItem from="1426357906307" duration="15911000" />
-      <workItem from="1426376189214" duration="1301000" />
+      <workItem from="1426376189214" duration="1532000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38482000" />
+    <option name="totallyTimeSpent" value="38713000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -859,10 +859,10 @@
           <caret line="48" column="34" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#738#746#0" expanded="true" />
-            <element signature="e#2057#5670#0" expanded="true" />
-            <element signature="e#4232#5393#0" expanded="true" />
-            <element signature="e#5392#5393#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#2057#5759#0" expanded="true" />
+            <element signature="e#4321#5482#0" expanded="true" />
+            <element signature="e#5481#5482#0" expanded="true" />
+            <element signature="e#5758#5759#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -911,10 +911,10 @@
           <caret line="48" column="34" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#738#746#0" expanded="true" />
-            <element signature="e#2057#5670#0" expanded="true" />
-            <element signature="e#4232#5393#0" expanded="true" />
-            <element signature="e#5392#5393#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#2057#5759#0" expanded="true" />
+            <element signature="e#4321#5482#0" expanded="true" />
+            <element signature="e#5481#5482#0" expanded="true" />
+            <element signature="e#5758#5759#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -995,10 +995,10 @@
           <caret line="22" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#738#746#0" expanded="true" />
-            <element signature="e#2057#5670#0" expanded="true" />
-            <element signature="e#4232#5393#0" expanded="true" />
-            <element signature="e#5392#5393#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#2057#5759#0" expanded="true" />
+            <element signature="e#4321#5482#0" expanded="true" />
+            <element signature="e#5481#5482#0" expanded="true" />
+            <element signature="e#5758#5759#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1031,10 +1031,10 @@
           <caret line="12" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#738#746#0" expanded="true" />
-            <element signature="e#2057#5670#0" expanded="true" />
-            <element signature="e#4232#5393#0" expanded="true" />
-            <element signature="e#5392#5393#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#2057#5759#0" expanded="true" />
+            <element signature="e#4321#5482#0" expanded="true" />
+            <element signature="e#5481#5482#0" expanded="true" />
+            <element signature="e#5758#5759#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1147,14 +1147,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/service/provider/activemq/ActiveMQProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.91611844" vertical-offset="718" max-vertical-offset="3264">
-          <caret line="86" column="38" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.6365132" vertical-offset="871" max-vertical-offset="3298">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding>
             <element signature="e#738#746#0" expanded="true" />
-            <element signature="e#2057#5670#0" expanded="true" />
-            <element signature="e#4232#5393#0" expanded="true" />
-            <element signature="e#5392#5393#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#2057#5759#0" expanded="true" />
+            <element signature="e#4321#5482#0" expanded="true" />
+            <element signature="e#5481#5482#0" expanded="true" />
+            <element signature="e#5758#5759#0" expanded="true" />
           </folding>
         </state>
       </provider>

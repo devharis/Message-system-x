@@ -86,6 +86,8 @@ public class ActiveMQProvider implements IServiceProvider {
 
                     while(accepting) {
 
+                        messageReceiver.onMessage("Server is listening intimately...");
+
                         // Try to accept a client
                         acceptSocket = serverSocket.accept();
 
