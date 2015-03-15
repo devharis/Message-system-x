@@ -91,10 +91,12 @@ public class ActiveMQProvider implements IServiceProvider {
                         // Try to accept a client
                         acceptSocket = serverSocket.accept();
 
+                        // Init object streams
+                        ObjectOutputStream oos = new ObjectOutputStream(acceptSocket.getOutputStream());
+                        ObjectInputStream ois = new ObjectInputStream(acceptSocket.getInputStream());
+
                         // Client connected
-                        final Client client = new Client(acceptSocket.getInetAddress().toString(),
-                                new ObjectInputStream(acceptSocket.getInputStream()),
-                                new ObjectOutputStream(acceptSocket.getOutputStream()));
+                        final Client client = new Client(acceptSocket.getInetAddress().toString(), oos, ois);
 
                         client.getOOS().writeObject("Connected.");
                         client.getOOS().flush();
