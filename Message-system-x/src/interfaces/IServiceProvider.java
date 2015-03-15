@@ -19,7 +19,7 @@ public interface IServiceProvider {
     /**
      * This method stops a service for listening to the incoming messages. 
      */
-    public void stopListening();
+    public void stopListening() throws Exception;
     
     /**
      * With this method, a service can send a message to the other service.

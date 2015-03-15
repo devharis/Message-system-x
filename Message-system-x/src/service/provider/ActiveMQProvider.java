@@ -39,8 +39,12 @@ public class ActiveMQProvider implements IServiceProvider {
 
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
-        int port = Integer.parseInt(endPoint);
-        SetupServer(port, messageReceiver);
+        try {
+            int port = Integer.parseInt(endPoint);
+            SetupServer(port, messageReceiver);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -48,22 +52,29 @@ public class ActiveMQProvider implements IServiceProvider {
 
         // CLEAN UP
         accepting = false;
-        sendMessage("Server has disconnected", BROADCAST);
+        sendMessage("Server has disconnected \n", BROADCAST);
 
         try {
+            // Close server socket
             serverSocket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 
-        for(Client c : clients) {
-            try {
-                c.active = false;
-                c.getOOS().close();
-                c.getOIS().close();
-            } catch(Exception ex) {
-                // Silent
+        } catch (IOException ex) {
+
+            for(Client c : clients) {
+
+                try {
+
+                    // Close streams for every client
+                    c.active = false;
+                    c.getOOS().close();
+                    c.getOIS().close();
+
+                } catch(Exception e) {
+                    continue;
+                }
             }
+
+            throw new RuntimeException(ex);
         }
     }
 
@@ -75,7 +86,17 @@ public class ActiveMQProvider implements IServiceProvider {
 
     public void SetupServer(final int port, final IMessageReceiver messageReceiver) {
 
+        try {
+            beginAccepting(port, messageReceiver);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void beginAccepting(final int port, final IMessageReceiver messageReceiver) {
+
         accepting = true;
+
         acceptThread = new Thread(new Runnable() {
 
             @Override
@@ -125,66 +146,74 @@ public class ActiveMQProvider implements IServiceProvider {
 
                         } else {
 
-                            // Client is accepted
-                            client.active = true;
-
-                            // Init the receive thread for client
-                            Thread receiveThread = new Thread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    try {
-
-                                        // Init message variable and while loop
-                                        String message;
-                                        while((!(message = (String)client.getOIS().readObject()).equals(DISCONNECT))
-                                                && client.active) {
-
-                                            sendMessage(String.format("%s: %s \n", client.getUserName(), message), BROADCAST);
-
-                                            // Display on server UI
-                                            messageReceiver.onMessage(
-                                                    String.format("%s said: %s \n", client.getUserName(), message)
-                                            );
-                                        }
-
-                                        // Client disconnect was called
-                                        sendMessage(String.format("%s disconnected \n", client.getUserName()), BROADCAST);
-
-                                        try {
-
-                                            // Close client streams
-                                            client.getOIS().close();
-                                            client.getOOS().close();
-
-                                        } finally {
-
-                                            // Remove client from broadcast list
-                                            clients.remove(client);
-
-                                            // Display on server UI
-                                            messageReceiver.onMessage(String.format("%s disconnected \n", client.getUserName()));
-                                        }
-
-                                    } catch(Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-
-                            });
-
-                            clients.add(client);
-                            receiveThread.start();
+                            // Client is accepted, init listen thread for client
+                            initClientThread(client, messageReceiver);
                         }
                     }
 
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    // Socket was forced to close
+                } finally {
+                    stopListening();
                 }
             }
         });
 
         acceptThread.start();
+    }
+
+    private void initClientThread(final Client client, final IMessageReceiver messageReceiver) {
+
+        // Set client to active
+        client.active = true;
+
+        // Init the receive thread for client
+        Thread receiveThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+
+                    // Init message variable and while loop
+                    String message;
+                    while((!(message = (String)client.getOIS().readObject()).equals(DISCONNECT))
+                            && client.active) {
+
+                        sendMessage(String.format("%s: %s \n", client.getUserName(), message), BROADCAST);
+
+                        // Display on server UI
+                        messageReceiver.onMessage(
+                                String.format("%s said: %s \n", client.getUserName(), message)
+                        );
+                    }
+
+                    // Client disconnect was called
+                    sendMessage(String.format("%s disconnected \n", client.getUserName()), BROADCAST);
+
+                    try {
+
+                        // Close client streams
+                        client.getOIS().close();
+                        client.getOOS().close();
+
+                    } finally {
+
+                        // Remove client from broadcast list
+                        clients.remove(client);
+
+                        // Display on server UI
+                        messageReceiver.onMessage(String.format("%s disconnected \n", client.getUserName()));
+                    }
+
+                } catch(Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
+
+        clients.add(client);
+        receiveThread.start();
     }
 
     private void SendMessageEx(String message, String endPoint) {
@@ -204,7 +233,7 @@ public class ActiveMQProvider implements IServiceProvider {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
 
