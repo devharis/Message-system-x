@@ -137,7 +137,7 @@ public class ActiveMQProvider implements IServiceProvider {
 
                                         // Init message variable and while loop
                                         String message;
-                                        while(((message = (String)client.getOIS().readObject()) != DISCONNECT)
+                                        while((!(message = (String)client.getOIS().readObject()).equals(DISCONNECT))
                                                 && client.active) {
 
                                             sendMessage(String.format("%s: %s \n", client.getUserName(), message), BROADCAST);
@@ -146,6 +146,24 @@ public class ActiveMQProvider implements IServiceProvider {
                                             messageReceiver.onMessage(
                                                     String.format("%s said: %s \n", client.getUserName(), message)
                                             );
+                                        }
+
+                                        // Client disconnect was called
+                                        sendMessage(String.format("%s disconnected \n", client.getUserName()), BROADCAST);
+
+                                        try {
+
+                                            // Close client streams
+                                            client.getOIS().close();
+                                            client.getOOS().close();
+
+                                        } finally {
+
+                                            // Remove client from broadcast list
+                                            clients.remove(client);
+
+                                            // Display on server UI
+                                            messageReceiver.onMessage(String.format("%s disconnected \n", client.getUserName()));
                                         }
 
                                     } catch(Exception ex) {

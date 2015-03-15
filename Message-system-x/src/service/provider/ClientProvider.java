@@ -23,6 +23,7 @@ public class ClientProvider implements IServiceProvider {
     private final static String DISCONNECT = "/disconnect";
     private String _ip;
     private int _port;
+    private boolean connected = false;
 
     @Override
     public void startListening(String endPoint, IMessageReceiver messageReceiver) {
@@ -30,6 +31,10 @@ public class ClientProvider implements IServiceProvider {
             extractConnection(endPoint);
             _socketConnection = new Socket(_ip, _port);
         } catch (IOException e) {
+
+            // Server is offline
+            messageReceiver.onMessage("Could not connect to server");
+
             e.printStackTrace();
         }
 
@@ -47,6 +52,8 @@ public class ClientProvider implements IServiceProvider {
 
                     messageReceiver.onMessage(_incomingObj.readObject().toString());
                     sendMessage(Messenger.nameField.getText(), null);
+
+                    connected = true;
 
                     awaitMessage(messageReceiver);
                 } catch (Exception e) {
@@ -82,12 +89,17 @@ public class ClientProvider implements IServiceProvider {
 
     @Override
     public void stopListening() {
-        try{
-            sendMessage(DISCONNECT, null);
-        } catch (Exception ex){
+        try {
+            if (connected) {
+                sendMessage(DISCONNECT, null);
+                _incomingObj.close();
+                _outgoingObj.close();
+            }
+        } catch(IOException ex) {
             ex.printStackTrace();
+        } finally {
+            connected = false;
         }
-
     }
 
     @Override
