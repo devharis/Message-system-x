@@ -1,11 +1,16 @@
 package client;
 
 import interfaces.IServiceProvider;
+import models.Client;
 import service.provider.activemq.ActiveMQProvider;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 /**
  * Created by devHaris on 2015-03-13.
@@ -16,6 +21,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     // variables
     public boolean connected;
     private IServiceProvider _serviceProvider;
+    private Socket _socketConnection;
+    private ObjectInputStream _incomingObj;
+    private ObjectOutputStream _outgoingObj;
 
     // UI variables
     private JButton connectBtn;
@@ -150,6 +158,30 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onConnect(){
+
+        try {
+            _socketConnection = new Socket(IP_FIELD, PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    _outgoingObj = new ObjectOutputStream(_socketConnection.getOutputStream());
+                    _incomingObj = new ObjectInputStream(_socketConnection.getInputStream());
+
+                    _outgoingObj.writeObject("Haris");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Client");
+        thread.start();
+
+
         //If connected
         nameField.setEditable(false);
         // Fake populate userlist

@@ -39,7 +39,6 @@ public class ActiveMQProvider implements IServiceProvider {
 
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
-
         SetupServer(Messenger.PORT, messageReceiver);
     }
 
@@ -75,6 +74,7 @@ public class ActiveMQProvider implements IServiceProvider {
 
     public void SetupServer(final int port, final IMessageReceiver messageReceiver) {
 
+        accepting = true;
         acceptThread = new Thread(new Runnable() {
 
             @Override

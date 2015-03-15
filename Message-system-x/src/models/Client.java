@@ -45,7 +45,6 @@ public class Client {
 
     public Client() {}
     public Client(String endPoint, ObjectInputStream ois, ObjectOutputStream oos) {
-
         this.endPoint = endPoint;
         this.inputStream = ois;
         this.outputStream = oos;

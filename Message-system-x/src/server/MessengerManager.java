@@ -128,8 +128,7 @@ public class MessengerManager extends JFrame implements ActionListener {
         chatContainer.add(chatScroll);
     }
 
-
-    private void onIncomingConnect(){
+    private void startListening(){
         _serviceProvider.startListening(null, new IMessageReceiver() {
             @Override
             public void onMessage(String message) {
@@ -139,27 +138,27 @@ public class MessengerManager extends JFrame implements ActionListener {
         });
     }
 
+    private void stopListening(){
+        _serviceProvider.stopListening();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
         if(actionCommand.equals(CONNECT_BTN)){
             System.out.println("Connected");
-
-
             connectBtn.setEnabled(false);
             disconnectBtn.setEnabled(true);
             connectBtn.setActionCommand(DISCONNECT_BTN);
-
+            startListening();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
             System.out.println("Disconnected");
-
-
             connectBtn.setEnabled(true);
             disconnectBtn.setEnabled(false);
             connectBtn.setActionCommand(CONNECT_BTN);
-
+            stopListening();
         }
     }
 }
