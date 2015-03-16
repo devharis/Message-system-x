@@ -21,6 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import static javax.swing.JFrame.*;
+
 /**
  * Created by devHaris on 2015-03-13.
  */
@@ -32,27 +34,34 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private IServiceProvider _serviceProvider;
     private String endPoint;
     private String _connectionString;
+    private ProviderType _providerType;
+
+    public static int messageDelay;
+    public static boolean messageLoss;
+    public static boolean sequenceLoss;
+    public static int sequenceLimit;
+    public static int[] sequenceRange;
 
     // UI variables
-    private JButton connectBtn;
-    private JButton disconnectBtn;
     public static JTextField nameField;
-    private JLabel logoLabel;
-    private JLabel incPortLabel;
-    private JLabel outPortLabel;
-    private JLabel ipLabel;
-    private JTextField incPortField;
-    private JTextField outPortField;
-    private JTextField messageField;
-    private JTextField ipField;
-    private JTextArea chatArea;
-    private JScrollPane chatScroll;
-    private JPanel userPane;
-    private JScrollPane userScroll;
+
+    private JButton _connectBtn;
+    private JButton _disconnectBtn;
+    private JLabel _logoLabel;
+    private JLabel _incPortLabel;
+    private JLabel _outPortLabel;
+    private JLabel _ipLabel;
+    private JTextField _incPortField;
+    private JTextField _outPortField;
+    private JTextField _messageField;
+    private JTextField _ipField;
+    private JTextArea _chatArea;
+    private JScrollPane _chatScroll;
+    private JPanel _userPane;
+    private JScrollPane _userScroll;
 
     // constants
     public final static String RESOURCE_FOLDER = "resources/";
-
     private final static String MESSAGE_X = "Modern Message Client";
     private final static String CONNECT_BTN = "Connect";
     private final static String DISCONNECT_BTN = "Disconnect";
@@ -66,33 +75,34 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String LOGO = "logo.png";
     private final static String ICON = "icon.png";
 
-    private ProviderType providerType;
-    public static int messageDelay;
-    public static boolean messageLoss;
-    public static boolean sequenceLoss;
-    public static int sequenceLimit;
-    public static int[] sequenceRange;
-
     // Constructor
     public Messenger() {
 
         Configuration config = new Configuration();
 
-        providerType = config.getProviderType();
+        _providerType = config.getProviderType();
         messageDelay = config.getMessageDelay();
         messageLoss = config.isMessageLoss();
         sequenceLoss = config.isSequenceLoss();
         sequenceLimit = config.getSequenceLimit();
         sequenceRange = config.getSequenceRange();
 
-        _serviceProvider = ServiceProviderFactory.createServiceProvider(providerType);
+        _serviceProvider = ServiceProviderFactory.createServiceProvider(_providerType);
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
         setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    /**
+     * 
+     * @param serviceProvider
+     */
+    public Messenger(IServiceProvider serviceProvider) {
+        _serviceProvider = serviceProvider;
     }
 
     public static void main(String[] args) {
@@ -113,87 +123,87 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         addUIComponents();
 
         // Set listener & action
-        connectBtn.addActionListener(this);
-        disconnectBtn.addActionListener(this);
+        _connectBtn.addActionListener(this);
+        _disconnectBtn.addActionListener(this);
         nameField.addKeyListener(this);
-        messageField.addKeyListener(this);
-        connectBtn.setActionCommand(CONNECT_BTN);
-        disconnectBtn.setActionCommand(DISCONNECT_BTN);
+        _messageField.addKeyListener(this);
+        _connectBtn.setActionCommand(CONNECT_BTN);
+        _disconnectBtn.setActionCommand(DISCONNECT_BTN);
 
         setVisible(true);
     }
 
     void initUIComponents(){
-        logoLabel = new JLabel(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, LOGO)));
-        incPortLabel = new JLabel(INC_PORT_TEXT);
-        incPortField = new JTextField(INC_PORT_FIELD);
-        outPortLabel = new JLabel(OUT_PORT_TEXT);
-        outPortField = new JTextField(OUT_PORT_FIELD);
-        ipLabel = new JLabel(IP_TEXT);
-        ipField = new JTextField(IP_FIELD);
-        connectBtn = new JButton(CONNECT_BTN);
-        connectBtn.setBackground(new Color(50, 205, 50));
-        disconnectBtn = new JButton(DISCONNECT_BTN);
-        disconnectBtn.setBackground(new Color(255, 69, 0));
+        _logoLabel = new JLabel(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, LOGO)));
+        _incPortLabel = new JLabel(INC_PORT_TEXT);
+        _incPortField = new JTextField(INC_PORT_FIELD);
+        _outPortLabel = new JLabel(OUT_PORT_TEXT);
+        _outPortField = new JTextField(OUT_PORT_FIELD);
+        _ipLabel = new JLabel(IP_TEXT);
+        _ipField = new JTextField(IP_FIELD);
+        _connectBtn = new JButton(CONNECT_BTN);
+        _connectBtn.setBackground(new Color(50, 205, 50));
+        _disconnectBtn = new JButton(DISCONNECT_BTN);
+        _disconnectBtn.setBackground(new Color(255, 69, 0));
         nameField = new JTextField(NAME_TEXT);
-        messageField = new JTextField();
+        _messageField = new JTextField();
 
-        if(providerType != ProviderType.UdpP2P)
-            outPortField.setEditable(false);
+        if(_providerType != ProviderType.UdpP2P)
+            _outPortField.setEditable(false);
     }
 
     void initUIScrollBar(){
-        chatArea = new JTextArea();
-        chatArea.setLineWrap(true);
-        chatArea.setEditable(false);
-        chatScroll = new JScrollPane(chatArea);
-        chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        _chatArea = new JTextArea();
+        _chatArea.setLineWrap(true);
+        _chatArea.setEditable(false);
+        _chatScroll = new JScrollPane(_chatArea);
+        _chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        userPane = new JPanel();
-        userPane.setLayout(new GridLayout(50, 1));
-        userScroll = new JScrollPane(userPane);
-        userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        _userPane = new JPanel();
+        _userPane.setLayout(new GridLayout(50, 1));
+        _userScroll = new JScrollPane(_userPane);
+        _userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
     void initUIPositions(){
-        logoLabel.setBounds(5, 5, 400, 105);
-        incPortLabel.setBounds(10, 120, 50, 20);
-        incPortField.setBounds(60, 120, 60, 20);
-        outPortLabel.setBounds(129, 120, 50, 20);
-        outPortField.setBounds(180, 120, 60, 20);
-        ipLabel.setBounds(250,120,20,20);
-        ipField.setBounds(270, 120, 140, 20);
-        connectBtn.setBounds(10,145,110,20);
-        disconnectBtn.setBounds(130,145,110,20);
+        _logoLabel.setBounds(5, 5, 400, 105);
+        _incPortLabel.setBounds(10, 120, 50, 20);
+        _incPortField.setBounds(60, 120, 60, 20);
+        _outPortLabel.setBounds(129, 120, 50, 20);
+        _outPortField.setBounds(180, 120, 60, 20);
+        _ipLabel.setBounds(250,120,20,20);
+        _ipField.setBounds(270, 120, 140, 20);
+        _connectBtn.setBounds(10,145,110,20);
+        _disconnectBtn.setBounds(130,145,110,20);
         nameField.setBounds(250,145,160,20);
-        chatScroll.setBounds(10,175,300,300);
-        userScroll.setBounds(310, 175, 100, 300);
-        userPane.setBounds(userScroll.getX(), userScroll.getY(), 90, 290);
-        messageField.setBounds(10, 480, 400, 20);
+        _chatScroll.setBounds(10,175,300,300);
+        _userScroll.setBounds(310, 175, 100, 300);
+        _userPane.setBounds(_userScroll.getX(), _userScroll.getY(), 90, 290);
+        _messageField.setBounds(10, 480, 400, 20);
     }
 
     void addUIComponents(){
         Container chatContainer = getContentPane();
         chatContainer.setLayout(null);
-        chatContainer.add(logoLabel);
-        chatContainer.add(incPortLabel);
-        chatContainer.add(incPortField);
-        chatContainer.add(outPortLabel);
-        chatContainer.add(outPortField);
-        chatContainer.add(ipLabel);
-        chatContainer.add(ipField);
-        chatContainer.add(connectBtn);
-        chatContainer.add(disconnectBtn);
-        disconnectBtn.setEnabled(false);
+        chatContainer.add(_logoLabel);
+        chatContainer.add(_incPortLabel);
+        chatContainer.add(_incPortField);
+        chatContainer.add(_outPortLabel);
+        chatContainer.add(_outPortField);
+        chatContainer.add(_ipLabel);
+        chatContainer.add(_ipField);
+        chatContainer.add(_connectBtn);
+        chatContainer.add(_disconnectBtn);
+        _disconnectBtn.setEnabled(false);
         chatContainer.add(nameField);
-        chatContainer.add(chatScroll);
-        chatContainer.add(userScroll);
-        chatContainer.add(messageField);
+        chatContainer.add(_chatScroll);
+        chatContainer.add(_userScroll);
+        chatContainer.add(_messageField);
     }
 
     public void onConnect(){
         // Create a connection string from ip and port
-        _connectionString = String.format("%s:%s", ipField.getText(), incPortField.getText());
+        _connectionString = String.format("%s:%s", _ipField.getText(), _incPortField.getText());
         try {
             connected = true;
             toggleUI();
@@ -205,9 +215,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
                     if(message.getMessageType().equals(MessageType.SINGLE)) {
                         endPoint = message.getEndPoint();
-                        chatArea.append(String.format("[%s] %s", dateFormat.format(message.getTime()), message.getMessage()));
+                        _chatArea.append(String.format("[%s] %s", dateFormat.format(message.getTime()), message.getMessage()));
                     } else {
-                        chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
+                        _chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
                     }
                 }
             });
@@ -218,30 +228,30 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         }
 
         // Fake populate userlist
-        userPane.setSize(90, userScroll.getHeight());
+        _userPane.setSize(90, _userScroll.getHeight());
         Button button = new Button("Unikum");
         button.setSize(90, 10);
-        userPane.add(button);
+        _userPane.add(button);
         Button button1 = new Button("Oskar");
         button.setSize(90, 10);
-        userPane.add(button1);
+        _userPane.add(button1);
 
-        userPane.updateUI();
+        _userPane.updateUI();
     }
 
     private void toggleUI() {
         if(connected){
             nameField.setEditable(false);
-            incPortField.setEditable(false);
-            ipField.setEditable(false);
-            connectBtn.setEnabled(false);
-            disconnectBtn.setEnabled(true);
+            _incPortField.setEditable(false);
+            _ipField.setEditable(false);
+            _connectBtn.setEnabled(false);
+            _disconnectBtn.setEnabled(true);
         } else if (!connected){
             nameField.setEditable(true);
-            incPortField.setEditable(true);
-            ipField.setEditable(true);
-            connectBtn.setEnabled(true);
-            disconnectBtn.setEnabled(false);
+            _incPortField.setEditable(true);
+            _ipField.setEditable(true);
+            _connectBtn.setEnabled(true);
+            _disconnectBtn.setEnabled(false);
         }
     }
 
@@ -259,11 +269,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     public void onSendMessage(Message message, String endPoint) {
-        switch (providerType){
+        switch (_providerType){
             case UdpP2P:
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-                chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
-                _serviceProvider.sendMessage(message, String.format("%s:%s", _connectionString.split(":")[0], outPortField.getText()));
+                _chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
+                _serviceProvider.sendMessage(message, String.format("%s:%s", _connectionString.split(":")[0], _outPortField.getText()));
                 break;
             case TcpClient:
                 _serviceProvider.sendMessage(message, endPoint);
@@ -280,13 +290,13 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         if(actionCommand.equals(CONNECT_BTN)){
             System.out.println("Connected");
 
-            connectBtn.setActionCommand(DISCONNECT_BTN);
+            _connectBtn.setActionCommand(DISCONNECT_BTN);
             onConnect();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
             System.out.println("Disconnected");
 
-            connectBtn.setActionCommand(CONNECT_BTN);
+            _connectBtn.setActionCommand(CONNECT_BTN);
             onDisconnect();
         }
     }
@@ -298,17 +308,17 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                 // Send message
                 onSendMessage(new Message(
                         nameField.getText(),
-                        messageField.getText(),
+                        _messageField.getText(),
                         endPoint,
                         MessageType.BROADCAST), _connectionString);
                 // Clear message field
-                messageField.setText("");
+                _messageField.setText("");
                 break;
             default:
                 if(nameField.getText().trim().isEmpty() || connected)
-                    connectBtn.setEnabled(false);
+                    _connectBtn.setEnabled(false);
                 else if(!nameField.getText().trim().isEmpty() || !connected)
-                    connectBtn.setEnabled(true);
+                    _connectBtn.setEnabled(true);
         }
     }
 
