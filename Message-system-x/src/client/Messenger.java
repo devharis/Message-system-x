@@ -66,19 +66,26 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String LOGO = "logo.png";
     private final static String ICON = "icon.png";
 
-    private final static ProviderType providerType = ProviderType.UdpP2P;
+    private ProviderType providerType;
+    public static int messageDelay;
+    public static boolean messageLoss;
+    public static boolean sequenceLoss;
+    public static int sequenceLimit;
+    public static int[] sequenceRange;
 
     // Constructor
-    public Messenger(){
-        this(ServiceProviderFactory.createServiceProvider(providerType));
+    public Messenger() {
 
-        Properties properties = new Properties();
-        try {
-            InputStream is = Messenger.class.getResourceAsStream("/messengerBundle.properties");
-            properties.load(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Configuration config = new Configuration();
+
+        providerType = config.getProviderType();
+        messageDelay = config.getMessageDelay();
+        messageLoss = config.isMessageLoss();
+        sequenceLoss = config.isSequenceLoss();
+        sequenceLimit = config.getSequenceLimit();
+        sequenceRange = config.getSequenceRange();
+
+        _serviceProvider = ServiceProviderFactory.createServiceProvider(providerType);
 
         setTitle(MESSAGE_X);
         setSize(430, 540);
@@ -86,10 +93,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public Messenger(IServiceProvider serviceProvider){
-        _serviceProvider = serviceProvider;
     }
 
     public static void main(String[] args) {
@@ -204,7 +207,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                         endPoint = message.getEndPoint();
                         chatArea.append(String.format("[%s] %s", dateFormat.format(message.getTime()), message.getMessage()));
                     } else {
-                        chatArea.append(String.format("[%s] %s: %s", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
+                        chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
                     }
                 }
             });
@@ -258,6 +261,8 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     public void onSendMessage(Message message, String endPoint) {
         switch (providerType){
             case UdpP2P:
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+                chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
                 _serviceProvider.sendMessage(message, String.format("%s:%s", _connectionString.split(":")[0], outPortField.getText()));
                 break;
             case TcpClient:

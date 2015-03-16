@@ -15,7 +15,7 @@ public class Message implements Serializable {
     private MessageType _messageType;
     private Timestamp _time;
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -4507489610617393544L;
 
     public Message(String name, String message, String endPoint, MessageType messageType){
         Calendar calendar = Calendar.getInstance();

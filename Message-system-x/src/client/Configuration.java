@@ -1,100 +1,77 @@
 package client;
 
+import models.ProviderType;
+
 import java.io.*;
-import java.util.MissingResourceException;
 import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * Created by Fawk on 2015-03-13.
  */
 public class Configuration {
 
-    private final static int PROPERTY_LIMIT = 10;
-    private final static String BUNDLE_FULL_NAME = "messengerBundle.properties";
-    public final static String BUNDLE_NAME = "messengerBundle";
+    private final static String PROP_NAME = "/messengerBundle.properties";
 
-    private Thread writeThread;
-    private PrintWriter pr;
+    public ProviderType getProviderType() {
+        return _providerType;
+    }
 
-    public Configuration() {}
+    private ProviderType _providerType;
 
-    public void put(final String key, final Object value) {
+    public boolean isMessageLoss() {
+        return messageLoss;
+    }
 
-        // Get stacktrace elements for safe calling
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        String callee_class = stackTrace[2].getClassName();
-        String callee_method = stackTrace[2].getMethodName();
-        final String callee = callee_class + callee_method;
+    public int getMessageDelay() {
+        return messageDelay;
+    }
 
-        writeThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+    private boolean messageLoss;
+    private int messageDelay;
+    private boolean sequenceLoss;
 
-                Properties properties = new Properties();
-                try {
-                    properties.load(Configuration.class.getResourceAsStream("/" + BUNDLE_FULL_NAME));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public int getSequenceLimit() {
+        return sequenceLimit;
+    }
 
-                // Check if key exists
-                if(!properties.containsKey(key)) {
-                    pr.println(String.format("%s=%s", key, value));
-                } else {
+    public int[] getSequenceRange() {
+        return sequenceRange;
+    }
 
-                    // Read contents, change value of key
+    public boolean isSequenceLoss() {
+        return sequenceLoss;
+    }
 
-                    // Init lines array and scanner
-                    String[] lines = new String[PROPERTY_LIMIT];
-                    Scanner scanner = new Scanner(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
+    private int sequenceLimit;
+    private int[] sequenceRange;
 
-                    // Init count variable i for sanity
-                    int i = 0;
+    public Configuration() {
 
-                    // id to index of key in lines array
-                    int id = -1;
+        Properties properties = new Properties();
+        try {
+            InputStream is = Messenger.class.getResourceAsStream(PROP_NAME);
+            properties.load(is);
+        } catch (IOException e) {
+            System.out.println("Properties file is missing in src folder! Please add messengerBundle.properties!");
+            System.exit(0);
+        }
 
-                    // Read lines
-                    while(scanner.hasNext()) {
-                        if(i == lines.length) {
-                            // Exceeding property limit, breaking
-                            break;
-                        }
-                        // Add to lines array
-                        lines[i++] = scanner.nextLine();
-                        if(lines[i].split("=")[0].equals(key))
-                            id = i;
-                    }
+        boolean clientServer = Boolean.valueOf(properties.getProperty("clientServer"));
+        boolean peer2peer = Boolean.valueOf(properties.getProperty("peer2peer"));
 
-                    // Done reading, for good or bad
+        if(!(clientServer && peer2peer || !clientServer && !peer2peer)) {
+            _providerType = clientServer ? ProviderType.TcpClient : ProviderType.UdpP2P;
+        } else {
+            System.out.println("Both clientServer and peer2peer can't be the same!");
+        }
 
-                    // Change the value of the found key
-                    lines[id] = String.format("%s=%s", lines[id].split("=")[0], value);
-
-                    // Proceed to write to file
-
-                    try {
-                        PrintWriter npr = new PrintWriter(Messenger.RESOURCE_FOLDER + BUNDLE_FULL_NAME);
-
-                        // Clear the file
-                        npr.write("");
-
-                        // Write the lines
-                        for(String line : lines) {
-                            npr.println(line);
-                        }
-
-                        // Clean up
-                        npr.close();
-
-                    } catch(IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-        writeThread.start();
+        messageDelay = Integer.parseInt(properties.getProperty("messageDelay"));
+        messageLoss = Boolean.valueOf(properties.getProperty("messageLoss"));
+        sequenceLoss = Boolean.valueOf(properties.getProperty("sequenceLoss"));
+        sequenceLimit = Integer.parseInt(properties.getProperty("sequenceLimit"));
+        String[] range = properties.getProperty("sequenceRange").split("-");
+        if(range.length == 2) {
+            sequenceRange = new int[]{Integer.parseInt(range[0]), Integer.parseInt(range[1])};
+        }
     }
 }

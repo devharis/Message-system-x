@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -30,6 +31,9 @@ public class ClientProvider implements IServiceProvider {
     private String _ip;
     private int _port;
     private boolean connected = false;
+
+    private int sequenceCounter = Messenger.sequenceLimit - 1;
+    private int sequenceRangeIndex = 0;
 
     @Override
     public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception {
@@ -120,7 +124,44 @@ public class ClientProvider implements IServiceProvider {
     @Override
     public void sendMessage(Message message, String destinationEndPoint) {
         try {
-            _outgoingObj.writeObject(message);
+
+            String newMessage = message.getMessage();
+
+            if(Messenger.messageDelay > 0)
+                Thread.currentThread().sleep(Messenger.messageDelay);
+
+            if(Messenger.messageLoss) {
+
+                Random random = new Random();
+                int first = random.nextInt(message.getMessage().length());
+                String split = message.getMessage().substring(0, first);
+                int second = random.nextInt(split.length() <= 0 ? 1 : split.length());
+                int bound = split.length()-second;
+                newMessage = message.getMessage().substring(bound <= 0 ? 1 : bound);
+            }
+
+            if(Messenger.sequenceLoss && !message.getMessageType().equals(MessageType.SINGLE)) {
+
+                sequenceCounter++;
+
+                if(sequenceCounter < Messenger.sequenceLimit) {
+                    sequenceCounter = 0;
+                    sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
+
+                    int failureRate = Messenger.sequenceRange[sequenceRangeIndex];
+                    int roll = (int)(Math.random() * 100);
+
+                    if((roll - failureRate) <= 0)
+                        return;
+                }
+            }
+
+            _outgoingObj.writeObject(new Message(
+                    message.getName(),
+                    newMessage,
+                    message.getEndPoint(),
+                    message.getMessageType()));
+
             _outgoingObj.flush();
         } catch (Exception e) {
             e.printStackTrace();
