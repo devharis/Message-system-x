@@ -13,29 +13,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
-
-import static javax.swing.JFrame.*;
 
 /**
- * Created by devHaris on 2015-03-13.
+ * Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
-
 public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     // variables
     public boolean connected;
     private IServiceProvider _serviceProvider;
-    private String endPoint;
+    private String _endPoint;
     private String _connectionString;
     private ProviderType _providerType;
 
+    // statics
     public static int messageDelay;
     public static boolean messageLoss;
     public static boolean sequenceLoss;
@@ -44,7 +38,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     // UI variables
     public static JTextField nameField;
-
     private JButton _connectBtn;
     private JButton _disconnectBtn;
     private JLabel _logoLabel;
@@ -75,9 +68,10 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private final static String LOGO = "logo.png";
     private final static String ICON = "icon.png";
 
-    // Constructor
+    /**
+     * Default Constructor
+     */
     public Messenger() {
-
         Configuration config = new Configuration();
 
         _providerType = config.getProviderType();
@@ -98,19 +92,27 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     /**
-     * 
+     * Dependency Injection Constructor
      * @param serviceProvider
      */
     public Messenger(IServiceProvider serviceProvider) {
         _serviceProvider = serviceProvider;
     }
 
+    /**
+     * Program entry point.
+     * @param args
+     */
     public static void main(String[] args) {
         // Init app
         Messenger messenger = new Messenger();
         messenger.Initialize();
     }
 
+    /**
+     * Initializes a window and setup its UI.
+     * Binds UI components to events and shows the window.
+     */
     public void Initialize(){
         // Creating window, container and a pane
         Container container = this.getContentPane(); // inherit main frame
@@ -133,6 +135,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         setVisible(true);
     }
 
+    /**
+     * Setup the UI components.
+     */
     void initUIComponents(){
         _logoLabel = new JLabel(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, LOGO)));
         _incPortLabel = new JLabel(INC_PORT_TEXT);
@@ -152,6 +157,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             _outPortField.setEditable(false);
     }
 
+    /**
+     * Setup scroll bar component.
+     */
     void initUIScrollBar(){
         _chatArea = new JTextArea();
         _chatArea.setLineWrap(true);
@@ -165,6 +173,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         _userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
+    /**
+     * Setup UI components positions in window.
+     */
     void initUIPositions(){
         _logoLabel.setBounds(5, 5, 400, 105);
         _incPortLabel.setBounds(10, 120, 50, 20);
@@ -182,6 +193,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         _messageField.setBounds(10, 480, 400, 20);
     }
 
+    /**
+     * Add UI components to the previously created window.
+     */
     void addUIComponents(){
         Container chatContainer = getContentPane();
         chatContainer.setLayout(null);
@@ -201,9 +215,16 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         chatContainer.add(_messageField);
     }
 
+    /**
+     * onConnect is used to establish a connection to a service, e.g server
+     * or peer-to-peer endpoint.
+     *
+     * It uses MessageType to separate either of the two setups.
+     */
     public void onConnect(){
         // Create a connection string from ip and port
         _connectionString = String.format("%s:%s", _ipField.getText(), _incPortField.getText());
+
         try {
             connected = true;
             toggleUI();
@@ -214,7 +235,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
                     if(message.getMessageType().equals(MessageType.SINGLE)) {
-                        endPoint = message.getEndPoint();
+                        _endPoint = message.getEndPoint();
                         _chatArea.append(String.format("[%s] %s", dateFormat.format(message.getTime()), message.getMessage()));
                     } else {
                         _chatArea.append(String.format("[%s] %s: %s\n", dateFormat.format(message.getTime()), message.getName(), message.getMessage()));
@@ -227,7 +248,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             return;
         }
 
-        // Fake populate userlist
+        // TODO: FIX THIS SHIT BEFORE DONE!!!!
         _userPane.setSize(90, _userScroll.getHeight());
         Button button = new Button("Unikum");
         button.setSize(90, 10);
@@ -235,10 +256,13 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         Button button1 = new Button("Oskar");
         button.setSize(90, 10);
         _userPane.add(button1);
-
         _userPane.updateUI();
     }
 
+    /**
+     * Method helping to toggle UI components properties
+     * depending on if connected or not.
+     */
     private void toggleUI() {
         if(connected){
             nameField.setEditable(false);
@@ -255,8 +279,11 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * onDisconnect is used to disconnect from endpoint.
+     * Simply by stop listening to it.
+     */
     public void onDisconnect(){
-        System.out.println("onDisconnect");
         try {
             _serviceProvider.stopListening();
         } catch (Exception e) {
@@ -268,6 +295,12 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
 
     }
 
+    /**
+     * This method is simply used to send a message to a specific endpoint, e.g server
+     * or peer. Depending on the configuration setup it uses different solutions to send.
+     * @param message
+     * @param endPoint
+     */
     public void onSendMessage(Message message, String endPoint) {
         switch (_providerType){
             case UdpP2P:
@@ -283,24 +316,31 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Implemented to catch ActionListener event which
+     * is set on buttons in the UI window.
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
         if(actionCommand.equals(CONNECT_BTN)){
-            System.out.println("Connected");
-
             _connectBtn.setActionCommand(DISCONNECT_BTN);
             onConnect();
         }
         else if(actionCommand.equals(DISCONNECT_BTN)){
-            System.out.println("Disconnected");
-
             _connectBtn.setActionCommand(CONNECT_BTN);
             onDisconnect();
         }
     }
 
+    /**
+     * Implemented to catch KeyListener event which
+     * is set on text area chat to listen to Enter.
+     * Sending away a message.
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         switch (e.getKeyChar()){
@@ -309,8 +349,9 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
                 onSendMessage(new Message(
                         nameField.getText(),
                         _messageField.getText(),
-                        endPoint,
+                        _endPoint,
                         MessageType.BROADCAST), _connectionString);
+
                 // Clear message field
                 _messageField.setText("");
                 break;
