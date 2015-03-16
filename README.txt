@@ -6,7 +6,7 @@ INSTRUCTIONS
 Client-Server
 
 *Precondition*
-In config file messengare.properties set client-server=true and peer2peer=false.
+In config file messenger.properties set client-server=true and peer2peer=false.
 If you want communication emulated you can set it there too.
 
 1. Run a server application config
@@ -21,7 +21,7 @@ If you want communication emulated you can set it there too.
 Peer-to-Peer
 
 *Precondition*
-In config file messengare.properties set peer2peer=true and client-server=false
+In config file messenger.properties set peer2peer=true and client-server=false
 If you want communication emulated you can set it there too.
 
 1. Run TWO client application configs
