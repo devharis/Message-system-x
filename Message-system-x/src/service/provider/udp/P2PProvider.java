@@ -136,11 +136,15 @@ public class P2PProvider implements IServiceProvider {
                         newMessage = message.getMessage().substring(bound <= 0 ? 1 : bound);
                     }
 
-                    if(Messenger.sequenceLoss) {
+                    if(Messenger.sequenceLoss && !message.getMessageType().equals(MessageType.SINGLE)) {
+
                         sequenceCounter++;
-                        if(sequenceCounter == Messenger.sequenceLimit) {
-                            sequenceCounter = 0;
-                            sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
+
+                        if(sequenceCounter <= Messenger.sequenceLimit) {
+                            if(sequenceCounter == Messenger.sequenceLimit) {
+                                sequenceCounter = 0;
+                                sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
+                            }
 
                             int failureRate = Messenger.sequenceRange[sequenceRangeIndex];
                             int roll = (int)(Math.random() * 100);

@@ -32,7 +32,7 @@ public class ClientProvider implements IServiceProvider {
     private int _port;
     private boolean connected = false;
 
-    private int sequenceCounter = Messenger.sequenceLimit - 1;
+    private int sequenceCounter = 0;
     private int sequenceRangeIndex = 0;
 
     @Override
@@ -144,9 +144,11 @@ public class ClientProvider implements IServiceProvider {
 
                 sequenceCounter++;
 
-                if(sequenceCounter < Messenger.sequenceLimit) {
-                    sequenceCounter = 0;
-                    sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
+                if(sequenceCounter <= Messenger.sequenceLimit) {
+                    if(sequenceCounter == Messenger.sequenceLimit) {
+                        sequenceCounter = 0;
+                        sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
+                    }
 
                     int failureRate = Messenger.sequenceRange[sequenceRangeIndex];
                     int roll = (int)(Math.random() * 100);
