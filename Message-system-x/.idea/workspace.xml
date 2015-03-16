@@ -67,15 +67,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ServerProvider.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/service/provider/tcp/ServerProvider.java">
+      <file leaf-file-name="P2PProvider.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="7" selection-start="38" selection-end="38" vertical-scroll-proportion="0.045925926" vertical-offset="3" max-vertical-offset="3808">
+            <state line="30" column="12" selection-start="871" selection-end="871" vertical-scroll-proportion="0.33932135" vertical-offset="0" max-vertical-offset="1002">
               <folding>
-                <element signature="method#stopListening#0;class#ServerProvider#0" expanded="true" />
-                <element signature="method#beginAccepting#0;class#ServerProvider#0" expanded="true" />
-                <element signature="method#initClientThread#0;class#ServerProvider#0" expanded="true" />
-                <element signature="method#sendMessageEx#0;class#ServerProvider#0" expanded="true" />
+                <element signature="e#1725#1747#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,7 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java" />
         <option value="$PROJECT_DIR$/src/factories/ServiceProviderFactory.java" />
         <option value="$PROJECT_DIR$/src/client/Configuration.java" />
         <option value="$PROJECT_DIR$/src/models/Message.java" />
@@ -100,9 +96,10 @@
         <option value="$PROJECT_DIR$/src/models/Client.java" />
         <option value="$PROJECT_DIR$/src/client/Messenger.java" />
         <option value="$PROJECT_DIR$/src/server/MessengerManager.java" />
-        <option value="$PROJECT_DIR$/src/messengerBundle.properties" />
         <option value="$PROJECT_DIR$/src/service/provider/tcp/ClientProvider.java" />
         <option value="$PROJECT_DIR$/src/service/provider/tcp/ServerProvider.java" />
+        <option value="$PROJECT_DIR$/src/messengerBundle.properties" />
+        <option value="$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java" />
       </list>
     </option>
   </component>
@@ -231,28 +228,6 @@
               <option name="myItemId" value="provider" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tcp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -278,6 +253,7 @@
     <property name="options.searchVisible" value="true" />
     <property name="SearchEverywhereHistory" value="enu&#10;p&#10;C&#10;//" />
     <property name="FullScreen" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -287,7 +263,7 @@
       <recent name="E:\GitHub\Message-system-x\Message-system-x\src\client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Client">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -601,12 +577,12 @@
       <workItem from="1426446200049" duration="10149000" />
       <workItem from="1426457079040" duration="5233000" />
       <workItem from="1426475623865" duration="5000" />
-      <workItem from="1426475641109" duration="11207000" />
+      <workItem from="1426475641109" duration="14079000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29492000" />
+    <option name="totallyTimeSpent" value="32364000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1708" height="1160" extended-state="0" />
@@ -632,7 +608,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1501182" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3180934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3180934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -697,7 +673,7 @@
         <state line="72" column="40" selection-start="2315" selection-end="2315" vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="2091">
           <folding>
             <element signature="docComment;class#P2PProvider#0" expanded="false" />
-            <element signature="e#1445#1467#0" expanded="false" />
+            <element signature="e#1725#1747#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -742,7 +718,7 @@
         <state line="71" column="40" selection-start="2265" selection-end="2265" vertical-scroll-proportion="0.0" vertical-offset="1207" max-vertical-offset="2363">
           <folding>
             <element signature="docComment;class#P2PProvider#0" expanded="false" />
-            <element signature="e#1445#1467#0" expanded="false" />
+            <element signature="e#1725#1747#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -787,7 +763,7 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2465">
           <folding>
             <element signature="docComment;class#P2PProvider#0" expanded="false" />
-            <element signature="e#1445#1467#0" expanded="false" />
+            <element signature="e#1725#1747#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -833,7 +809,7 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding>
             <element signature="docComment;class#P2PProvider#0" expanded="false" />
-            <element signature="e#1445#1467#0" expanded="false" />
+            <element signature="e#1725#1747#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -892,16 +868,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="19" selection-start="3617" selection-end="3617" vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="53159">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="111" selection-start="875" selection-end="875" vertical-scroll-proportion="0.60225445" vertical-offset="17" max-vertical-offset="663">
-          <folding>
-            <element signature="docComment;class#P2PProvider#0" expanded="false" />
-            <element signature="e#1445#1467#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -977,25 +943,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/provider/tcp/ClientProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="326" selection-end="558" vertical-scroll-proportion="0.09925926" vertical-offset="1" max-vertical-offset="1462">
-          <folding>
-            <element signature="e#2619#3561#0" expanded="true" />
-            <element signature="e#3550#3551#0" expanded="true" />
-            <element signature="e#3886#4415#0" expanded="true" />
-            <element signature="e#4404#4405#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/messengerBundle.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="51" selection-end="51" vertical-scroll-proportion="0.05037037" vertical-offset="0" max-vertical-offset="675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="0" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.597037" vertical-offset="719" max-vertical-offset="1394">
@@ -1010,14 +957,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/provider/tcp/ClientProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="87" selection-start="1709" selection-end="1766" vertical-scroll-proportion="0.5379242" vertical-offset="107" max-vertical-offset="1496">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/service/provider/tcp/ServerProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="7" selection-start="38" selection-end="38" vertical-scroll-proportion="0.045925926" vertical-offset="3" max-vertical-offset="3808">
+        <state line="19" column="29" selection-start="514" selection-end="514" vertical-scroll-proportion="0.13572854" vertical-offset="0" max-vertical-offset="1649">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/messengerBundle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="14" selection-start="48" selection-end="48" vertical-scroll-proportion="0.033932135" vertical-offset="0" max-vertical-offset="1002">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="12" selection-start="871" selection-end="871" vertical-scroll-proportion="0.33932135" vertical-offset="0" max-vertical-offset="1002">
           <folding>
-            <element signature="method#stopListening#0;class#ServerProvider#0" expanded="true" />
-            <element signature="method#beginAccepting#0;class#ServerProvider#0" expanded="true" />
-            <element signature="method#initClientThread#0;class#ServerProvider#0" expanded="true" />
-            <element signature="method#sendMessageEx#0;class#ServerProvider#0" expanded="true" />
+            <element signature="e#1725#1747#0" expanded="false" />
           </folding>
         </state>
       </provider>

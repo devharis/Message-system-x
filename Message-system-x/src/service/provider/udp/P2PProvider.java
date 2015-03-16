@@ -13,19 +13,22 @@ import java.net.InetAddress;
 import java.util.Random;
 
 /**
- * Created by Fawk on 2015-03-15.
+ * This is one of the providers which provides a peer-to-peer
+ * connection utilizing UDP. This provider acts as client and server.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class P2PProvider implements IServiceProvider {
 
-    boolean listening = false;
+    private boolean listening = false;
+    private DatagramSocket receiveSocket;
+    private DatagramSocket sendSocket;
+    private Thread listenThread;
+    private Thread sendThread;
 
-    DatagramSocket receiveSocket;
-    DatagramSocket sendSocket;
-    Thread listenThread;
-    Thread sendThread;
-
-    String listenEndPoint;
-    String sendEndPoint;
+    private String listenEndPoint;
+    private String sendEndPoint;
 
     private int sequenceCounter = 0;
     private int sequenceRangeIndex = 0;

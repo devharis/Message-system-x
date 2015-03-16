@@ -13,14 +13,15 @@ import java.net.Socket;
 import java.util.Random;
 
 /**
- * This class is a GUI which creates the window and interface
- * for the messenger system server.
+ * This is one of the providers which provides a client-server
+ * connection utilizing TCP. This provider acts as client.
  *
  * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
  * Linneaus University - [2DV104] Software Architecture
  */
 public class ClientProvider implements IServiceProvider {
 
+    // variables
     private boolean _connected = false;
     private String _ip;
     private int _port;
@@ -32,6 +33,7 @@ public class ClientProvider implements IServiceProvider {
     private int _sequenceCounter = 0;
     private int _sequenceRangeIndex = 0;
 
+    // constants
     private final static String DISCONNECT = "/disconnect";
     private final static String CONNECT_FAIL = "Could not connect to server \n";
     private final static String EMPTY_STRING = null;
