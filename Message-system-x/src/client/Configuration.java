@@ -6,7 +6,11 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * This class is used to separate all configurations
+ * for the system to one independent part. It's used to
+ * read configurations and provide them.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
  * Linneaus University - [2DV104] Software Architecture
  */
 public class Configuration {
@@ -27,7 +31,7 @@ public class Configuration {
 
     /**
      * Gets the type of set provider.
-     * @return ProviderType
+     * @return _providerType
      */
     public ProviderType getProviderType() {
         return _providerType;
@@ -35,7 +39,7 @@ public class Configuration {
 
     /**
      * Checks if message loss is activated.
-     * @return Boolean
+     * @return _messageLoss
      */
     public boolean isMessageLoss() {
         return _messageLoss;
@@ -43,7 +47,7 @@ public class Configuration {
 
     /**
      * Gets the message delay.
-     * @return Int
+     * @return _messageDelay
      */
     public int getMessageDelay() {
         return _messageDelay;
@@ -51,7 +55,7 @@ public class Configuration {
 
     /**
      * Gets the sequence limit.
-     * @return Int
+     * @return _sequenceLimit
      */
     public int getSequenceLimit() {
         return _sequenceLimit;
@@ -59,7 +63,7 @@ public class Configuration {
 
     /**
      * Gets the sequence range.
-     * @return Array
+     * @return _sequenceRange
      */
     public int[] getSequenceRange() {
         return _sequenceRange;
@@ -67,7 +71,7 @@ public class Configuration {
 
     /**
      * Checks if sequence loss is activated.
-     * @return Boolean
+     * @return _sequenceLoss
      */
     public boolean isSequenceLoss() {
         return _sequenceLoss;

@@ -2,49 +2,71 @@ package models;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 /**
- * Created by devHaris on 2015-03-14.
+ * Model used to read from incoming messages and writing to outgoing.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class Client {
 
-    // Variables
+    // variables
+    private String _endPoint;
+    private String _userName;
+    private ObjectInputStream _inputStream;
+    private ObjectOutputStream _outputStream;
 
-    private String endPoint;
-    private String userName;
-    public boolean active;
-
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
-
-    // Properties
-
+    /**
+     * Gets the endpoint.
+     * @return _endPoint
+     */
     public String getEndPoint() {
-        return endPoint;
+        return _endPoint;
     }
 
+    /**
+     * Gets the username.
+     * @return _userName
+     */
     public String getUserName() {
-        return userName;
+        return _userName;
     }
 
+    /**
+     * Sets the username.
+     * @param userName Name of user
+     */
     public void setUserName(String userName) {
-        this.userName = userName;
+        this._userName = userName;
     }
 
+    /**
+     * Gets the objects input stream.
+     * @return _inputStream
+     */
     public ObjectInputStream getOIS() {
-        return inputStream;
+        return _inputStream;
     }
 
+    /**
+     * Gets the objects output stream.
+     * @return _outputStream
+     */
     public ObjectOutputStream getOOS() {
-        return outputStream;
+        return _outputStream;
     }
 
-    // Methods and constructors
+    /**
+     * Constructor taking params to make instantiation of variables.
+     * easier and shorter.
+     * @param endPoint Endpoint of package
+     * @param oos Output stream
+     * @param ois Input stream
+     */
     public Client(String endPoint, ObjectOutputStream oos, ObjectInputStream ois) {
-        this.endPoint = endPoint;
-        this.outputStream = oos;
-        this.inputStream = ois;
+        _endPoint = endPoint;
+        _outputStream = oos;
+        _inputStream = ois;
     }
 }

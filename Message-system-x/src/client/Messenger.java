@@ -17,7 +17,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * This class is a GUI which creates the window and interface
+ * for the messenger system.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
  * Linneaus University - [2DV104] Software Architecture
  */
 public class Messenger extends JFrame implements ActionListener, KeyListener {

@@ -66,29 +66,7 @@
     <favorites_list name="Message-system-x" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="Messenger.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="3" selection-start="662" selection-end="675" vertical-scroll-proportion="0.0" vertical-offset="1673" max-vertical-offset="2652">
-              <folding>
-                <element signature="e#7879#8567#0" expanded="true" />
-                <element signature="e#8552#8553#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Configuration.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/client/Configuration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="28" selection-start="92" selection-end="92" vertical-scroll-proportion="0.027579162" vertical-offset="7" max-vertical-offset="1224">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -102,8 +80,13 @@
         <option value="$PROJECT_DIR$/src/server/MessengerManager.java" />
         <option value="$PROJECT_DIR$/src/service/provider/tcp/ClientProvider.java" />
         <option value="$PROJECT_DIR$/src/service/provider/udp/P2PProvider.java" />
+        <option value="$PROJECT_DIR$/src/factories/ServiceProviderFactory.java" />
         <option value="$PROJECT_DIR$/src/client/Messenger.java" />
         <option value="$PROJECT_DIR$/src/client/Configuration.java" />
+        <option value="$PROJECT_DIR$/src/models/Message.java" />
+        <option value="$PROJECT_DIR$/src/models/Client.java" />
+        <option value="$PROJECT_DIR$/src/models/MessageType.java" />
+        <option value="$PROJECT_DIR$/src/models/ProviderType.java" />
       </list>
     </option>
   </component>
@@ -190,24 +173,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Message-system-x" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -558,16 +523,16 @@
       <workItem from="1426446200049" duration="10149000" />
       <workItem from="1426457079040" duration="5233000" />
       <workItem from="1426475623865" duration="5000" />
-      <workItem from="1426475641109" duration="3195000" />
+      <workItem from="1426475641109" duration="4909000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21480000" />
+    <option name="totallyTimeSpent" value="23194000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1708" height="1160" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -587,7 +552,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1539394" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1539394" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3263473" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -624,10 +589,7 @@
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="263" column="64" selection-start="9222" selection-end="9222" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5525">
-          <folding>
-            <element signature="e#7879#8567#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -672,10 +634,7 @@
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="263" column="64" selection-start="9222" selection-end="9222" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5525">
-          <folding>
-            <element signature="e#7879#8567#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -720,10 +679,7 @@
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4573">
-          <folding>
-            <element signature="e#7879#8567#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -771,10 +727,7 @@
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <folding>
-            <element signature="e#7879#8567#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -824,21 +777,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/IServiceProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="uml://JAVA/client.Messenger">
       <provider selected="true" editor-type-id="UmlEditorProvider">
         <state>
@@ -872,11 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/MessageType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="0" selection-end="140" vertical-scroll-proportion="0.2837633" vertical-offset="0" max-vertical-offset="659" />
-      </provider>
-    </entry>
     <entry file="jar://F:/SDK/Java/jdk1.8.0_40/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="19" selection-start="3617" selection-end="3617" vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="53159">
@@ -889,16 +822,6 @@
         <state line="167" column="32" selection-start="5579" selection-end="5579" vertical-scroll-proportion="0.0" vertical-offset="514" max-vertical-offset="1173">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/IMessageReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="17" selection-start="190" selection-end="190" vertical-scroll-proportion="0.26020408" vertical-offset="0" max-vertical-offset="588" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="11" selection-start="413" selection-end="413" vertical-scroll-proportion="0.36115327" vertical-offset="51" max-vertical-offset="748" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/service/provider/tcp/ServerProvider.java">
@@ -934,17 +857,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Messenger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="3" selection-start="662" selection-end="675" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2652">
-          <folding>
-            <element signature="e#7879#8567#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-          </folding>
+        <state line="20" column="28" selection-start="549" selection-end="549" vertical-scroll-proportion="0.10418795" vertical-offset="0" max-vertical-offset="2703">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/factories/ServiceProviderFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="84" selection-start="677" selection-end="677" vertical-scroll-proportion="0.27783453" vertical-offset="0" max-vertical-offset="979">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IServiceProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="32" selection-start="312" selection-end="315" vertical-scroll-proportion="0.2083759" vertical-offset="0" max-vertical-offset="979">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/IMessageReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="21" selection-start="311" selection-end="318" vertical-scroll-proportion="0.22574055" vertical-offset="0" max-vertical-offset="979">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Configuration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="28" selection-start="92" selection-end="92" vertical-scroll-proportion="0.027579162" vertical-offset="7" max-vertical-offset="1224">
+        <state line="41" column="27" selection-start="1241" selection-end="1241" vertical-scroll-proportion="0.6251277" vertical-offset="0" max-vertical-offset="1292">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="53" selection-start="158" selection-end="158" vertical-scroll-proportion="0.08682329" vertical-offset="0" max-vertical-offset="1139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="87" selection-end="291" vertical-scroll-proportion="0.08682329" vertical-offset="0" max-vertical-offset="1071">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/MessageType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="52" selection-start="73" selection-end="73" vertical-scroll-proportion="0.052093975" vertical-offset="0" max-vertical-offset="979">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/ProviderType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="53" selection-start="74" selection-end="74" vertical-scroll-proportion="0.052093975" vertical-offset="0" max-vertical-offset="979">
           <folding />
         </state>
       </provider>
