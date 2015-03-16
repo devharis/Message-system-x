@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
 
-public class TestService {
+public class ProviderTests {
 
     IServiceProvider serviceProvider;
     @Mock ServerSocket serverSocket;

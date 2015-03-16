@@ -153,23 +153,32 @@ public class ClientProvider implements IServiceProvider {
      * Emulates interruptions in message sent.
      */
     @Override
-    public void sendMessage(Message message, String destinationEndPoint) {
-        try {
-            String newMessage = message.getMessage();
+    public void sendMessage(final Message message, final String destinationEndPoint) {
 
-            // Emulates interruptions depending on configuration
-            newMessage = emulateInterruption(message, newMessage, Thread.currentThread());
+        Thread sendThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String newMessage = message.getMessage();
 
-            _outgoingObj.writeObject(new Message(
-                    message.getName(),
-                    newMessage,
-                    message.getEndPoint(),
-                    message.getMessageType()));
+                    // Emulates interruptions depending on configuration
+                    newMessage = emulateInterruption(message, newMessage, Thread.currentThread());
+                    if(newMessage.equals(null))
+                        return;
 
-            _outgoingObj.flush();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+                    _outgoingObj.writeObject(new Message(
+                            message.getName(),
+                            newMessage,
+                            message.getEndPoint(),
+                            message.getMessageType()));
+
+                    _outgoingObj.flush();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        sendThread.start();
     }
 
     /**
@@ -203,7 +212,7 @@ public class ClientProvider implements IServiceProvider {
                 int roll = (int)(Math.random() * 100);
 
                 if((roll - failureRate) <= 0)
-                    return newMessage;
+                    return null;
             }
         }
         return newMessage;

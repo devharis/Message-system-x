@@ -141,6 +141,8 @@ public class P2PProvider implements IServiceProvider {
 
                     // Emulates interruptions depending on configuration
                     newMessage = emulateInterruption(message, newMessage, Thread.currentThread());
+                    if(newMessage.equals(null))
+                        return;
 
                     // Write object to stream
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -227,7 +229,7 @@ public class P2PProvider implements IServiceProvider {
                 int roll = (int)(Math.random() * 100);
 
                 if((roll - failureRate) <= 0)
-                    return newMessage;
+                    return null;
             }
         }
         return newMessage;
