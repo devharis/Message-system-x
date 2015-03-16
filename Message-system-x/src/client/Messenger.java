@@ -263,26 +263,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     /**
-     * Method helping to toggle UI components properties
-     * depending on if connected or not.
-     */
-    private void toggleUI() {
-        if(connected){
-            nameField.setEditable(false);
-            _incPortField.setEditable(false);
-            _ipField.setEditable(false);
-            _connectBtn.setEnabled(false);
-            _disconnectBtn.setEnabled(true);
-        } else if (!connected){
-            nameField.setEditable(true);
-            _incPortField.setEditable(true);
-            _ipField.setEditable(true);
-            _connectBtn.setEnabled(true);
-            _disconnectBtn.setEnabled(false);
-        }
-    }
-
-    /**
      * onDisconnect is used to disconnect from endpoint.
      * Simply by stop listening to it.
      */
@@ -320,9 +300,29 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     }
 
     /**
+     * Method helping to toggle UI components properties
+     * depending on if connected or not.
+     */
+    private void toggleUI() {
+        if(connected){
+            nameField.setEditable(false);
+            _incPortField.setEditable(false);
+            _ipField.setEditable(false);
+            _connectBtn.setEnabled(false);
+            _disconnectBtn.setEnabled(true);
+        } else if (!connected){
+            nameField.setEditable(true);
+            _incPortField.setEditable(true);
+            _ipField.setEditable(true);
+            _connectBtn.setEnabled(true);
+            _disconnectBtn.setEnabled(false);
+        }
+    }
+
+    /**
      * Implemented to catch ActionListener event which
      * is set on buttons in the UI window.
-     * @param e
+     * @param e Event
      */
     @Override
     public void actionPerformed(ActionEvent e) {

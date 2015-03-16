@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 public class Client {
 
     // variables
+    public boolean active;
     private String _endPoint;
     private String _userName;
     private ObjectInputStream _inputStream;
