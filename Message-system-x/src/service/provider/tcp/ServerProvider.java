@@ -1,126 +1,128 @@
 package service.provider.tcp;
 
-import client.Messenger;
-
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import models.*;
+import models.Client;
+import models.Message;
+import models.MessageType;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Created by devHaris on 2015-03-11.
+ * This is one of the providers which provides a client-server
+ * connection utilizing TCP. This provider acts as server.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class ServerProvider implements IServiceProvider {
 
-    // Just an holder for information regarding each client
+    // variables
+    private volatile boolean _accepting = false;
+    private ServerSocket _serverSocket;
+    private Thread _acceptThread;
+    private Thread _receiveThread;
+    private ArrayList<Client> _clients = new ArrayList<Client>(MAX_CLIENTS);
+    private Socket _acceptSocket;
 
-    // Max clients constant
+    // constants
     private final static int MAX_CLIENTS = 100;
-    // Server socket
-    ServerSocket serverSocket;
-    // Accept thread
-    Thread acceptThread;
-    // List of clients
-    ArrayList<Client> clients = new ArrayList<Client>(MAX_CLIENTS);
-    // Accept socket
-    Socket acceptSocket;
-    // Accepting step out variable
-    private volatile boolean accepting = false;
-    // Disconnect trigger
-    private final static String DISCONNECT = "/disconnect";
-    // Broadcast identifier
+    private final static String EMPTY_STRING = null;
     private final static String BROADCAST = "255.255.255.255";
+    private final static String SERVER_DISCONNECT = "Server has disconnected \n";
+    private final static String PROVIDER_NAME = "Server";
+    private final static String SERVER_LISTENING = "Server is listening...";
+    private final static String SERVER_ADDRESS = "127.0.0.1";
+    private final static String CLIENT_CONNECTED = "Client Connected! \n";
+    private final static String SERVER_MAX_CONNECTION = "Max number of clients already connected. Try again later. \n";
+    private final static String NAME_TAKEN = "The specified name was already taken, please choose another one and connect again. \n";
 
+    /**
+     * This method takes an endpoint and message receiver and passes
+     * them to startAccepting to initialize a listener.
+     * @param endPoint Used for socket
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     */
     @Override
     public void startListening(final String endPoint, final IMessageReceiver messageReceiver) {
         try {
             int port = Integer.parseInt(endPoint);
-            setupServer(port, messageReceiver);
+            startAccepting(port, messageReceiver);
         } catch (RuntimeException ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    /**
+     * Occurs when server stops. It closes the established socket connection.
+     */
     @Override
     public void stopListening() {
-
-        // CLEAN UP
-        accepting = false;
-        sendMessage(new Message(null, "Server has disconnected \n", null, MessageType.BROADCAST), BROADCAST);
+        _accepting = false;
+        sendMessage(new Message(EMPTY_STRING, SERVER_DISCONNECT, EMPTY_STRING, MessageType.BROADCAST), BROADCAST);
 
         try {
             // Close server socket
-            serverSocket.close();
+            _serverSocket.close();
 
         } catch (IOException ex) {
+            closeClients();
+            throw new RuntimeException(ex);
+        }
+    }
 
-            for(Client c : clients) {
+    /**
+     * Iterates through all clients to close every stream.
+     */
+    private void closeClients() {
+        for(Client clientList : _clients) {
+            try {
+                // Close streams for every client
+                clientList.active = false;
+                clientList.getOOS().close();
+                clientList.getOIS().close();
 
-                try {
-
-                    // Close streams for every client
-                    c.active = false;
-                    c.getOOS().close();
-                    c.getOIS().close();
-
-                } catch(Exception e) {
-                    continue;
-                }
+            } catch(Exception e) {
+                continue;
             }
-
-            throw new RuntimeException(ex);
         }
     }
 
-    @Override
-    public void sendMessage(final Message message, final String destinationEndPoint) {
+    /**
+     * This method is used when server starts to initialize a listener for incoming
+     * connections and messages from clients. It creates a separate thread for it.
+     * @param port Used for socket
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     */
+    private void startAccepting(final int port, final IMessageReceiver messageReceiver) {
 
-        sendMessageEx(message, destinationEndPoint);
-    }
-
-    public void setupServer(final int port, final IMessageReceiver messageReceiver) {
-
-        try {
-            beginAccepting(port, messageReceiver);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    private void beginAccepting(final int port, final IMessageReceiver messageReceiver) {
-
-        accepting = true;
-
-        acceptThread = new Thread(new Runnable() {
-
+        _accepting = true;
+        _acceptThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-
                     // Init the server socket
-                    serverSocket = new ServerSocket(port);
-                    while(accepting) {
-
-                        messageReceiver.onMessage(new Message("Server", "Server is listening...", "127.0.0.1", MessageType.INTERNAL));
+                    _serverSocket = new ServerSocket(port);
+                    while(_accepting) {
+                        messageReceiver.onMessage(new Message(PROVIDER_NAME, SERVER_LISTENING, SERVER_ADDRESS, MessageType.INTERNAL));
 
                         // Try to accept a client
-                        acceptSocket = serverSocket.accept();
+                        _acceptSocket = _serverSocket.accept();
 
                         // Init object streams
-                        ObjectOutputStream oos = new ObjectOutputStream(acceptSocket.getOutputStream());
-                        ObjectInputStream ois = new ObjectInputStream(acceptSocket.getInputStream());
+                        ObjectOutputStream oos = new ObjectOutputStream(_acceptSocket.getOutputStream());
+                        ObjectInputStream ois = new ObjectInputStream(_acceptSocket.getInputStream());
 
                         // Client connected
-                        final Client client = new Client(acceptSocket.getInetAddress().getHostAddress(), oos, ois);
+                        final Client client = new Client(_acceptSocket.getInetAddress().getHostAddress(), oos, ois);
 
-                        client.getOOS().writeObject(new Message(null, "Client Connected! \n",
-                                acceptSocket.getInetAddress().getHostAddress(), MessageType.SINGLE));
+                        client.getOOS().writeObject(new Message(EMPTY_STRING, CLIENT_CONNECTED,
+                                _acceptSocket.getInetAddress().getHostAddress(), MessageType.SINGLE));
                         client.getOOS().flush();
 
                         // Get username from client and set it
@@ -130,28 +132,22 @@ public class ServerProvider implements IServiceProvider {
                         // Display on server UI
                         messageReceiver.onMessage(new Message(message.getName(),
                                 String.format("User: %s connected with ip: %s \n", client.getUserName(), client.getEndPoint()),
-                                acceptSocket.getInetAddress().getHostAddress(), MessageType.INTERNAL));
+                                _acceptSocket.getInetAddress().getHostAddress(), MessageType.INTERNAL));
 
                         // Check if client limit has been reached
-                        if(clients.size() == MAX_CLIENTS) {
-
+                        if(_clients.size() == MAX_CLIENTS) {
                             // Reject the client
-                            client.getOOS().writeObject("Max number of clients already connected. Try again later. \n");
+                            client.getOOS().writeObject(SERVER_MAX_CONNECTION);
                             client.getOOS().flush();
-
                         } else if(isNameTaken(client.getUserName())) {
-
                             // Reject the client, because name was taken
-                            client.getOOS().writeObject("The specified name was already taken, please choose another one and connect again. \n");
+                            client.getOOS().writeObject(NAME_TAKEN);
                             client.getOOS().flush();
-
                         } else {
-
                             // Client is accepted, init listen thread for client
-                            initClientThread(client, messageReceiver);
+                            startResponding(client, messageReceiver);
                         }
                     }
-
                 } catch (Exception ex) {
                     // Socket was forced to close
                 } finally {
@@ -160,17 +156,22 @@ public class ServerProvider implements IServiceProvider {
             }
         });
 
-        acceptThread.start();
+        _acceptThread.start();
     }
 
-    private void initClientThread(final Client client, final IMessageReceiver messageReceiver) {
+    /**
+     * Creates a separate thread which will communicate with the incoming clients.
+     * Used for responding to successful connection and received messages from other clients.
+     * @param client Current client connecting
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     */
+    private void startResponding(final Client client, final IMessageReceiver messageReceiver) {
 
         // Set client to active
         client.active = true;
 
         // Init the receive thread for client
-        Thread receiveThread = new Thread(new Runnable() {
-
+        _receiveThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -181,7 +182,6 @@ public class ServerProvider implements IServiceProvider {
                             && client.active) {
 
                         sendMessage(message, BROADCAST);
-
                         // Display on server UI
                         messageReceiver.onMessage(new Message(
                                 message.getName(),
@@ -197,7 +197,6 @@ public class ServerProvider implements IServiceProvider {
                             MessageType.BROADCAST), BROADCAST);
 
                     try {
-
                         // Close client streams
                         client.getOIS().close();
                         client.getOOS().close();
@@ -205,7 +204,7 @@ public class ServerProvider implements IServiceProvider {
                     } finally {
 
                         // Remove client from broadcast list
-                        clients.remove(client);
+                        _clients.remove(client);
 
                         // Display on server UI
                         messageReceiver.onMessage(new Message(
@@ -214,30 +213,33 @@ public class ServerProvider implements IServiceProvider {
                                 message.getEndPoint(),
                                 MessageType.INTERNAL));
                     }
-
                 } catch(Exception ex) {
                     throw new RuntimeException(ex);
                 }
             }
-
         });
 
-        clients.add(client);
-        receiveThread.start();
+        _clients.add(client);
+        _receiveThread.start();
     }
 
-    private void sendMessageEx(Message message, String endPoint) {
+    /**
+     * Iterates through all clients to pass the message.
+     * @param message Message which will be sent
+     * @param endPoint Clients with this endpoint
+     */
+    private void sendMessageToListeners(Message message, String endPoint) {
         try {
             if(endPoint.equals(BROADCAST)) {
-                for (Client c : clients) {
-                    c.getOOS().writeObject(message);
-                    c.getOOS().flush();
+                for (Client client : _clients) {
+                    client.getOOS().writeObject(message);
+                    client.getOOS().flush();
                 }
             } else {
-                for (Client c : clients) {
-                    if(c.getEndPoint().equals(endPoint)) {
-                        c.getOOS().writeObject(message);
-                        c.getOOS().flush();
+                for (Client client : _clients) {
+                    if(client.getEndPoint().equals(endPoint)) {
+                        client.getOOS().writeObject(message);
+                        client.getOOS().flush();
                         break;
                     }
                 }
@@ -247,13 +249,28 @@ public class ServerProvider implements IServiceProvider {
         }
     }
 
+    /**
+     * Method is a helper for checking name is already taken.
+     * @param userName Username to check for
+     * @return Boolean
+     */
     private boolean isNameTaken(String userName) {
 
-        for (Client c : clients) {
+        for (Client c : _clients) {
             if(c.getUserName().equals(userName)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Method for sending message with a destination.
+     * @param message  Message which will be sent
+     * @param destinationEndPoint Clients with this endpoint
+     */
+    @Override
+    public void sendMessage(final Message message, final String destinationEndPoint) {
+        sendMessageToListeners(message, destinationEndPoint);
     }
 }

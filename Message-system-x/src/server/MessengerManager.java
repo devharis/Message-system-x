@@ -6,7 +6,6 @@ import interfaces.IServiceProvider;
 import models.Client;
 import models.Message;
 import models.ProviderType;
-import service.provider.tcp.ServerProvider;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -15,37 +14,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
- * Created by devHaris on 2015-03-14.
+ * This class is a GUI which creates the window and interface
+ * for the messenger system server.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class MessengerManager extends JFrame implements ActionListener {
 
     // variables
-    private ArrayList<Client> clientList;
-    private IServiceProvider _serviceProvider;
     public boolean running = false;
+    private ArrayList<Client> _clientList;
+    private IServiceProvider _serviceProvider;
 
     // UI variables
-    private JButton connectBtn;
-    private JButton disconnectBtn;
-    private JLabel portLabel;
-    private JLabel ipLabel;
-    private JTextField portField;
-    private JTextField ipField;
-    private JTextArea chatArea;
-    private JScrollPane chatScroll;
+    private JButton _connectBtn;
+    private JButton _disconnectBtn;
+    private JLabel _portLabel;
+    private JLabel _ipLabel;
+    private JTextField _portField;
+    private JTextField _ipField;
+    private JTextArea _chatArea;
+    private JScrollPane _chatScroll;
 
     // constants
     public final static String RESOURCE_FOLDER = "resources/";
-
     private final static String MESSAGE_X = "Modern Message Server";
     private final static String CONNECT_BTN = "Start server";
     private final static String DISCONNECT_BTN = "Kill server";
@@ -56,28 +56,42 @@ public class MessengerManager extends JFrame implements ActionListener {
     private final static String ICON = "server-icon.png";
     private final static String SOUND = "sound.wav";
 
-    // Constructor
+    /**
+     * Default Constructor
+     */
     public MessengerManager() throws IOException {
         this(ServiceProviderFactory.createServiceProvider(ProviderType.TcpServer));
-        //playAudio();
+        playAudio();
         setTitle(MESSAGE_X);
         setSize(430, 540);
         setIconImage(new ImageIcon(String.format("%s%s", RESOURCE_FOLDER, ICON)).getImage());
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    /**
+     * Dependency Injection Constructor
+     * @param serviceProvider A type of service provider
+     */
     public MessengerManager(IServiceProvider serviceProvider){
         _serviceProvider = serviceProvider;
     }
 
+    /**
+     * Program entry point.
+     * @param args
+     */
     public static void main(String[] args) throws IOException {
         // Init app
         MessengerManager messengerManager = new MessengerManager();
         messengerManager.Initialize();
     }
 
+    /**
+     * Initializes a window and setup its UI.
+     * Binds UI components to events and shows the window.
+     */
     public void Initialize(){
         // Creating window, container and a pane
         Container container = this.getContentPane(); // inherit main frame
@@ -89,68 +103,82 @@ public class MessengerManager extends JFrame implements ActionListener {
         initUIPositions();
         addUIComponents();
 
-        // Set focus, listener & action
-        connectBtn.requestFocus();
-        connectBtn.addActionListener(this);
-        disconnectBtn.addActionListener(this);
-        connectBtn.setActionCommand(CONNECT_BTN);
-        disconnectBtn.setActionCommand(DISCONNECT_BTN);
+        // Listener & action
+        _connectBtn.addActionListener(this);
+        _disconnectBtn.addActionListener(this);
+        _connectBtn.setActionCommand(CONNECT_BTN);
+        _disconnectBtn.setActionCommand(DISCONNECT_BTN);
 
         setVisible(true);
     }
 
+    /**
+     * Setup the UI components.
+     */
     void initUIComponents(){
-        portLabel = new JLabel(PORT_TEXT);
-        portField = new JTextField(PORT_FIELD);
-        ipLabel = new JLabel(IP_TEXT);
-        ipField = new JTextField(IP_FIELD);
-        ipField.setEditable(false);
-        connectBtn = new JButton(CONNECT_BTN);
-        connectBtn.setBackground(new Color(50, 205, 50));
-        disconnectBtn = new JButton(DISCONNECT_BTN);
-        disconnectBtn.setBackground(new Color(255, 69, 0));
+        _portLabel = new JLabel(PORT_TEXT);
+        _portField = new JTextField(PORT_FIELD);
+        _ipLabel = new JLabel(IP_TEXT);
+        _ipField = new JTextField(IP_FIELD);
+        _ipField.setEditable(false);
+        _connectBtn = new JButton(CONNECT_BTN);
+        _connectBtn.setBackground(new Color(50, 205, 50));
+        _disconnectBtn = new JButton(DISCONNECT_BTN);
+        _disconnectBtn.setBackground(new Color(255, 69, 0));
     }
 
+    /**
+     * Setup scroll bar component.
+     */
     void initUIScrollBar(){
-        chatArea = new JTextArea();
-        chatArea.setLineWrap(true);
-        chatArea.setEditable(false);
-        chatScroll = new JScrollPane(chatArea);
-        chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        _chatArea = new JTextArea();
+        _chatArea.setLineWrap(true);
+        _chatArea.setEditable(false);
+        _chatScroll = new JScrollPane(_chatArea);
+        _chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
+    /**
+     * Setup UI components positions in window.
+     */
     void initUIPositions(){
-        portLabel.setBounds(10,10,50,20);
-        portField.setBounds(40,10,100,20);
-        ipLabel.setBounds(150,10,20,20);
-        ipField.setBounds(170,10,240,20);
-        connectBtn.setBounds(10,40,110,20);
-        disconnectBtn.setBounds(130,40,110,20);
-        chatScroll.setBounds(10,70,400,430);
+        _portLabel.setBounds(10,10,50,20);
+        _portField.setBounds(40,10,100,20);
+        _ipLabel.setBounds(150, 10, 20, 20);
+        _ipField.setBounds(170,10,240,20);
+        _connectBtn.setBounds(10, 40, 110, 20);
+        _disconnectBtn.setBounds(130,40,110,20);
+        _chatScroll.setBounds(10, 70, 400, 430);
     }
 
+    /**
+     * Add UI components to the previously created window.
+     */
     void addUIComponents(){
         Container chatContainer = getContentPane();
         chatContainer.setLayout(null);
-        chatContainer.add(portLabel);
-        chatContainer.add(portField);
-        chatContainer.add(ipLabel);
-        chatContainer.add(ipField);
-        chatContainer.add(connectBtn);
-        chatContainer.add(disconnectBtn);
-        disconnectBtn.setEnabled(false);
-        chatContainer.add(chatScroll);
+        chatContainer.add(_portLabel);
+        chatContainer.add(_portField);
+        chatContainer.add(_ipLabel);
+        chatContainer.add(_ipField);
+        chatContainer.add(_connectBtn);
+        chatContainer.add(_disconnectBtn);
+        _disconnectBtn.setEnabled(false);
+        chatContainer.add(_chatScroll);
     }
 
+    /**
+    * Starts to listen to incoming messages.
+     */
     private void startListening() {
         try {
-            _serviceProvider.startListening(portField.getText(), new IMessageReceiver() {
+            _serviceProvider.startListening(_portField.getText(), new IMessageReceiver() {
                 @Override
                 public void onMessage(Message message) {
 
                     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-                    chatArea.append(String.format("[%s][%s][%s] %s: %s \n",
+                    _chatArea.append(String.format("[%s][%s][%s] %s: %s \n",
                             message.getEndPoint(),
                             message.getMessageType().toString(),
                             dateFormat.format(message.getTime()),
@@ -165,14 +193,14 @@ public class MessengerManager extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Stops listening to incoming messages.
+     */
     private void stopListening(){
 
         running = false;
-
         try {
             _serviceProvider.stopListening();
-
-            // TOGGLE
             toggleUI();
 
         } catch(Exception e) {
@@ -180,45 +208,54 @@ public class MessengerManager extends JFrame implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
-
-        if(actionCommand.equals(CONNECT_BTN)){
-            System.out.println("Connected");
-            connectBtn.setActionCommand(DISCONNECT_BTN);
-            startListening();
-            toggleUI();
-        }
-        else if(actionCommand.equals(DISCONNECT_BTN)){
-            System.out.println("Disconnected");
-            connectBtn.setActionCommand(CONNECT_BTN);
-            stopListening();
-            toggleUI();
-        }
-    }
-
+    /**
+     * Method helping to toggle UI components properties
+     * depending on if connected or not.
+     */
     private void toggleUI() {
-
         if(running) {
-
-            portField.setEditable(false);
-            ipField.setEditable(false);
-            connectBtn.setEnabled(false);
-            disconnectBtn.setEnabled(true);
+            _portField.setEditable(false);
+            _ipField.setEditable(false);
+            _connectBtn.setEnabled(false);
+            _disconnectBtn.setEnabled(true);
 
         } else if (!running){
-
-            portField.setEditable(true);
-            ipField.setEditable(false);
-            connectBtn.setEnabled(true);
-            disconnectBtn.setEnabled(false);
+            _portField.setEditable(true);
+            _ipField.setEditable(false);
+            _connectBtn.setEnabled(true);
+            _disconnectBtn.setEnabled(false);
         }
     }
 
+    /**
+     * Method helping to start audio.
+     */
     private void playAudio() throws IOException {
         InputStream in = new FileInputStream(String.format("%s%s", RESOURCE_FOLDER, SOUND));
         AudioStream audioStream = new AudioStream(in);
         AudioPlayer.player.start(audioStream);
     }
+
+    /**
+     * Implemented to catch ActionListener event which
+     * is set on buttons in the UI window.
+     * @param e Event
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
+
+        if(actionCommand.equals(CONNECT_BTN)){
+            _connectBtn.setActionCommand(DISCONNECT_BTN);
+            startListening();
+            toggleUI();
+        }
+        else if(actionCommand.equals(DISCONNECT_BTN)){
+            _connectBtn.setActionCommand(CONNECT_BTN);
+            stopListening();
+            toggleUI();
+        }
+    }
+
+
 }

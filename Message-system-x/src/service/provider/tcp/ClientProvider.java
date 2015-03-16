@@ -1,59 +1,76 @@
 package service.provider.tcp;
 
-import client.Configuration;
 import client.Messenger;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Message;
 import models.MessageType;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 /**
- * Created by devHaris on 2015-03-15.
+ * This is one of the providers which provides a client-server
+ * connection utilizing TCP. This provider acts as client.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class ClientProvider implements IServiceProvider {
 
-    private Thread connectThread;
-    private Thread listenThread;
-
+    // variables
+    private boolean _connected = false;
+    private String _ip;
+    private int _port;
+    private Thread _connectThread;
+    private Thread _listenThread;
     private Socket _socketConnection;
     private ObjectInputStream _incomingObj;
     private ObjectOutputStream _outgoingObj;
+    private int _sequenceCounter = 0;
+    private int _sequenceRangeIndex = 0;
+
+    // constants
     private final static String DISCONNECT = "/disconnect";
     private final static String CONNECT_FAIL = "Could not connect to server \n";
-    private String _ip;
-    private int _port;
-    private boolean connected = false;
+    private final static String EMPTY_STRING = null;
+    private final static String CLIENT_CONN_THREAD = "Client Connect Thread";
+    private final static String CLIENT_LISTEN_THREAD = "Client Listen Thread";
+    private final static String ADDRESS_SEPARATOR = ":";
 
-    private int sequenceCounter = 0;
-    private int sequenceRangeIndex = 0;
-
+    /**
+     * This methods purpose is to create a socket binding
+     * by establishing a connection to the server. Then it will listen
+     * for incoming messages from the server.
+     * @param endPoint Address of the endpoint.
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     * @throws Exception
+     */
     @Override
     public void startListening(String endPoint, IMessageReceiver messageReceiver) throws Exception {
         try {
             extractConnection(endPoint);
             _socketConnection = new Socket(_ip, _port);
         } catch (IOException e) {
-
             // Server is offline
-            messageReceiver.onMessage(new Message(null, CONNECT_FAIL, null, MessageType.SINGLE));
+            messageReceiver.onMessage(new Message(EMPTY_STRING, CONNECT_FAIL, EMPTY_STRING, MessageType.SINGLE));
             throw new Exception(e);
         }
-
         establishConnection(messageReceiver);
-
-        connectThread.start();
+        _connectThread.start();
     }
 
+    /**
+     * Creates a separate thread which only task is to connect to the server by
+     * sending a connect message to it.
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     */
     private void establishConnection(final IMessageReceiver messageReceiver){
-        connectThread = new Thread(new Runnable() {
+
+        _connectThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -65,98 +82,83 @@ public class ClientProvider implements IServiceProvider {
                             Messenger.nameField.getText(),
                             Messenger.nameField.getText(),
                             _socketConnection.getInetAddress().getHostAddress(),
-                            MessageType.SINGLE), null);
+                            MessageType.SINGLE), EMPTY_STRING);
 
-                    connected = true;
+                    _connected = true;
 
                     awaitMessage(messageReceiver);
-                    listenThread.start();
+                    _listenThread.start();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
-        }, "Client Connect Thread");
+        }, CLIENT_CONN_THREAD);
     }
 
+    /**
+     * Creates a separate thread which only task is to write messages to the server.
+     * @param messageReceiver Provided to use onMessage to receive message from server.
+     */
     private void awaitMessage(final IMessageReceiver messageReceiver){
-        listenThread = new Thread(new Runnable() {
+        _listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     // Init message variable and while loop
                     Message message;
                     while(!((message = (Message)_incomingObj.readObject()).getMessageType().equals(MessageType.COMMAND))) {
-                        // Display on client UI
                         messageReceiver.onMessage(message);
                     }
-
                 } catch(Exception ex) {
                     throw new RuntimeException(ex);
                 }
             }
-        }, "Client Listen Thread");
+        }, CLIENT_LISTEN_THREAD);
     }
 
+    /**
+     * This method is a helper to extract address to separate ip and port.
+     * @param endPoint The incoming full address
+     */
     private void extractConnection(String endPoint) {
-        _ip = endPoint.split(":")[0];
-        _port = Integer.parseInt(endPoint.split(":")[1]);
+        _ip = endPoint.split(ADDRESS_SEPARATOR)[0];
+        _port = Integer.parseInt(endPoint.split(ADDRESS_SEPARATOR)[1]);
     }
 
+    /**
+     * Stops listening to the server by first sending a message with a command
+     * then closing streams.
+     */
     @Override
     public void stopListening() {
         try {
-            if (connected) {
+            if (_connected) {
                 sendMessage(new Message(
                         Messenger.nameField.getText(),
                         DISCONNECT,
                         _socketConnection.getInetAddress().getHostAddress(),
-                        MessageType.COMMAND), null);
+                        MessageType.COMMAND), EMPTY_STRING);
                 _incomingObj.close();
                 _outgoingObj.close();
             }
         } catch(IOException ex) {
             ex.printStackTrace();
         } finally {
-            connected = false;
+            _connected = false;
         }
     }
 
+    /**
+     * Sends a message from the client to the server.
+     * Emulates interruptions in message sent.
+     */
     @Override
     public void sendMessage(Message message, String destinationEndPoint) {
         try {
-
             String newMessage = message.getMessage();
 
-            if(Messenger.messageDelay > 0)
-                Thread.currentThread().sleep(Messenger.messageDelay);
-
-            if(Messenger.messageLoss) {
-
-                Random random = new Random();
-                int first = random.nextInt(message.getMessage().length());
-                String split = message.getMessage().substring(0, first);
-                int second = random.nextInt(split.length() <= 0 ? 1 : split.length());
-                int bound = split.length()-second;
-                newMessage = message.getMessage().substring(bound <= 0 ? 1 : bound);
-            }
-
-            if(Messenger.sequenceLoss && !message.getMessageType().equals(MessageType.SINGLE)) {
-
-                sequenceCounter++;
-
-                if(sequenceCounter <= Messenger.sequenceLimit) {
-                    if(sequenceCounter == Messenger.sequenceLimit) {
-                        sequenceCounter = 0;
-                        sequenceRangeIndex = sequenceRangeIndex == 0 ? 1 : 0;
-                    }
-
-                    int failureRate = Messenger.sequenceRange[sequenceRangeIndex];
-                    int roll = (int)(Math.random() * 100);
-
-                    if((roll - failureRate) <= 0)
-                        return;
-                }
-            }
+            // Emulates interruptions depending on configuration
+            newMessage = emulateInterruption(message, newMessage, Thread.currentThread());
 
             _outgoingObj.writeObject(new Message(
                     message.getName(),
@@ -166,7 +168,44 @@ public class ClientProvider implements IServiceProvider {
 
             _outgoingObj.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Emulates interruption using configuration from messengerBundle, loaded in Configuration.
+     */
+    public String emulateInterruption(Message message, String newMessage, Thread currentThread) throws InterruptedException {
+        if(Messenger.messageDelay > 0)
+            currentThread.sleep(Messenger.messageDelay);
+
+        if(Messenger.messageLoss) {
+
+            Random random = new Random();
+            int first = random.nextInt(message.getMessage().length());
+            String split = message.getMessage().substring(0, first);
+            int second = random.nextInt(split.length() <= 0 ? 1 : split.length());
+            int bound = split.length()-second;
+            newMessage = message.getMessage().substring(bound <= 0 ? 1 : bound);
+        }
+
+        if(Messenger.sequenceLoss && !message.getMessageType().equals(MessageType.SINGLE)) {
+
+            _sequenceCounter++;
+
+            if(_sequenceCounter <= Messenger.sequenceLimit) {
+                if(_sequenceCounter == Messenger.sequenceLimit) {
+                    _sequenceCounter = 0;
+                    _sequenceRangeIndex = _sequenceRangeIndex == 0 ? 1 : 0;
+                }
+
+                int failureRate = Messenger.sequenceRange[_sequenceRangeIndex];
+                int roll = (int)(Math.random() * 100);
+
+                if((roll - failureRate) <= 0)
+                    return newMessage;
+            }
+        }
+        return newMessage;
     }
 }

@@ -7,14 +7,15 @@ import service.provider.tcp.ServerProvider;
 import service.provider.udp.P2PProvider;
 
 /**
- * This class helps to choose a tcp provider.
- * 
- * @author M. Usman Iftikhar & Yifan Ruan
+ * This class helps to choose a TCP/UDP provider.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class ServiceProviderFactory {
 
     /**
-     * This method helps to choose a tcp provider from list of available tcp providers.
+     * This method helps to choose a TCP/UDP provider from list of available TCP/UDP providers.
      * @return interfaces.IServiceProvider
      */
     public static IServiceProvider createServiceProvider(ProviderType providerType) {
