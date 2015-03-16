@@ -1,20 +1,24 @@
 package service.provider.tcp;
 
-import client.Messenger;
-
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
-import models.*;
+import models.Client;
+import models.Message;
+import models.MessageType;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Created by devHaris on 2015-03-11.
+ * This class is a GUI which creates the window and interface
+ * for the messenger system server.
+ *
+ * @author Created by Haris Kljajic & Oskar Karlsson on 2015-03-13.
+ * Linneaus University - [2DV104] Software Architecture
  */
 public class ServerProvider implements IServiceProvider {
 
