@@ -3,20 +3,17 @@ package tests;
 import interfaces.IMessageReceiver;
 import interfaces.IServiceProvider;
 import models.Message;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import service.provider.udp.P2PProvider;
 
 import java.io.*;
 import java.net.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-
-import static org.junit.Assert.*;
 
 public class ProviderTests {
 

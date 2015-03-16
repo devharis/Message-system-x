@@ -90,8 +90,7 @@ public class ConfigurationTests {
             int second = random.nextInt(split.length() <= 0 ? 1 : split.length());
             int bound = split.length()-second;
             newMessage = message.substring(bound <= 0 ? 1 : bound);
-
-            assertNotEquals(message, newMessage);
+            assertNotSame(message, newMessage);
         }
     }
 

@@ -31,7 +31,6 @@ public class MessengerManager extends JFrame implements ActionListener {
 
     // variables
     public boolean running = false;
-    private ArrayList<Client> _clientList;
     private IServiceProvider _serviceProvider;
 
     // UI variables

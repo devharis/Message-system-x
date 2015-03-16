@@ -53,8 +53,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
     private JTextField _ipField;
     private JTextArea _chatArea;
     private JScrollPane _chatScroll;
-    private JPanel _userPane;
-    private JScrollPane _userScroll;
 
     // constants
     public final static String RESOURCE_FOLDER = "resources/";
@@ -169,11 +167,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         _chatArea.setEditable(false);
         _chatScroll = new JScrollPane(_chatArea);
         _chatScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        _userPane = new JPanel();
-        _userPane.setLayout(new GridLayout(50, 1));
-        _userScroll = new JScrollPane(_userPane);
-        _userScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
     /**
@@ -190,9 +183,7 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         _connectBtn.setBounds(10,145,110,20);
         _disconnectBtn.setBounds(130,145,110,20);
         nameField.setBounds(250,145,160,20);
-        _chatScroll.setBounds(10,175,300,300);
-        _userScroll.setBounds(310, 175, 100, 300);
-        _userPane.setBounds(_userScroll.getX(), _userScroll.getY(), 90, 290);
+        _chatScroll.setBounds(10,175,400,300);
         _messageField.setBounds(10, 480, 400, 20);
     }
 
@@ -214,7 +205,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
         _disconnectBtn.setEnabled(false);
         chatContainer.add(nameField);
         chatContainer.add(_chatScroll);
-        chatContainer.add(_userScroll);
         chatContainer.add(_messageField);
     }
 
@@ -250,16 +240,6 @@ public class Messenger extends JFrame implements ActionListener, KeyListener {
             toggleUI();
             return;
         }
-
-        // TODO: FIX THIS SHIT BEFORE DONE!!!!
-        _userPane.setSize(90, _userScroll.getHeight());
-        Button button = new Button("Unikum");
-        button.setSize(90, 10);
-        _userPane.add(button);
-        Button button1 = new Button("Oskar");
-        button.setSize(90, 10);
-        _userPane.add(button1);
-        _userPane.updateUI();
     }
 
     /**
